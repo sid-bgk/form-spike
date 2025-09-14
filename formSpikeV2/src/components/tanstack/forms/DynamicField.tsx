@@ -6,8 +6,9 @@ import { Checkbox } from '@/components/ui/checkbox'
 import { Textarea } from '@/components/ui/textarea'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
-import { createFieldSchema } from '@/lib/validation'
+// Removed createFieldSchema import as validation file doesn't exist
 import { useFieldVisibility } from '../hooks/useFieldVisibility'
+import { ArrayField } from './ArrayField'
 import * as jsonLogic from 'json-logic-js'
 import type { FieldConfig } from '../types/form'
 
@@ -24,8 +25,6 @@ export function DynamicField({ field, form }: DynamicFieldProps) {
 
   // Create field-specific validators that dynamically enable/disable based on visibility
   const getFieldValidators = useMemo(() => {
-    const fieldSchema = createFieldSchema(field)
-
     return {
       onChange: ({ value }: any) => {
         // For conditional fields, check if they should be validated
@@ -40,16 +39,35 @@ export function DynamicField({ field, form }: DynamicFieldProps) {
           }
         }
 
-        // Field is visible (or always visible), so validate normally
-        try {
-          fieldSchema.parse(value)
-          return undefined
-        } catch (error: any) {
-          if (error.issues && error.issues.length > 0) {
-            return error.issues[0].message
-          }
-          return error.message || `${field.label} is invalid`
+        // Basic validation for visible fields
+        if (field.required && (!value || (typeof value === 'string' && value.trim() === ''))) {
+          return `${field.label} is required`
         }
+        
+        if (field.type === 'email' && value && typeof value === 'string') {
+          const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+          if (!emailRegex.test(value)) {
+            return 'Please enter a valid email address'
+          }
+        }
+        
+        if (field.type === 'number' && value !== undefined && value !== '') {
+          const num = Number(value)
+          if (isNaN(num)) {
+            return 'Please enter a valid number'
+          }
+        }
+        
+        if (field.type === 'array' && field.required) {
+          if (!Array.isArray(value) || value.length === 0) {
+            return `${field.label} must have at least one item`
+          }
+          if (field.minItems && value.length < field.minItems) {
+            return `${field.label} must have at least ${field.minItems} items`
+          }
+        }
+        
+        return undefined
       }
     }
   }, [field, form])
@@ -59,18 +77,20 @@ export function DynamicField({ field, form }: DynamicFieldProps) {
     if (field.showWhen) {
       if (!isVisible) {
         // Clear the field value when it becomes hidden
-        form.setFieldValue(name, field.type === 'checkbox' ? false : field.type === 'number' ? undefined : '')
+        form.setFieldValue(name, field.type === 'checkbox' ? false : field.type === 'number' ? '' : field.type === 'array' ? [] : '')
 
         // Clear validation errors for hidden fields
         form.validateField(name, 'change')
       } else {
-        // Field just became visible - trigger validation to show required errors if empty
+        // Field just became visible - let ArrayField handle its own initialization
+        
+        // Trigger validation to show required errors if empty
         setTimeout(() => {
           form.validateField(name, 'change')
         }, 0)
       }
     }
-  }, [isVisible, form, name, field.showWhen, field.type])
+  }, [isVisible, form, name, field.showWhen, field.type, field.minItems, field.arrayItemFields])
 
   // Don't render if not visible
   if (!isVisible) {
@@ -86,7 +106,9 @@ export function DynamicField({ field, form }: DynamicFieldProps) {
             {required && <span className="text-red-500 ml-1">*</span>}
           </Label>
 
-          {type === 'text' || type === 'email' || type === 'password' || type === 'number' ? (
+          {type === 'array' ? (
+            <ArrayField field={field} form={form} fieldApi={fieldApi} />
+          ) : type === 'text' || type === 'email' || type === 'password' || type === 'number' ? (
             <Input
               id={name}
               type={type}

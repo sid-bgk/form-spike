@@ -47,38 +47,42 @@ module.exports = {
           ">": [{ "var": "age" }, 17]
         }
       },
-      // Company Information - shows only if working
+      // Companies Information - shows only if working
       {
-        name: "companyName",
-        label: "Company Name",
-        type: "text",
+        name: "companies",
+        label: "Company Information",
+        type: "array",
         required: true,
-        placeholder: "Acme Corp",
+        minItems: 1,
+        maxItems: 5,
+        addButtonText: "Add Another Company",
+        removeButtonText: "Remove Company",
+        description: "Add information for each company you work or have worked for",
+        arrayItemFields: [
+          {
+            name: "companyName",
+            label: "Company Name",
+            type: "text",
+            required: true,
+            placeholder: "Acme Corp"
+          },
+          {
+            name: "designation",
+            label: "Designation",
+            type: "text",
+            required: true,
+            placeholder: "Software Engineer"
+          },
+          {
+            name: "experience",
+            label: "Years of Experience",
+            type: "number",
+            required: true,
+            placeholder: "3"
+          }
+        ],
         showWhen: {
           "==": [{ "var": "areYouWorking" }, "yes"]
-        }
-      },
-      {
-        name: "designation",
-        label: "Designation",
-        type: "text",
-        required: true,
-        placeholder: "Software Engineer",
-        showWhen: {
-          "==": [{ "var": "areYouWorking" }, "yes"]
-        }
-      },
-      {
-        name: "experience",
-        label: "Years of Experience",
-        type: "number",
-        required: true,
-        placeholder: "3",
-        showWhen: {
-          "and": [
-            { "==": [{ "var": "areYouWorking" }, "yes"] },
-            { ">": [{ "var": "age" }, 17] }
-          ]
         }
       },
       { name: "acceptTos", label: "I agree to the Terms", type: "checkbox" },

@@ -3,7 +3,7 @@ import { useStore } from '@tanstack/react-form'
 import * as jsonLogic from 'json-logic-js'
 import { Button } from '@/components/ui/button'
 import { DynamicField } from './DynamicField'
-import { createFormSchema } from '@/lib/validation'
+// Removed createFormSchema import as validation file doesn't exist
 import type { FormConfig } from '../types/form'
 
 type DynamicFormProps = {
@@ -29,7 +29,6 @@ export function DynamicForm({ config }: DynamicFormProps) {
         }
       })
 
-      console.log('Submitting visible field values:', visibleFieldValues)
 
       if (config.onSubmit) {
         await config.onSubmit({ value: visibleFieldValues })

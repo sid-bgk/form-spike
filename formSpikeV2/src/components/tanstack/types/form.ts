@@ -1,4 +1,4 @@
-export type FieldType = 'text' | 'email' | 'password' | 'number' | 'textarea' | 'select' | 'checkbox' | 'radio'
+export type FieldType = 'text' | 'email' | 'password' | 'number' | 'textarea' | 'select' | 'checkbox' | 'radio' | 'array'
 
 export type ValidationRule = {
   required?: boolean
@@ -14,6 +14,18 @@ export type ValidationRule = {
   }
 }
 
+export type ArrayItemFieldConfig = {
+  name: string
+  label: string
+  type: Exclude<FieldType, 'array'> // Array items cannot contain other arrays
+  required?: boolean
+  placeholder?: string
+  description?: string
+  disabled?: boolean
+  options?: Array<{ value: string | number; label: string }>
+  validation?: ValidationRule
+}
+
 export type FieldConfig = {
   name: string
   label: string
@@ -25,6 +37,12 @@ export type FieldConfig = {
   options?: Array<{ value: string | number; label: string }>
   validation?: ValidationRule
   showWhen?: any // JSON Logic rule for conditional visibility
+  // Array-specific properties
+  arrayItemFields?: ArrayItemFieldConfig[]
+  minItems?: number
+  maxItems?: number
+  addButtonText?: string
+  removeButtonText?: string
 }
 
 export type FormConfig = {
