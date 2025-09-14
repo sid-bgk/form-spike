@@ -1,5 +1,19 @@
 export type FieldType = 'text' | 'email' | 'password' | 'number' | 'textarea' | 'select' | 'checkbox' | 'radio'
 
+export type ValidationRule = {
+  required?: boolean
+  minLength?: number
+  maxLength?: number
+  min?: number
+  max?: number
+  pattern?: string
+  email?: boolean
+  custom?: {
+    validate: (value: any) => boolean | Promise<boolean>
+    message: string
+  }
+}
+
 export type FieldConfig = {
   name: string
   label: string
@@ -9,6 +23,7 @@ export type FieldConfig = {
   description?: string
   disabled?: boolean
   options?: Array<{ value: string | number; label: string }>
+  validation?: ValidationRule
 }
 
 export type FormConfig = {

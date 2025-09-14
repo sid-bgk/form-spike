@@ -4,6 +4,7 @@ import { Label } from '@/components/ui/label'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Textarea } from '@/components/ui/textarea'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { createFieldSchema } from '@/lib/validation'
 import type { FieldConfig } from '../types/form'
 
 type DynamicFieldProps = {
@@ -14,8 +15,27 @@ type DynamicFieldProps = {
 export function DynamicField({ field, form }: DynamicFieldProps) {
   const { name, label, type, placeholder, description, disabled, options, required } = field
 
+  // Create field-specific validators
+  const getFieldValidators = () => {
+    const fieldSchema = createFieldSchema(field)
+
+    return {
+      onChange: ({ value }: any) => {
+        try {
+          fieldSchema.parse(value)
+          return undefined
+        } catch (error: any) {
+          if (error.issues && error.issues.length > 0) {
+            return error.issues[0].message
+          }
+          return error.message || `${field.label} is invalid`
+        }
+      }
+    }
+  }
+
   return (
-    <form.Field name={name}>
+    <form.Field name={name} validators={getFieldValidators()}>
       {(fieldApi: any) => (
         <div className="space-y-2">
           <Label htmlFor={name}>
@@ -75,9 +95,9 @@ export function DynamicField({ field, form }: DynamicFieldProps) {
             <p className="text-sm text-gray-600">{description}</p>
           )}
 
-          {fieldApi.state.meta.errors && (
-            <p className="text-sm text-red-600">{fieldApi.state.meta.errors[0]}</p>
-          )}
+          {fieldApi.state.meta.isTouched && !fieldApi.state.meta.isValid ? (
+            <p className="text-sm text-red-600">{fieldApi.state.meta.errors.join(', ')}</p>
+          ) : null}
         </div>
       )}
     </form.Field>

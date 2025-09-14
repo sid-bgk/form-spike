@@ -1,6 +1,7 @@
 import { useForm } from '@tanstack/react-form'
 import { Button } from '@/components/ui/button'
 import { DynamicField } from './DynamicField'
+import { createFormSchema } from '@/lib/validation'
 import type { FormConfig } from '../types/form'
 
 type DynamicFormProps = {
@@ -8,26 +9,22 @@ type DynamicFormProps = {
 }
 
 export function DynamicForm({ config }: DynamicFormProps) {
+  const formSchema = createFormSchema(config.fields)
+
   const form = useForm({
     defaultValues: config.defaultValues,
     onSubmit: async ({ value }) => {
-      if (config.onSubmit) {
-        await config.onSubmit({ value })
-      }
-    },
-    validators: config.fields.reduce((acc, field) => {
-      if (field.required) {
-        acc[field.name] = {
-          onChange: ({ value }: any) => {
-            if (!value || (typeof value === 'string' && value.trim() === '')) {
-              return `${field.label} is required`
-            }
-            return undefined
-          }
+      // Validate with Zod before submitting
+      try {
+        const validatedValue = formSchema.parse(value)
+        if (config.onSubmit) {
+          await config.onSubmit({ value: validatedValue })
         }
+      } catch (error) {
+        console.error('Form validation failed:', error)
+        // Individual field errors will be handled by field-level validators
       }
-      return acc
-    }, {} as any)
+    }
   })
 
   return (
