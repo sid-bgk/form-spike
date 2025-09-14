@@ -1,8 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import { Navigation } from '@/components/Navigation'
 import { Home } from '@/pages/Home'
-import { TanUserRegistration } from '@/pages/TanUserRegistration'
-import { TanCompanyRegistration } from '@/pages/TanCompanyRegistration'
 import { RemoteForm } from '@/pages/RemoteForm'
 
 function App() {
@@ -12,8 +10,6 @@ function App() {
         <Navigation />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/tan-user-registration" element={<TanUserRegistration />} />
-          <Route path="/tan-company-registration" element={<TanCompanyRegistration />} />
           <Route path="/remote-form" element={<RemoteForm />} />
           <Route path="/remote-form/:formType/:config" element={<RemoteForm />} />
           {/* Redirect any unknown routes to home */}
