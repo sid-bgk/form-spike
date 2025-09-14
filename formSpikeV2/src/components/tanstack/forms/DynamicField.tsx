@@ -11,7 +11,7 @@ import { DateField } from './DateField'
 import { parseValidationConfig } from '../utils/ValidationConfigParser'
 import { createFieldValidator } from '../utils/FieldValidatorFactory'
 import { formatDateForInput } from '../utils/dateUtils'
-import * as jsonLogic from 'json-logic-js'
+import { jsonLogic } from '../utils/jsonLogicExtensions'
 import type { FieldConfig, FieldType } from '../types/form'
 
 type DynamicFieldProps = {

@@ -9,7 +9,7 @@ const { subDays, subYears } = require("date-fns");
 // Validation patterns and regex constants
 const PHONE_VALIDATION_REGEX = /^(\+?1[-.\s]?)?\(?([0-9]{3})\)?[-.\s]?([0-9]{3})[-.\s]?([0-9]{4})$/;
 const SSN_VALIDATION_REGEX = '^\\d{9}$';
-const ZIP_VALIDATION_REGEX = /^\d{5}$/;
+const ZIP_VALIDATION_REGEX = '^\\d{5}$';
 
 // Form IDs (local definition until external import is available)
 const formIds = {

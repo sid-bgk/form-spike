@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react'
 import { useForm } from '@tanstack/react-form'
-import * as jsonLogic from 'json-logic-js'
+import { jsonLogic } from '../utils/jsonLogicExtensions'
 import { Button } from '@/components/ui/button'
 import { DynamicField } from './DynamicField'
 import { StepIndicator } from './StepIndicator'
