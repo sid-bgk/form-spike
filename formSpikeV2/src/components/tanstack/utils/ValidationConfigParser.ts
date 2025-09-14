@@ -4,6 +4,10 @@ export interface ValidationConfig {
     rules: ValidationRule
     isRequired: boolean
     fieldType: FieldType
+    otherProps?: {
+        minDate?: string | Date
+        maxDate?: string | Date
+    }
 }
 
 /**
@@ -16,7 +20,8 @@ export function parseValidationConfig(field: FieldConfig): ValidationConfig {
     return {
         rules,
         isRequired,
-        fieldType: field.type
+        fieldType: field.type,
+        otherProps: field.otherProps
     }
 }
 

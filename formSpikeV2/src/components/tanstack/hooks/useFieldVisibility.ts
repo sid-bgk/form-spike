@@ -1,5 +1,5 @@
 import { useStore } from '@tanstack/react-form'
-import * as jsonLogic from 'json-logic-js'
+import { jsonLogic } from '../utils/jsonLogicExtensions'
 import type { FieldConfig } from '../types/form'
 
 export function useFieldVisibility(form: any, field: FieldConfig): boolean {

@@ -1,5 +1,5 @@
-import type { ValidationRule, FieldType } from '../types/form'
 import type { ValidationConfig } from './ValidationConfigParser'
+import { validateDateRange, validateAge } from './dateUtils'
 
 export interface FieldValidator {
   validate: (value: any, formValues?: any) => string | undefined
@@ -64,13 +64,25 @@ export function createFieldValidator(config: ValidationConfig): FieldValidator {
   }
 
   // Add array validators
-  if (config.fieldType === 'array' && (config.rules.minItems || config.rules.maxItems)) {
+  if ((config.fieldType === 'array' || config.fieldType === 'multi') && (config.rules.minItems || config.rules.maxItems)) {
     const minItems = config.rules.minItems?.value
     const maxItems = config.rules.maxItems?.value
     const minMessage = config.rules.minItems?.message
     const maxMessage = config.rules.maxItems?.message
     
     validators.push(createArrayValidator(minItems, maxItems, { min: minMessage, max: maxMessage }))
+  }
+
+  // Add date validators
+  if (config.fieldType === 'date') {
+    if (config.rules.minAge || config.rules.maxAge) {
+      validators.push(createAgeValidator(config.rules.minAge, config.rules.maxAge))
+    }
+    
+    // Add date range validation if minDate/maxDate are provided in otherProps
+    if (config.otherProps?.minDate || config.otherProps?.maxDate) {
+      validators.push(createDateRangeValidator(config.otherProps.minDate, config.otherProps.maxDate))
+    }
   }
 
   // Add custom validator
@@ -195,7 +207,21 @@ export function createPatternValidator(pattern: string, message: string): (value
     if (!value) return undefined // Skip validation if empty
     
     const regex = new RegExp(pattern)
-    if (!regex.test(String(value))) {
+    const stringValue = String(value)
+    const isValid = regex.test(stringValue)
+    
+    // Debug logging for SSN validation
+    if (pattern.includes('\\d{9}')) {
+      console.log('SSN Validation Debug:', {
+        pattern,
+        value: stringValue,
+        length: stringValue.length,
+        isValid,
+        message: isValid ? 'PASS' : message
+      })
+    }
+    
+    if (!isValid) {
       return message
     }
     
@@ -232,15 +258,50 @@ export function createArrayValidator(
 }
 
 /**
+ * Create an age validator for date fields
+ */
+export function createAgeValidator(
+  minAge?: number,
+  maxAge?: number
+): (value: any) => string | undefined {
+  return (value: any): string | undefined => {
+    if (!value) return undefined // Skip validation if empty
+    
+    const result = validateAge(value, minAge, maxAge)
+    return result.isValid ? undefined : result.error
+  }
+}
+
+/**
+ * Create a date range validator for date fields
+ */
+export function createDateRangeValidator(
+  minDate?: string | Date,
+  maxDate?: string | Date
+): (value: any) => string | undefined {
+  return (value: any): string | undefined => {
+    if (!value) return undefined // Skip validation if empty
+    
+    const result = validateDateRange(value, minDate, maxDate)
+    return result.isValid ? undefined : result.error
+  }
+}
+
+/**
  * Create a custom validator
  */
 export function createCustomValidator(
   validateFn: (value: any, formValues?: any) => boolean | Promise<boolean>,
   message: string
 ): (value: any, formValues?: any) => string | undefined {
-  return async (value: any, formValues?: any): Promise<string | undefined> => {
+  return (value: any, formValues?: any): string | undefined => {
     try {
-      const isValid = await validateFn(value, formValues)
+      const result = validateFn(value, formValues)
+      // If async validator was provided, skip here (should be wired to onChangeAsync)
+      if (result && typeof (result as any).then === 'function') {
+        return undefined
+      }
+      const isValid = Boolean(result)
       return isValid ? undefined : message
     } catch (error) {
       return message

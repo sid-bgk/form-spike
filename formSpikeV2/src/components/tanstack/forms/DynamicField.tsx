@@ -7,9 +7,12 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { useFieldVisibility } from '../hooks/useFieldVisibility'
 import { ArrayField } from './ArrayField'
+import { DateField } from './DateField'
+import { MultiSelectField } from './MultiSelectField'
 import { parseValidationConfig } from '../utils/ValidationConfigParser'
 import { createFieldValidator } from '../utils/FieldValidatorFactory'
-import * as jsonLogic from 'json-logic-js'
+import { formatDateForInput } from '../utils/dateUtils'
+import { jsonLogic } from '../utils/jsonLogicExtensions'
 import type { FieldConfig, FieldType } from '../types/form'
 
 type DynamicFieldProps = {
@@ -41,6 +44,8 @@ export function DynamicField({ field, form }: DynamicFieldProps) {
       validationConfig.rules.required = `${field.label} is required`
       validationConfig.isRequired = true
     }
+
+
 
     // Create field validator using the factory
     const fieldValidator = createFieldValidator(validationConfig)
@@ -107,7 +112,11 @@ export function DynamicField({ field, form }: DynamicFieldProps) {
         return false
       case 'array':
         return []
+      case 'multi':
+        return []
       case 'number':
+        return ''
+      case 'date':
         return ''
       default:
         return ''
@@ -135,6 +144,21 @@ export function DynamicField({ field, form }: DynamicFieldProps) {
     }
   }, [form.state.values, field.conditions, isVisible, form, name])
 
+  // Handle default value initialization for date fields
+  useEffect(() => {
+    if (field.type === 'date' && field.defaultValue && isVisible) {
+      const currentValue = form.getFieldValue(name)
+      
+      // Only set default value if field is empty
+      if (!currentValue) {
+        const formattedDefaultValue = formatDateForInput(field.defaultValue)
+        if (formattedDefaultValue) {
+          form.setFieldValue(name, formattedDefaultValue)
+        }
+      }
+    }
+  }, [field.type, field.defaultValue, isVisible, form, name])
+
   // Don't render if not visible
   if (!isVisible) {
     return null
@@ -151,6 +175,23 @@ export function DynamicField({ field, form }: DynamicFieldProps) {
 
           {type === 'array' ? (
             <ArrayField field={field} form={form} fieldApi={fieldApi} />
+          ) : type === 'date' ? (
+            <DateField
+              id={name}
+              value={fieldApi.state.value || ''}
+              onChange={fieldApi.handleChange}
+              disabled={disabled}
+              minDate={field.otherProps?.minDate}
+              maxDate={field.otherProps?.maxDate}
+            />
+          ) : type === 'multi' ? (
+            <MultiSelectField
+              id={name}
+              options={options || []}
+              value={fieldApi.state.value || []}
+              onChange={fieldApi.handleChange}
+              disabled={disabled}
+            />
           ) : type === 'text' || type === 'email' || type === 'password' || type === 'number' ? (
             <Input
               id={name}
