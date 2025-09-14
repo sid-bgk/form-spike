@@ -4,14 +4,14 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Structure
 
-This repository contains a forms demonstration project with the main application in the `formSpike/` directory. The project is a React + TypeScript + Vite application that showcases different form libraries and approaches.
+This repository contains a forms demonstration project with the main application in the `formSpikeV2/` directory. The project is a React + TypeScript + Vite application that showcases different form libraries and approaches.
 
 ## Development Commands
 
-All commands should be run from the `formSpike/` directory:
+All commands should be run from the `formSpikeV2/` directory:
 
 ```bash
-cd formSpike
+cd formSpikeV2
 npm run dev        # Start development server
 npm run build      # Build for production (runs TypeScript compiler + Vite build)
 npm run lint       # Run ESLint
