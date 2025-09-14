@@ -3,6 +3,7 @@ import { Navigation } from '@/components/Navigation'
 import { Home } from '@/pages/Home'
 import { TanUserRegistration } from '@/pages/TanUserRegistration'
 import { TanCompanyRegistration } from '@/pages/TanCompanyRegistration'
+import { RemoteForm } from '@/pages/RemoteForm'
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/tan-user-registration" element={<TanUserRegistration />} />
           <Route path="/tan-company-registration" element={<TanCompanyRegistration />} />
+          <Route path="/remote-form" element={<RemoteForm />} />
           {/* Redirect any unknown routes to home */}
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
