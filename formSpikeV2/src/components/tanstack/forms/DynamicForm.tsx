@@ -3,6 +3,7 @@ import { useStore } from '@tanstack/react-form'
 import { jsonLogic } from '../utils/jsonLogicExtensions'
 import { Button } from '@/components/ui/button'
 import { DynamicField } from './DynamicField'
+import { useRef } from 'react'
 // Removed createFormSchema import as validation file doesn't exist
 import type { FormConfig } from '../types/form'
 
@@ -11,6 +12,10 @@ type DynamicFormProps = {
 }
 
 export function DynamicForm({ config }: DynamicFormProps) {
+  const renderCount = useRef(0);
+  renderCount.current += 1;
+  console.log(`[performace][tanstack]TanStack Form re-render count: ${renderCount.current}`);
+
   const form = useForm({
     defaultValues: config.defaultValues,
     onSubmit: async ({ value }) => {

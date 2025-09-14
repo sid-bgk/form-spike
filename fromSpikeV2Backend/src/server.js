@@ -65,6 +65,7 @@ app.get('/api/config/:formType/:configName', (req, res) => {
 // Submit route with controller dispatch
 const controllers = {
   tanstack: require('./controllers/tanstackController'),
+  'react-hook-form': require('./controllers/reactHookFormController'),
 };
 
 app.post('/api/submit/:formType', (req, res) => {

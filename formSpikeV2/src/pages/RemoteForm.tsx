@@ -324,7 +324,7 @@ export function RemoteForm() {
               )
             ) : (
               <div className="text-sm text-gray-600">
-                Renderer "{formType}" not implemented yet. Try tanstack.
+                Renderer "{formType}" not implemented yet. Try tanstack or react-hook-form.
               </div>
             )
           )}
