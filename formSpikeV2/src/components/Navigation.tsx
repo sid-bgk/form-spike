@@ -6,8 +6,8 @@ export function Navigation() {
 
   const navItems = [
     { path: '/', label: 'Home', icon: '🏠' },
-    { path: '/tan-user-registration', label: 'User Registration', icon: '👤' },
-    { path: '/tan-company-registration', label: 'Company Registration', icon: '🏢' },
+    { path: '/user-registration-steps', label: 'User Registration (Steps)', icon: '📝' },
+    { path: '/remote-form', label: 'Remote Form', icon: '🌐' },
   ]
 
   return (
@@ -20,8 +20,7 @@ export function Navigation() {
             </Link>
 
             <div className="hidden md:flex items-center space-x-4">
-              {[...navItems, 
-                { path: '/remote-form/tanstack/user-registration', label: 'User Registration', icon: '👤' }].map((item) => (
+              {navItems.map((item) => (
                 <Link
                   key={item.path}
                   to={item.path}
@@ -61,8 +60,7 @@ export function Navigation() {
         {/* Mobile menu */}
         <div className="md:hidden py-2">
           <div className="flex flex-col space-y-1">
-            {[...navItems, 
-              { path: '/remote-form/tanstack/user-registration', label: 'User Registration', icon: '👤' }].map((item) => (
+            {navItems.map((item) => (
               <Link
                 key={item.path}
                 to={item.path}

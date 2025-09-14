@@ -1,3 +1,3 @@
 export { Home } from './Home'
-export { TanUserRegistration } from './TanUserRegistration'
-export { TanCompanyRegistration } from './TanCompanyRegistration'
+export { RemoteForm } from './RemoteForm'
+export { UserRegistrationSteps } from './UserRegistrationSteps'

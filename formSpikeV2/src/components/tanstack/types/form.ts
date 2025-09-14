@@ -56,3 +56,19 @@ export type FormConfig = {
   resetButtonText?: string
   onSubmit?: (data: { value: Record<string, any> }) => Promise<void> | void
 }
+
+export type StepConfig = {
+  id: string
+  label: string
+  fields: FieldConfig[]
+}
+
+export type StepFormConfig = {
+  title?: string
+  description?: string
+  steps: StepConfig[]
+  defaultValues: Record<string, any>
+  submitButtonText?: string
+  resetButtonText?: string
+  onSubmit?: (data: { value: Record<string, any> }) => Promise<void> | void
+}

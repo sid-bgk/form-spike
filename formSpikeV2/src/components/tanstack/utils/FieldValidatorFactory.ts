@@ -195,7 +195,21 @@ export function createPatternValidator(pattern: string, message: string): (value
     if (!value) return undefined // Skip validation if empty
     
     const regex = new RegExp(pattern)
-    if (!regex.test(String(value))) {
+    const stringValue = String(value)
+    const isValid = regex.test(stringValue)
+    
+    // Debug logging for SSN validation
+    if (pattern.includes('\\d{9}')) {
+      console.log('SSN Validation Debug:', {
+        pattern,
+        value: stringValue,
+        length: stringValue.length,
+        isValid,
+        message: isValid ? 'PASS' : message
+      })
+    }
+    
+    if (!isValid) {
       return message
     }
     
@@ -238,9 +252,14 @@ export function createCustomValidator(
   validateFn: (value: any, formValues?: any) => boolean | Promise<boolean>,
   message: string
 ): (value: any, formValues?: any) => string | undefined {
-  return async (value: any, formValues?: any): Promise<string | undefined> => {
+  return (value: any, formValues?: any): string | undefined => {
     try {
-      const isValid = await validateFn(value, formValues)
+      const result = validateFn(value, formValues)
+      // If async validator was provided, skip here (should be wired to onChangeAsync)
+      if (result && typeof (result as any).then === 'function') {
+        return undefined
+      }
+      const isValid = Boolean(result)
       return isValid ? undefined : message
     } catch (error) {
       return message
