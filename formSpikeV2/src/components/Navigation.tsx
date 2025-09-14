@@ -8,6 +8,7 @@ export function Navigation() {
     { path: '/', label: 'Home', icon: '🏠' },
     { path: '/user-registration-steps', label: 'User Registration (Steps)', icon: '📝' },
     { path: '/remote-form', label: 'Remote Form', icon: '🌐' },
+    { path: '/calendar-test', label: 'Calendar Test', icon: '📅' },
   ]
 
   return (

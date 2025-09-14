@@ -1,4 +1,4 @@
-export type FieldType = 'text' | 'email' | 'password' | 'number' | 'textarea' | 'select' | 'checkbox' | 'radio' | 'array'
+export type FieldType = 'text' | 'email' | 'password' | 'number' | 'textarea' | 'select' | 'checkbox' | 'radio' | 'array' | 'date'
 
 export type ValidationRule = {
   required?: string | boolean  // Custom message or boolean for backward compatibility
@@ -10,6 +10,8 @@ export type ValidationRule = {
   pattern?: { value: string; message: string } | string    // Custom message object or string for backward compatibility
   minItems?: { value: number; message: string }            // For arrays - minimum items validation
   maxItems?: { value: number; message: string }            // For arrays - maximum items validation
+  minAge?: number              // Minimum age validation for date fields
+  maxAge?: number              // Maximum age validation for date fields
   custom?: {
     validate: (value: any, formValues?: any) => boolean | Promise<boolean>
     message: string
@@ -45,6 +47,12 @@ export type FieldConfig = {
   maxItems?: number
   addButtonText?: string
   removeButtonText?: string
+  // Date-specific properties
+  otherProps?: {
+    minDate?: string | Date
+    maxDate?: string | Date
+  }
+  defaultValue?: any
 }
 
 export type FormConfig = {

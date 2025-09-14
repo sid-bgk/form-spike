@@ -1,5 +1,5 @@
-import type { ValidationRule, FieldType } from '../types/form'
 import type { ValidationConfig } from './ValidationConfigParser'
+import { validateDateRange, validateAge } from './dateUtils'
 
 export interface FieldValidator {
   validate: (value: any, formValues?: any) => string | undefined
@@ -71,6 +71,18 @@ export function createFieldValidator(config: ValidationConfig): FieldValidator {
     const maxMessage = config.rules.maxItems?.message
     
     validators.push(createArrayValidator(minItems, maxItems, { min: minMessage, max: maxMessage }))
+  }
+
+  // Add date validators
+  if (config.fieldType === 'date') {
+    if (config.rules.minAge || config.rules.maxAge) {
+      validators.push(createAgeValidator(config.rules.minAge, config.rules.maxAge))
+    }
+    
+    // Add date range validation if minDate/maxDate are provided in otherProps
+    if (config.otherProps?.minDate || config.otherProps?.maxDate) {
+      validators.push(createDateRangeValidator(config.otherProps.minDate, config.otherProps.maxDate))
+    }
   }
 
   // Add custom validator
@@ -242,6 +254,36 @@ export function createArrayValidator(
     }
     
     return undefined
+  }
+}
+
+/**
+ * Create an age validator for date fields
+ */
+export function createAgeValidator(
+  minAge?: number,
+  maxAge?: number
+): (value: any) => string | undefined {
+  return (value: any): string | undefined => {
+    if (!value) return undefined // Skip validation if empty
+    
+    const result = validateAge(value, minAge, maxAge)
+    return result.isValid ? undefined : result.error
+  }
+}
+
+/**
+ * Create a date range validator for date fields
+ */
+export function createDateRangeValidator(
+  minDate?: string | Date,
+  maxDate?: string | Date
+): (value: any) => string | undefined {
+  return (value: any): string | undefined => {
+    if (!value) return undefined // Skip validation if empty
+    
+    const result = validateDateRange(value, minDate, maxDate)
+    return result.isValid ? undefined : result.error
   }
 }
 

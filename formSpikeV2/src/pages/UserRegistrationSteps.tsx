@@ -50,7 +50,7 @@ const mapToFieldType = (t: string): FieldType => {
   }
   const normalized = (t || '').toLowerCase()
   if (aliasMap[normalized]) return aliasMap[normalized]
-  const allowed: FieldType[] = ['text', 'email', 'password', 'number', 'textarea', 'select', 'checkbox', 'radio', 'array']
+  const allowed: FieldType[] = ['text', 'email', 'password', 'number', 'textarea', 'select', 'checkbox', 'radio', 'array', 'date']
   return allowed.includes(normalized as FieldType) ? (normalized as FieldType) : 'text'
 }
 
@@ -164,6 +164,14 @@ const normalizeValidation = (
     v.maxItems = raw.maxItems
   }
 
+  // Date/age validations (if present)
+  if (raw.minAge !== undefined) {
+    v.minAge = Number(raw.minAge)
+  }
+  if (raw.maxAge !== undefined) {
+    v.maxAge = Number(raw.maxAge)
+  }
+
   return Object.keys(v).length ? v : undefined
 }
 
@@ -189,6 +197,9 @@ const mapApiFieldToFieldConfig = (
     options: apiField.options,
     validation: normalizeValidation(apiField.validation, patterns),
     conditions: normalizedConditions,
+    // Include date-specific properties
+    otherProps: apiField.otherProps,
+    defaultValue: apiField.defaultValue,
   }
 }
 
