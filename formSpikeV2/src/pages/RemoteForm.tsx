@@ -13,6 +13,7 @@ type ApiArrayItemField = {
   description?: string
   disabled?: boolean
   options?: Array<{ value: string | number; label: string }>
+  validation?: any
 }
 
 type ApiField = {
@@ -24,6 +25,7 @@ type ApiField = {
   description?: string
   disabled?: boolean
   options?: Array<{ value: string | number; label: string }>
+  validation?: any
   // Array-specific properties
   arrayItemFields?: ApiArrayItemField[]
   minItems?: number
@@ -92,6 +94,7 @@ export function RemoteForm() {
       description: f.description,
       disabled: f.disabled,
       options: f.options,
+      validation: f.validation,
       conditions: f.conditions,
       // Array-specific properties
       arrayItemFields: f.arrayItemFields?.map((itemField): ArrayItemFieldConfig => ({
@@ -103,6 +106,7 @@ export function RemoteForm() {
         description: itemField.description,
         disabled: itemField.disabled,
         options: itemField.options,
+        validation: itemField.validation,
       })),
       minItems: f.minItems,
       maxItems: f.maxItems,

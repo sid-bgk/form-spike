@@ -29,6 +29,16 @@ export function DynamicForm({ config }: DynamicFormProps) {
         }
       })
 
+      // Validate all visible fields before submission
+      const hasErrors = Object.keys(form.state.fieldMeta).some(fieldName => {
+        const fieldMeta = form.state.fieldMeta[fieldName]
+        return fieldMeta && !fieldMeta.isValid && fieldMeta.isTouched
+      })
+
+      if (hasErrors) {
+        console.log('Form has validation errors, preventing submission')
+        return
+      }
 
       if (config.onSubmit) {
         await config.onSubmit({ value: visibleFieldValues })
@@ -60,7 +70,7 @@ export function DynamicForm({ config }: DynamicFormProps) {
         ))}
 
         <div className="flex gap-4">
-          <Button type="submit" disabled={form.state.isSubmitting}>
+          <Button type="submit" disabled={form.state.isSubmitting || !form.state.canSubmit}>
             {form.state.isSubmitting ? 'Submitting...' : (config.submitButtonText || 'Submit')}
           </Button>
 
@@ -71,6 +81,18 @@ export function DynamicForm({ config }: DynamicFormProps) {
           >
             {config.resetButtonText || 'Reset'}
           </Button>
+        </div>
+
+        {/* Debug information */}
+        <div className="mt-6 p-4 bg-gray-100 rounded text-sm">
+          <h3 className="font-semibold mb-2">Debug Information:</h3>
+          <div className="space-y-1">
+            <div>Form Values: {JSON.stringify(form.state.values, null, 2)}</div>
+            <div>Form Errors: {JSON.stringify(form.state.errors, null, 2)}</div>
+            <div>Can Submit: {form.state.canSubmit ? 'Yes' : 'No'}</div>
+            <div>Is Valid: {form.state.isValid ? 'Yes' : 'No'}</div>
+            <div>Is Submitting: {form.state.isSubmitting ? 'Yes' : 'No'}</div>
+          </div>
         </div>
       </form>
     </div>

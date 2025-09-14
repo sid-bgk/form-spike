@@ -7,6 +7,8 @@ import { Textarea } from '@/components/ui/textarea'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import type { FieldConfig, ArrayItemFieldConfig } from '../types/form'
+import { parseValidationConfig } from '../utils/ValidationConfigParser'
+import { createFieldValidator } from '../utils/FieldValidatorFactory'
 import { Trash2 } from 'lucide-react'
 
 type ArrayFieldProps = {
@@ -59,30 +61,33 @@ export function ArrayField({ field, form, fieldApi }: ArrayFieldProps) {
     }
   }, [fieldApi, arrayItemFields, minItems])
 
-  // Simple validation for array item fields
+  // Enhanced validation for array item fields using the validation system
   const getItemFieldValidators = (itemField: ArrayItemFieldConfig) => {
+    // Create a temporary field config for validation parsing
+    const tempFieldConfig = {
+      ...itemField,
+      name: itemField.name,
+      label: itemField.label,
+      type: itemField.type,
+      required: itemField.required,
+      validation: itemField.validation
+    }
+    
+    // Parse validation configuration
+    const validationConfig = parseValidationConfig(tempFieldConfig)
+    
+    // Handle backward compatibility for required: boolean
+    if (itemField.required && !itemField.validation?.required) {
+      validationConfig.rules.required = `${itemField.label} is required`
+      validationConfig.isRequired = true
+    }
+    
+    // Create field validator using the factory
+    const fieldValidator = createFieldValidator(validationConfig)
+    
     return {
       onChange: ({ value }: any) => {
-        // Basic validation
-        if (itemField.required && (!value || (typeof value === 'string' && value.trim() === ''))) {
-          return `${itemField.label} is required`
-        }
-        
-        if (itemField.type === 'email' && value && typeof value === 'string') {
-          const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-          if (!emailRegex.test(value)) {
-            return 'Please enter a valid email address'
-          }
-        }
-        
-        if (itemField.type === 'number' && value !== undefined && value !== '') {
-          const num = Number(value)
-          if (isNaN(num)) {
-            return 'Please enter a valid number'
-          }
-        }
-        
-        return undefined
+        return fieldValidator.validate(value, form.state.values)
       }
     }
   }
@@ -233,11 +238,57 @@ export function ArrayField({ field, form, fieldApi }: ArrayFieldProps) {
     )
   }
 
+  // Check if we should show array-level validation errors
+  const shouldShowArrayError = () => {
+    // Show error if field is required and array is empty
+    if (field.validation?.required && arrayValue.length === 0) {
+      return true
+    }
+    
+    // Show error if array has fewer items than minItems
+    if (arrayValue.length < minItems) {
+      return true
+    }
+    
+    // Show error if array has more items than maxItems
+    if (maxItems && arrayValue.length > maxItems) {
+      return true
+    }
+    
+    return false
+  }
+
+  const getArrayErrorMessage = () => {
+    // Check for required validation first
+    if (field.validation?.required && arrayValue.length === 0) {
+      return typeof field.validation.required === 'string' 
+        ? field.validation.required 
+        : `${label} is required`
+    }
+    
+    // Check for minItems validation
+    if (field.validation?.minItems && arrayValue.length < field.validation.minItems.value) {
+      return field.validation.minItems.message
+    }
+    
+    // Check for maxItems validation
+    if (field.validation?.maxItems && arrayValue.length > field.validation.maxItems.value) {
+      return field.validation.maxItems.message
+    }
+    
+    // Fallback to generic minItems error
+    if (arrayValue.length < minItems) {
+      return `Please add at least ${minItems} ${minItems === 1 ? 'item' : 'items'}.`
+    }
+    
+    return null
+  }
+
   return (
     <div className="space-y-4">
       <Label className="text-base font-semibold">
         {label}
-        {field.required && <span className="text-red-500 ml-1">*</span>}
+        {(field.required || field.validation?.required) && <span className="text-red-500 ml-1">*</span>}
       </Label>
 
       {field.description && (
@@ -286,15 +337,16 @@ export function ArrayField({ field, form, fieldApi }: ArrayFieldProps) {
         {addButtonText}
       </Button>
 
-      {fieldApi.state.meta.isTouched && !fieldApi.state.meta.isValid && (
-        <p className="text-sm text-red-600">{fieldApi.state.meta.errors.join(', ')}</p>
+      {/* Show array-level validation errors */}
+      {shouldShowArrayError() && (
+        <p className="text-sm text-red-600">
+          {getArrayErrorMessage()}
+        </p>
       )}
 
-      {/* Show validation error if array has fewer items than minItems */}
-      {arrayValue.length < minItems && fieldApi.state.meta.isTouched && (
-        <p className="text-sm text-red-600">
-          Please add at least {minItems} {minItems === 1 ? 'item' : 'items'}.
-        </p>
+      {/* Show TanStack form validation errors if any */}
+      {fieldApi.state.meta.isTouched && !fieldApi.state.meta.isValid && fieldApi.state.meta.errors.length > 0 && (
+        <p className="text-sm text-red-600">{fieldApi.state.meta.errors.join(', ')}</p>
       )}
     </div>
   )

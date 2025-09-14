@@ -1,15 +1,17 @@
 export type FieldType = 'text' | 'email' | 'password' | 'number' | 'textarea' | 'select' | 'checkbox' | 'radio' | 'array'
 
 export type ValidationRule = {
-  required?: boolean
-  minLength?: number
-  maxLength?: number
-  min?: number
-  max?: number
-  pattern?: string
-  email?: boolean
+  required?: string | boolean  // Custom message or boolean for backward compatibility
+  email?: string | boolean     // Custom email validation message or boolean
+  minLength?: { value: number; message: string } | number  // Custom message object or number for backward compatibility
+  maxLength?: { value: number; message: string } | number  // Custom message object or number for backward compatibility
+  min?: { value: number; message: string } | number        // Custom message object or number for backward compatibility
+  max?: { value: number; message: string } | number        // Custom message object or number for backward compatibility
+  pattern?: { value: string; message: string } | string    // Custom message object or string for backward compatibility
+  minItems?: { value: number; message: string }            // For arrays - minimum items validation
+  maxItems?: { value: number; message: string }            // For arrays - maximum items validation
   custom?: {
-    validate: (value: any) => boolean | Promise<boolean>
+    validate: (value: any, formValues?: any) => boolean | Promise<boolean>
     message: string
   }
 }
