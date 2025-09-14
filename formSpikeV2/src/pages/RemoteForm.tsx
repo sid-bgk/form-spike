@@ -1,4 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
+import { useParams } from 'react-router-dom'
+import axios from 'axios'
 import { DynamicForm } from '@/components/tanstack/forms'
 import type { FieldConfig, FieldType, FormConfig } from '@/components/tanstack/types/form'
 
@@ -30,6 +32,9 @@ const mapToFieldType = (t: string): FieldType => {
 }
 
 export function RemoteForm() {
+  const params = useParams<{ formType: string; config: string }>()
+  const formType = params.formType || 'tanstack'
+  const configName = params.config || 'demo'
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [apiData, setApiData] = useState<ApiResponse | null>(null)
@@ -40,23 +45,22 @@ export function RemoteForm() {
       try {
         setLoading(true)
         setError(null)
-        const res = await fetch('http://localhost:3001/api/config', {
-          signal: controller.signal,
-          headers: { 'Accept': 'application/json' },
-        })
-        if (!res.ok) throw new Error(`API error: ${res.status}`)
-        const json: ApiResponse = await res.json()
-        setApiData(json)
+        const url = `http://localhost:3001/api/config/${encodeURIComponent(formType)}/${encodeURIComponent(configName)}`
+        const res = await axios.get<ApiResponse>(url, { signal: controller.signal })
+        setApiData(res.data)
       } catch (e) {
-        if ((e as any)?.name === 'AbortError') return
-        setError(e instanceof Error ? e.message : 'Failed to load config')
+        if ((e as any)?.name === 'CanceledError' || (e as any)?.name === 'AbortError') return
+        const msg = (axios.isAxiosError(e) && e.response)
+          ? `API error: ${e.response.status}`
+          : (e instanceof Error ? e.message : 'Failed to load config')
+        setError(msg)
       } finally {
         setLoading(false)
       }
     }
     load()
     return () => controller.abort()
-  }, [])
+  }, [formType, configName])
 
   const formConfig: FormConfig | null = useMemo(() => {
     if (!apiData) return null
@@ -90,10 +94,15 @@ export function RemoteForm() {
       submitButtonText: apiData.form.submitButtonText ?? 'Submit',
       resetButtonText: apiData.form.resetButtonText ?? 'Reset',
       onSubmit: async ({ value }) => {
-        // Skip validation for now; just log and show a quick success
-        console.log('Remote form submitted', value)
-        await new Promise((r) => setTimeout(r, 400))
-        alert('Submitted! Check console for payload.')
+        try {
+          await axios.post(`http://localhost:3001/api/submit/${encodeURIComponent(formType)}`, value)
+          alert('Submitted!')
+        } catch (e) {
+          const msg = (axios.isAxiosError(e) && e.response)
+            ? `Submit failed: ${e.response.status}`
+            : (e instanceof Error ? e.message : 'Submit failed')
+          alert(msg)
+        }
       },
     }
     return cfg
@@ -119,12 +128,19 @@ export function RemoteForm() {
             </div>
           )}
 
-          {!loading && !error && formConfig && (
-            <DynamicForm config={formConfig} />
+          {!loading && !error && (
+            formType.toLowerCase() === 'tanstack' ? (
+              formConfig ? (
+                <DynamicForm config={formConfig} />
+              ) : null
+            ) : (
+              <div className="text-sm text-gray-600">
+                Renderer "{formType}" not implemented yet. Try tanstack.
+              </div>
+            )
           )}
         </div>
       </div>
     </div>
   )
 }
-

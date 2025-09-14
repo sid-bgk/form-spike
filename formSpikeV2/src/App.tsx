@@ -15,6 +15,7 @@ function App() {
           <Route path="/tan-user-registration" element={<TanUserRegistration />} />
           <Route path="/tan-company-registration" element={<TanCompanyRegistration />} />
           <Route path="/remote-form" element={<RemoteForm />} />
+          <Route path="/remote-form/:formType/:config" element={<RemoteForm />} />
           {/* Redirect any unknown routes to home */}
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

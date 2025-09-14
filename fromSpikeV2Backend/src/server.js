@@ -1,4 +1,6 @@
 const express = require('express');
+const path = require('path');
+const fs = require('fs');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -18,7 +20,7 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', uptime: process.uptime() });
 });
 
-// Temporary stub endpoint; we'll wire to real config later
+// Backward-compat stub
 app.get('/api/config', (req, res) => {
   res.json({
     version: 1,
@@ -32,7 +34,48 @@ app.get('/api/config', (req, res) => {
   });
 });
 
+// New parametric config endpoint
+app.get('/api/config/:formType/:configName', (req, res) => {
+  const { formType, configName } = req.params;
+
+  // Try loading from configs folder first
+  const safe = (s) => String(s || '')
+    .toLowerCase()
+    .replace(/\s+/g, '-')
+    .replace(/[^a-z0-9\-]/g, '');
+  const formTypeSafe = safe(formType);
+  const configSafe = safe(configName);
+  const configPath = path.join(__dirname, '..', 'configs', formTypeSafe, `${configSafe}.js`);
+
+  try {
+    if (fs.existsSync(configPath)) {
+      // Clear require cache to allow live edits during dev
+      delete require.cache[require.resolve(configPath)];
+      const fileConfig = require(configPath);
+      return res.json(fileConfig);
+    }
+  } catch (e) {
+    return res.status(500).json({ error: 'Failed to load config', details: e instanceof Error ? e.message : String(e) });
+  }
+
+  // Not found: no file-based config exists and fallback is disabled per requirements
+  return res.status(404).json({ error: 'Config not found', formType: formTypeSafe, config: configSafe });
+});
+
+// Submit route with controller dispatch
+const controllers = {
+  tanstack: require('./controllers/tanstackController'),
+};
+
+app.post('/api/submit/:formType', (req, res) => {
+  const formType = String(req.params.formType || '').toLowerCase();
+  const controller = controllers[formType];
+  if (!controller || typeof controller.submit !== 'function') {
+    return res.status(404).json({ error: 'Submit handler not found for formType', formType });
+  }
+  return controller.submit(req, res);
+});
+
 app.listen(PORT, () => {
   console.log(`API server listening on http://localhost:${PORT}`);
 });
-

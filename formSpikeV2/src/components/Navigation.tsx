@@ -20,7 +20,7 @@ export function Navigation() {
             </Link>
 
             <div className="hidden md:flex items-center space-x-4">
-              {[...navItems, { path: '/remote-form', label: 'Remote Form', icon: '🌐' }].map((item) => (
+              {[...navItems, { path: '/remote-form/tanstack/user-registration', label: 'Remote Form', icon: '🌐' }].map((item) => (
                 <Link
                   key={item.path}
                   to={item.path}
@@ -60,7 +60,7 @@ export function Navigation() {
         {/* Mobile menu */}
         <div className="md:hidden py-2">
           <div className="flex flex-col space-y-1">
-            {[...navItems, { path: '/remote-form', label: 'Remote Form', icon: '🌐' }].map((item) => (
+            {[...navItems, { path: '/remote-form/tanstack/user-registration', label: 'Remote Form', icon: '🌐' }].map((item) => (
               <Link
                 key={item.path}
                 to={item.path}

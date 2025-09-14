@@ -41,7 +41,7 @@ export function Home() {
               <p className="text-gray-600 mb-4">
                 Fetches form configuration from the backend on load and renders dynamically.
               </p>
-              <Link to="/remote-form">
+              <Link to="/remote-form/tanstack/user-registration">
                 <Button className="w-full">
                   View Remote Form
                 </Button>
