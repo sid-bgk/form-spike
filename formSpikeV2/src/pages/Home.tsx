@@ -33,6 +33,23 @@ export function Home() {
 
             <div className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow">
               <div className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800 mb-3">
+                Remote Config
+              </div>
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                API-driven Form
+              </h3>
+              <p className="text-gray-600 mb-4">
+                Fetches form configuration from the backend on load and renders dynamically.
+              </p>
+              <Link to="/remote-form/tanstack/user-registration">
+                <Button className="w-full">
+                  View Remote Form
+                </Button>
+              </Link>
+            </div>
+
+            <div className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow">
+              <div className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800 mb-3">
                 TanStack Form
               </div>
               <h3 className="text-lg font-semibold text-gray-900 mb-2">
