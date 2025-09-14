@@ -1,0 +1,1850 @@
+========================
+CODE SNIPPETS
+========================
+TITLE: Install Dependencies and Start Development Server
+DESCRIPTION: Installs project dependencies using pnpm and starts the development server, which rebuilds assets automatically when files change.
+
+SOURCE: https://github.com/tanstack/form/blob/main/examples/react/tanstack-start/README.md#_snippet_0
+
+LANGUAGE: sh
+CODE:
+```
+pnpm install
+pnpm dev
+```
+
+----------------------------------------
+
+TITLE: Install Dependencies and Run TanStack.com Dev Server
+DESCRIPTION: Changes the directory to 'tanstack.com', installs its dependencies using pnpm, and starts the development server. The app typically runs on https://localhost:3000.
+
+SOURCE: https://github.com/tanstack/form/blob/main/examples/react/tanstack-start/README.md#_snippet_3
+
+LANGUAGE: sh
+CODE:
+```
+cd tanstack.com
+pnpm i
+pnpm dev
+```
+
+----------------------------------------
+
+TITLE: Initialize TanStack Form Controller
+DESCRIPTION: Demonstrates the minimum setup for TanStack Form by creating a TanstackFormController with a specified interface for form data and default values.
+
+SOURCE: https://github.com/tanstack/form/blob/main/docs/framework/lit/quick-start.md#_snippet_0
+
+LANGUAGE: typescript
+CODE:
+```
+interface Employee {
+  firstName: string
+  lastName: string
+  employed: boolean
+  jobTitle: string
+}
+
+#form = new TanStackFormController()<Employee>(this, {
+  defaultValues: {
+    firstName: '',
+    lastName: '',
+    employed: false,
+    jobTitle: '',
+  },
+})
+```
+
+----------------------------------------
+
+TITLE: Install Dependencies and Run Dev Server
+DESCRIPTION: Installs dependencies for the tanstack.com project and starts the development server, typically used for previewing documentation changes.
+
+SOURCE: https://github.com/tanstack/form/blob/main/CONTRIBUTING.md#_snippet_8
+
+LANGUAGE: bash
+CODE:
+```
+cd tanstack.com
+pnpm i
+pnpm dev
+```
+
+----------------------------------------
+
+TITLE: TanStack/form Project Setup with Gitpod
+DESCRIPTION: Instructions for setting up the TanStack/form project using Gitpod, an online IDE. It includes cloning the repository, installing dependencies, and running build commands.
+
+SOURCE: https://github.com/tanstack/form/blob/main/CONTRIBUTING.md#_snippet_10
+
+LANGUAGE: bash
+CODE:
+```
+npm start
+```
+
+LANGUAGE: bash
+CODE:
+```
+npm run dev
+```
+
+----------------------------------------
+
+TITLE: Create Basic Form with Field (Solid.js)
+DESCRIPTION: This snippet shows the fundamental setup for a form using TanStack Form and Solid.js. It includes creating the form instance with default values and an onSubmit handler, and rendering a simple text input field.
+
+SOURCE: https://github.com/tanstack/form/blob/main/docs/framework/solid/quick-start.md#_snippet_0
+
+LANGUAGE: tsx
+CODE:
+```
+import { createForm } from '@tanstack/solid-form'
+
+function App() {
+  const form = createForm(() => ({
+    defaultValues: {
+      fullName: '',
+    },
+    onSubmit: async ({ value }) => {
+      // Do something with form data
+      console.log(value)
+    },
+  }))
+
+  return (
+    <div>
+      <h1>Simple Form Example</h1>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault()
+          e.stopPropagation()
+          form.handleSubmit()
+        }}
+      >
+        <div>
+          <form.Field
+            name="fullName"
+            children={(field) => (
+              <input
+                name={field().name}
+                value={field().state.value}
+                onBlur={field().handleBlur}
+                onInput={(e) => field().handleChange(e.target.value)}
+              />
+            )}
+          />
+        </div>
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+  )
+}
+```
+
+----------------------------------------
+
+TITLE: Run Example Development Server
+DESCRIPTION: Runs the development server for a specific example within the TanStack Form repository. This allows testing individual examples.
+
+SOURCE: https://github.com/tanstack/form/blob/main/CONTRIBUTING.md#_snippet_9
+
+LANGUAGE: bash
+CODE:
+```
+pnpm run dev
+```
+
+----------------------------------------
+
+TITLE: Install TanStack Form for Solid
+DESCRIPTION: Installs the TanStack Form adapter for Solid using npm, pnpm, bun, or yarn.
+
+SOURCE: https://github.com/tanstack/form/blob/main/docs/installation.md#_snippet_3
+
+LANGUAGE: bash
+CODE:
+```
+# npm
+$ npm i @tanstack/solid-form
+# pnpm
+$ pnpm add @tanstack/solid-form
+# bun
+$ bun add @tanstack/solid-form
+# yarn
+$ yarn add @tanstack/solid-form
+```
+
+----------------------------------------
+
+TITLE: Install TanStack Form for Lit
+DESCRIPTION: Installs the TanStack Form adapter for Lit using npm, pnpm, bun, or yarn.
+
+SOURCE: https://github.com/tanstack/form/blob/main/docs/installation.md#_snippet_4
+
+LANGUAGE: bash
+CODE:
+```
+# npm
+$ npm i @tanstack/lit-form
+# pnpm
+$ pnpm add @tanstack/lit-form
+# bun
+$ bun add @tanstack/lit-form
+# yarn
+$ yarn add @tanstack/lit-form
+```
+
+----------------------------------------
+
+TITLE: Create Basic Form with Field (Angular/TypeScript)
+DESCRIPTION: This snippet demonstrates the essential steps to initialize TanStack Form in an Angular application. It includes setting up a form with default values and rendering a single input field using the `tanstackField` directive. The example covers basic input handling and form submission.
+
+SOURCE: https://github.com/tanstack/form/blob/main/docs/framework/angular/quick-start.md#_snippet_0
+
+LANGUAGE: typescript
+CODE:
+```
+import { Component } from '@angular/core'
+import { bootstrapApplication } from '@angular/platform-browser'
+import { TanStackField, injectForm } from '@tanstack/angular-form'
+
+@Component({
+  selector: 'app-root',
+  standalone: true,
+  imports: [TanStackField],
+  template: `
+    <form (submit)="handleSubmit($event)">
+      <div>
+        <ng-container
+          [tanstackField]="form"
+          name="fullName"
+          #fullName="field"
+        >
+          <label [for]="fullName.api.name">First Name:</label>
+          <input
+            [name]="fullName.api.name"
+            [value]="fullName.api.state.value"
+            (blur)="fullName.api.handleBlur()"
+            (input)="fullName.api.handleChange($any($event).target.value)"
+          />
+        </ng-container>
+      </div>
+      <button type="submit">Submit</button>
+    </form>
+  `,
+})
+export class AppComponent {
+  form = injectForm({
+    defaultValues: {
+      fullName: '',
+    },
+    onSubmit({ value }) {
+      // Do something with form data
+      console.log(value)
+    },
+  })
+
+  handleSubmit(event: SubmitEvent) {
+    event.preventDefault()
+    event.stopPropagation()
+    this.form.handleSubmit()
+  }
+}
+
+bootstrapApplication(AppComponent).catch((err) => console.error(err))
+```
+
+----------------------------------------
+
+TITLE: Vue Form with Basic Field and Submission
+DESCRIPTION: This snippet demonstrates the essential setup for TanStack Form within a Vue.js application. It includes creating a form instance with default values, defining an onSubmit handler, and rendering a simple text input field managed by the form.
+
+SOURCE: https://github.com/tanstack/form/blob/main/docs/framework/vue/quick-start.md#_snippet_0
+
+LANGUAGE: vue
+CODE:
+```
+<script setup>
+import { useForm } from '@tanstack/vue-form'
+
+const form = useForm({
+  defaultValues: {
+    fullName: '',
+  },
+  onSubmit: async ({ value }) => {
+    // Do something with form data
+    console.log(value)
+  },
+})
+</script>
+
+<template>
+  <div>
+    <form @submit.prevent.stop="form.handleSubmit">
+      <div>
+        <form.Field name="fullName">
+          <template v-slot="{ field }">
+            <input
+              :name="field.name"
+              :value="field.state.value"
+              @blur="field.handleBlur"
+              @input="(e) => field.handleChange((e.target as HTMLInputElement).value)"
+            />
+          </template>
+        </form.Field>
+      </div>
+      <button type="submit">Submit</button>
+    </form>
+  </div>
+</template>
+```
+
+LANGUAGE: javascript
+CODE:
+```
+console.log(value)
+```
+
+----------------------------------------
+
+TITLE: Install TanStack Form for React
+DESCRIPTION: Installs the TanStack Form adapter for React using npm, pnpm, bun, or yarn.
+
+SOURCE: https://github.com/tanstack/form/blob/main/docs/installation.md#_snippet_0
+
+LANGUAGE: bash
+CODE:
+```
+# npm
+$ npm i @tanstack/react-form
+# pnpm
+$ pnpm add @tanstack/react-form
+# bun
+$ bun add @tanstack/react-form
+# yarn
+$ yarn add @tanstack/react-form
+```
+
+----------------------------------------
+
+TITLE: Install TanStack Form for Svelte
+DESCRIPTION: Installs the TanStack Form adapter for Svelte using npm, pnpm, bun, or yarn.
+
+SOURCE: https://github.com/tanstack/form/blob/main/docs/installation.md#_snippet_5
+
+LANGUAGE: bash
+CODE:
+```
+# npm
+$ npm i @tanstack/svelte-form
+# pnpm
+$ pnpm add @tanstack/svelte-form
+# bun
+$ bun add @tanstack/svelte-form
+# yarn
+$ yarn add @tanstack/svelte-form
+```
+
+----------------------------------------
+
+TITLE: Install TanStack Form for Vue
+DESCRIPTION: Installs the TanStack Form adapter for Vue using npm, pnpm, bun, or yarn.
+
+SOURCE: https://github.com/tanstack/form/blob/main/docs/installation.md#_snippet_1
+
+LANGUAGE: bash
+CODE:
+```
+# npm
+$ npm i @tanstack/vue-form
+# pnpm
+$ pnpm add @tanstack/vue-form
+# bun
+$ bun add @tanstack/vue-form
+# yarn
+$ yarn add @tanstack/vue-form
+```
+
+----------------------------------------
+
+TITLE: Clone TanStack.com and Project Repositories
+DESCRIPTION: Navigates into the created 'tanstack' directory and clones both the TanStack.com repository and the repository of the project whose documentation will be edited (e.g., TanStack/form).
+
+SOURCE: https://github.com/tanstack/form/blob/main/examples/react/tanstack-start/README.md#_snippet_2
+
+LANGUAGE: sh
+CODE:
+```
+cd tanstack
+git clone git@github.com:TanStack/tanstack.com.git
+git clone git@github.com:TanStack/form.git
+```
+
+----------------------------------------
+
+TITLE: Use Form with Direct Field Control (React)
+DESCRIPTION: This example illustrates using the `useForm` hook directly from `@tanstack/react-form` for more granular control over form fields. It shows how to define a form with default values and an onSubmit handler. The snippet focuses on rendering a single input field with custom validation logic and displaying error messages.
+
+SOURCE: https://github.com/tanstack/form/blob/main/docs/framework/react/quick-start.md#_snippet_1
+
+LANGUAGE: tsx
+CODE:
+```
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import { useForm } from '@tanstack/react-form'
+
+const PeoplePage = () => {
+  const form = useForm({
+    defaultValues: {
+      username: '',
+      age: 0,
+    },
+    onSubmit: ({ value }) => {
+      // Do something with form data
+      alert(JSON.stringify(value, null, 2))
+    },
+  })
+
+  return (
+    <form.Field
+      name="age"
+      validators={{
+        // We can choose between form-wide and field-specific validators
+        onChange: ({ value }) =>
+          value > 13 ? undefined : 'Must be 13 or older',
+      }}
+      children={(field) => (
+        <>
+          <input
+            name={field.name}
+            value={field.state.value}
+            onBlur={field.handleBlur}
+            type="number"
+            onChange={(e) => field.handleChange(e.target.valueAsNumber)}
+          />
+          {!field.state.meta.isValid && (
+            <em>{field.state.meta.errors.join(',')}
+            </em>
+          )}
+        </>
+      )}
+    />
+  )
+}
+
+const rootElement = document.getElementById('root')!
+ReactDOM.createRoot(rootElement).render(<PeoplePage />)
+
+```
+
+----------------------------------------
+
+TITLE: Install TanStack Form for Angular
+DESCRIPTION: Installs the TanStack Form adapter for Angular using npm, pnpm, bun, or yarn.
+
+SOURCE: https://github.com/tanstack/form/blob/main/docs/installation.md#_snippet_2
+
+LANGUAGE: bash
+CODE:
+```
+# npm
+$ npm i @tanstack/angular-form
+# pnpm
+$ pnpm add @tanstack/angular-form
+# bun
+$ bun add @tanstack/angular-form
+# yarn
+$ yarn add @tanstack/angular-form
+```
+
+----------------------------------------
+
+TITLE: Create and Submit a Basic Svelte Form with TanStack Form
+DESCRIPTION: This snippet shows the fundamental setup for a form using TanStack Form within a Svelte component. It includes creating the form instance with default values and an onSubmit handler, and rendering a simple input field for 'fullName'. The form is submitted via a button click, preventing default browser behavior.
+
+SOURCE: https://github.com/tanstack/form/blob/main/docs/framework/svelte/quick-start.md#_snippet_0
+
+LANGUAGE: svelte
+CODE:
+```
+<script>
+  import { createForm } from '@tanstack/svelte-form'
+
+  const form = createForm(() => ({
+    defaultValues: {
+      fullName: '',
+    },
+    onSubmit: async ({ value }) => {
+      // Do something with form data
+      console.log(value)
+    },
+  }))
+</script>
+
+<div>
+  <h1>Simple Form Example</h1>
+  <form
+    onsubmit={(e) => {
+      e.preventDefault()
+      e.stopPropagation()
+      form.handleSubmit()
+    }}
+  >
+    <div>
+      <form.Field name="fullName">
+        {#snippet children(field)}
+          <input
+            name={field.name}
+            value={field.state.value}
+            onblur={field.handleBlur}
+            oninput={(e) => field.handleChange(e.target.value)}
+          />
+        {/snippet}
+      </form.Field>
+    </div>
+    <button type="submit">Submit</button>
+  </form>
+</div>
+```
+
+----------------------------------------
+
+TITLE: Install Dependencies with pnpm
+DESCRIPTION: Installs project dependencies using the pnpm package manager. This is a prerequisite for development.
+
+SOURCE: https://github.com/tanstack/form/blob/main/CONTRIBUTING.md#_snippet_0
+
+LANGUAGE: bash
+CODE:
+```
+pnpm install
+```
+
+----------------------------------------
+
+TITLE: Next.js Page Component Example
+DESCRIPTION: An example of a Next.js page component, likely written in TypeScript, that would be found in the 'app/page.tsx' file. This serves as the entry point for the application's UI.
+
+SOURCE: https://github.com/tanstack/form/blob/main/examples/react/next-server-actions/README.md#_snippet_1
+
+LANGUAGE: typescript
+CODE:
+```
+// Example of what might be in app/page.tsx
+// This is a placeholder as the actual code was not provided.
+
+export default function HomePage() {
+  return (
+    <div>
+      <h1>Welcome to TanStack Form</h1>
+      <p>Start editing to see magic happen!</p>
+    </div>
+  );
+}
+```
+
+----------------------------------------
+
+TITLE: Install Dependencies with npm, pnpm, or yarn
+DESCRIPTION: Installs project dependencies using common package managers like npm, pnpm, or yarn. This is a prerequisite for running the project.
+
+SOURCE: https://github.com/tanstack/form/blob/main/examples/solid/array/README.md#_snippet_0
+
+LANGUAGE: bash
+CODE:
+```
+$ npm install # or pnpm install or yarn install
+```
+
+----------------------------------------
+
+TITLE: Create Form Hook with Custom Components (React)
+DESCRIPTION: This snippet demonstrates creating a reusable form hook with pre-defined components for text and number fields, along with a submit button. It utilizes `createFormHook` from `@tanstack/react-form` and integrates with a UI library for form elements. The example shows how to define default values, validators using Zod, and handle form submission.
+
+SOURCE: https://github.com/tanstack/form/blob/main/docs/framework/react/quick-start.md#_snippet_0
+
+LANGUAGE: tsx
+CODE:
+```
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import { createFormHook, createFormHookContexts } from '@tanstack/react-form'
+// Form components that pre-bind events from the form hook; check our "Form Composition" guide for more
+import { TextField, NumberField, SubmitButton } from '~our-app/ui-library'
+// We also support Valibot, ArkType, and any other standard schema library
+import { z } from 'zod'
+
+const { fieldContext, formContext } = createFormHookContexts()
+
+// Allow us to bind components to the form to keep type safety but reduce production boilerplate
+// Define this once to have a generator of consistent form instances throughout your app
+const { useAppForm } = createFormHook({
+  fieldComponents: {
+    TextField,
+    NumberField,
+  },
+  formComponents: {
+    SubmitButton,
+  },
+  fieldContext,
+  formContext,
+})
+
+const PeoplePage = () => {
+  const form = useAppForm({
+    defaultValues: {
+      username: '',
+      age: 0,
+    },
+    validators: {
+      // Pass a schema or function to validate
+      onChange: z.object({
+        username: z.string(),
+        age: z.number().min(13),
+      }),
+    },
+    onSubmit: ({ value }) => {
+      // Do something with form data
+      alert(JSON.stringify(value, null, 2))
+    },
+  })
+
+  return (
+    <form
+      onSubmit={(e) => {
+        e.preventDefault()
+        form.handleSubmit()
+      }} 
+    >
+      <h1>Personal Information</h1>
+      {/* Components are bound to `form` and `field` to ensure extreme type safety *///}
+      {/* Use `form.AppField` to render a component bound to a single field *///}
+      <form.AppField
+        name="username"
+        children={(field) => <field.TextField label="Full Name" />}
+      />
+      {/* The "name" property will throw a TypeScript error if typo'd  *///}
+      <form.AppField
+        name="age"
+        children={(field) => <field.NumberField label="Age" />}
+      />
+      {/* Components in `form.AppForm` have access to the form context *///}
+      <form.AppForm>
+        <form.SubmitButton />
+      </form.AppForm>
+    </form>
+  )
+}
+
+const rootElement = document.getElementById('root')!
+ReactDOM.createRoot(rootElement).render(<PeoplePage />)
+
+```
+
+----------------------------------------
+
+TITLE: Create Directory for TanStack Projects
+DESCRIPTION: Creates a new directory named 'tanstack' to organize the TanStack.com project and the target TanStack project (e.g., TanStack Form).
+
+SOURCE: https://github.com/tanstack/form/blob/main/examples/react/tanstack-start/README.md#_snippet_1
+
+LANGUAGE: sh
+CODE:
+```
+mkdir tanstack
+```
+
+----------------------------------------
+
+TITLE: Run Remix Development Server
+DESCRIPTION: Starts the development server for a Remix application. This command is typically used during the development phase to preview changes in real-time.
+
+SOURCE: https://github.com/tanstack/form/blob/main/examples/react/remix/README.md#_snippet_0
+
+LANGUAGE: shellscript
+CODE:
+```
+npm run dev
+```
+
+----------------------------------------
+
+TITLE: Run Development Watch Server
+DESCRIPTION: Starts a development server that watches for file changes and automatically rebuilds or reloads as needed.
+
+SOURCE: https://github.com/tanstack/form/blob/main/CONTRIBUTING.md#_snippet_4
+
+LANGUAGE: bash
+CODE:
+```
+pnpm run watch
+```
+
+----------------------------------------
+
+TITLE: Run Development Server with npm
+DESCRIPTION: Starts the application in development mode using npm. This command opens the application at http://localhost:5173 for live preview and hot-reloading.
+
+SOURCE: https://github.com/tanstack/form/blob/main/examples/solid/array/README.md#_snippet_1
+
+LANGUAGE: bash
+CODE:
+```
+npm run dev
+```
+
+----------------------------------------
+
+TITLE: Run Development Server (TanStack Form)
+DESCRIPTION: Commands to start the development server for the TanStack Form project using different package managers like npm, yarn, pnpm, and bun. This allows for local development and testing.
+
+SOURCE: https://github.com/tanstack/form/blob/main/examples/react/next-server-actions/README.md#_snippet_0
+
+LANGUAGE: bash
+CODE:
+```
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
+```
+
+----------------------------------------
+
+TITLE: Full Example: Dynamic Array Form
+DESCRIPTION: A complete example of a form that manages an array of people objects. It includes adding new people, rendering input fields for each person's name, and submitting the form data.
+
+SOURCE: https://github.com/tanstack/form/blob/main/docs/framework/solid/guides/arrays.md#_snippet_3
+
+LANGUAGE: jsx
+CODE:
+```
+function App() {
+  const form = createForm(() => ({
+    defaultValues: {
+      people: [],
+    },
+    onSubmit: ({ value }) => alert(JSON.stringify(value)),
+  }))
+
+  return (
+    <div>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault()
+          e.stopPropagation()
+          form.handleSubmit()
+        }}
+      >
+        <form.Field name="people">
+          {(field) => (
+            <div>
+              <Show when={field().state.value.length > 0}>
+                {/* Do not change this to For or the test will fail */}
+                <Index each={field().state.value}>
+                  {(_, i) => (
+                    <form.Field name={`people[${i}].name`}>
+                      {(subField) => (
+                        <div>
+                          <label>
+                            <div>Name for person {i}</div>
+                            <input
+                              value={subField().state.value}
+                              onInput={(e) => {
+                                subField().handleChange(e.currentTarget.value)
+                              }}
+                            />
+                          </label>
+                        </div>
+                      )}
+                    </form.Field>
+                  )}
+                </Index>
+              </Show>
+
+              <button
+                onClick={() => field().pushValue({ name: '', age: 0 })}
+                type="button"
+              >
+                Add person
+              </button>
+            </div>
+          )}
+        </form.Field>
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+  )
+}
+```
+
+----------------------------------------
+
+TITLE: TanStack/form Commit Message Example
+DESCRIPTION: Provides an example of how commit messages map to release types in the TanStack/form project, illustrating 'fix', 'feat', and 'perf' commits with breaking changes.
+
+SOURCE: https://github.com/tanstack/form/blob/main/CONTRIBUTING.md#_snippet_13
+
+LANGUAGE: markdown
+CODE:
+```
+| Commit message                                                                                                                                                                                    |
+| ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| fix(pencil): stop graphite breaking when too much pressure applied                                                                                                                                | Patch Release              |
+| feat(pencil): add `graphiteWidth` option                                                                                                                                                          | ~~Minor~~ Feature Release  |
+| perf(pencil): remove `graphiteWidth` option<br/><br/>BREAKING CHANGE: The `graphiteWidth` option has been removed.<br/>The default graphite width of 10mm is always used for performance reasons. | ~~Major~~ Breaking Release |
+```
+
+----------------------------------------
+
+TITLE: TanStack Form Array Full Example
+DESCRIPTION: Provides a comprehensive example of using arrays with TanStack Form in a LitElement application. This includes initializing an array of objects, rendering input fields for each array item, and adding new items dynamically.
+
+SOURCE: https://github.com/tanstack/form/blob/main/docs/framework/lit/guides/arrays.md#_snippet_1
+
+LANGUAGE: typescript
+CODE:
+```
+export class TestForm extends LitElement {
+  #form = new TanStackFormController(this, {
+    defaultValues: {
+      people: [] as Array<{ name: string}>,
+    },
+  });
+  render() {
+    return html`
+      <form
+        id="form"
+        @submit=${(e: Event) => {
+          e.preventDefault();
+        }}
+      >
+        <h1>Please enter your details</h1>
+        ${this.#form.field(
+          {
+            name: `people`,
+          },
+          (peopleField) => {
+            return html`${repeat(
+                peopleField.state.value,
+                (_, index) => index,
+                (_, index) => {
+                  return html`
+                    ${this.#form.field(
+                      {
+                        name: `people[${index}].name`,
+                      },
+                      (field) => {
+                        return html` <div>
+                          <div class="container">
+                            <label>Name</label>
+                            <input
+                              type="text"
+                              placeholder="Name"
+                              .value="${field.state.value}"
+                              @input="${(e: Event) => {
+                                const target = e.target as HTMLInputElement;
+                                field.handleChange(target.value);
+                              }}"
+                            />
+                          </div>
+                        </div>`;
+                      }
+                    )}
+                  `;
+                }
+              )}
+
+              <div class="container">
+                <button
+                  type="button"
+                  @click=${() => {
+                    peopleField.pushValue({
+                      name: "",
+                    });
+                  }}
+                >
+                  Add Person
+                </button>
+              </div> `
+          }
+        )}
+
+        <div class="container">
+          <button type="submit" ?disabled=${this.#form.api.state.isSubmitting}>
+            ${this.#form.api.state.isSubmitting ? html` Submitting` : "Submit"}
+          </button>
+          <button
+            type="button"
+            id="reset"
+            @click=${() => {
+              this.#form.api.reset();
+            }}
+          >
+            Reset
+          </button>
+        </div>
+      </form>
+    `;
+  }
+
+declare global {
+  interface HTMLElementTagNameMap {
+    "test-form": TestForm;
+  }
+}
+
+```
+
+----------------------------------------
+
+TITLE: Create Standalone Form Instance
+DESCRIPTION: Illustrates creating a form instance directly using the standalone `useForm` API without relying on `formOptions`, providing flexibility in form setup.
+
+SOURCE: https://github.com/tanstack/form/blob/main/docs/framework/react/guides/basic-concepts.md#_snippet_2
+
+LANGUAGE: tsx
+CODE:
+```
+interface User {
+  firstName: string
+  lastName: string
+  hobbies: Array<string>
+}
+const defaultUser: User = { firstName: '', lastName: '', hobbies: [] }
+
+const form = useForm({
+  defaultValues: defaultUser,
+  onSubmit: async ({ value }) => {
+    // Do something with form data
+    console.log(value)
+  },
+})
+```
+
+----------------------------------------
+
+TITLE: Integrate Form Field with Input Element
+DESCRIPTION: Shows how to use the `field` method of TanstackFormController to connect a form input element to the form state, including handling blur and input events, and applying validation.
+
+SOURCE: https://github.com/tanstack/form/blob/main/docs/framework/lit/quick-start.md#_snippet_1
+
+LANGUAGE: typescript
+CODE:
+```
+export class TestForm extends LitElement {
+  #form = new TanStackFormController<Employee>(this, {
+    defaultValues: {
+      firstName: '',
+      lastName: '',
+      employed: false,
+      jobTitle: '',
+    },
+  })
+  render() {
+    return html` <p>Please enter your first name></p>
+      ${this.#form.field(
+        {
+          name: `firstName`,
+          validators: {
+            onChange: ({ value }) =>
+              value.length < 3 ? 'Not long enough' : undefined,
+          },
+        },
+        (field: FieldApi<Employee, 'firstName'>) => {
+          return html` <div>
+            <label class="first-name-label">First Name</label>
+            <input
+              id="firstName"
+              type="text"
+              placeholder="First Name"
+              @blur="${() => field.handleBlur()}"
+              .value="${field.getValue()}"
+              @input="${(event: InputEvent) => {
+                if (event.currentTarget) {
+                  const newValue = (event.currentTarget as HTMLInputElement)
+                    .value
+                  field.handleChange(newValue)
+                }
+              }}"
+            />
+          </div>`
+        },
+      )}`
+  }
+}
+```
+
+----------------------------------------
+
+TITLE: React Form Example with TanStack Form
+DESCRIPTION: This example demonstrates how to use TanStack Form with React to create a simple form. It includes field-level validation, asynchronous validation, and state management for form elements. The code utilizes React's hooks and JSX for rendering the form components.
+
+SOURCE: https://github.com/tanstack/form/blob/main/docs/overview.md#_snippet_0
+
+LANGUAGE: tsx
+CODE:
+```
+import * as React from 'react'
+import { createRoot } from 'react-dom/client'
+import { useForm } from '@tanstack/react-form'
+import type { AnyFieldApi } from '@tanstack/react-form'
+
+function FieldInfo({ field }: { field: AnyFieldApi }) {
+  return (
+    <>
+      {field.state.meta.isTouched && !field.state.meta.isValid ? (
+        <em>{field.state.meta.errors.join(', ')}</em>
+      ) : null}
+      {field.state.meta.isValidating ? 'Validating...' : null}
+    </>
+  )
+}
+
+export default function App() {
+  const form = useForm({
+    defaultValues: {
+      firstName: '',
+      lastName: '',
+    },
+    onSubmit: async ({ value }) => {
+      // Do something with form data
+      console.log(value)
+    },
+  })
+
+  return (
+    <div>
+      <h1>Simple Form Example</h1>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault()
+          e.stopPropagation()
+          form.handleSubmit()
+        }}
+      >
+        <div>
+          {/* A type-safe field component*/}
+          <form.Field
+            name="firstName"
+            validators={{
+              onChange: ({ value }) =>
+                !value
+                  ? 'A first name is required'
+                  : value.length < 3
+                    ? 'First name must be at least 3 characters'
+                    : undefined,
+              onChangeAsyncDebounceMs: 500,
+              onChangeAsync: async ({ value }) => {
+                await new Promise((resolve) => setTimeout(resolve, 1000))
+                return (
+                  value.includes('error') && 'No "error" allowed in first name'
+                )
+              },
+            }}
+            children={(field) => {
+              // Avoid hasty abstractions. Render props are great!
+              return (
+                <>
+                  <label htmlFor={field.name}>First Name:</label>
+                  <input
+                    id={field.name}
+                    name={field.name}
+                    value={field.state.value}
+                    onBlur={field.handleBlur}
+                    onChange={(e) => field.handleChange(e.target.value)}
+                  />
+                  <FieldInfo field={field} />
+                </>
+              )
+            }}
+          />
+        </div>
+        <div>
+          <form.Field
+            name="lastName"
+            children={(field) => (
+              <>
+                <label htmlFor={field.name}>Last Name:</label>
+                <input
+                  id={field.name}
+                  name={field.name}
+                  value={field.state.value}
+                  onBlur={field.handleBlur}
+                  onChange={(e) => field.handleChange(e.target.value)}
+                />
+                <FieldInfo field={field} />
+              </>
+            )}
+          />
+        </div>
+        <form.Subscribe
+          selector={(state) => [state.canSubmit, state.isSubmitting]}
+          children={([canSubmit, isSubmitting]) => (
+            <button type="submit" disabled={!canSubmit}>
+              {isSubmitting ? '...' : 'Submit'}
+            </button>
+          )}
+        />
+      </form>
+    </div>
+  )
+}
+
+const rootElement = document.getElementById('root')!
+
+createRoot(rootElement).render(<App />)
+
+```
+
+----------------------------------------
+
+TITLE: TanStack Form Array Full Example (Angular)
+DESCRIPTION: Provides a complete Angular component example demonstrating the integration of TanStack Form with array handling. It includes form submission, adding new array items, and managing sub-fields for each item.
+
+SOURCE: https://github.com/tanstack/form/blob/main/docs/framework/angular/guides/arrays.md#_snippet_1
+
+LANGUAGE: angular-ts
+CODE:
+```
+@Component({
+  selector: 'app-root',
+  standalone: true,
+  imports: [TanStackField],
+  template: `
+    <form (submit)="handleSubmit($event)">
+      <div>
+        <ng-container [tanstackField]="form" name="people" #people="field">
+          <div>
+            @for (_ of people.api.state.value; track $index) {
+              <ng-container
+                [tanstackField]="form"
+                [name]="getPeopleName($index)"
+                #person="field"
+              >
+                <div>
+                  <label>
+                    <div>Name for person {{ $index }}</div>
+                    <input
+                      [value]="person.api.state.value"
+                      (input)="
+                        person.api.handleChange($any($event).target.value)
+                      "
+                    />
+                  </label>
+                </div>
+              </ng-container>
+            }
+          </div>
+          <button (click)="people.api.pushValue(defaultPerson)" type="button">
+            Add person
+          </button>
+        </ng-container>
+      </div>
+      <button type="submit" [disabled]="!canSubmit()">
+        {{ isSubmitting() ? '...' : 'Submit' }}
+      </button>
+    </form>
+  `,
+})
+export class AppComponent {
+  defaultPerson = { name: '', age: 0 }
+
+  form = injectForm({
+    defaultValues: {
+      people: [] as Array<{ name: string; age: number }>
+    },
+    onSubmit({ value }) {
+      alert(JSON.stringify(value))
+    },
+  })
+
+
+  getPeopleName = (idx: number) => `people[${idx}].name` as const;
+
+  canSubmit = injectStore(this.form, (state) => state.canSubmit)
+  isSubmitting = injectStore(this.form, (state) => state.isSubmitting)
+
+  handleSubmit(event: SubmitEvent) {
+    event.preventDefault()
+    event.stopPropagation()
+    this.form.handleSubmit()
+  }
+}
+```
+
+----------------------------------------
+
+TITLE: Full TanStack Form Array Example with TypeScript
+DESCRIPTION: A comprehensive example of using TanStack Form with arrays in Svelte and TypeScript. It includes form initialization, handling array items, adding new items, and submitting the form data.
+
+SOURCE: https://github.com/tanstack/form/blob/main/docs/framework/svelte/guides/arrays.md#_snippet_3
+
+LANGUAGE: typescript
+CODE:
+```
+import { createForm } from '@tanstack/svelte-form'
+
+const form = createForm(() => ({
+  defaultValues: {
+    people: [] as Array<{ age: number; name: string }>
+  },
+  onSubmit: ({ value }) => alert(JSON.stringify(value)),
+}))
+```
+
+LANGUAGE: svelte
+CODE:
+```
+<form
+  id="form"
+  onsubmit={(e) => {
+    e.preventDefault()
+    e.stopPropagation()
+    form.handleSubmit()
+  }}
+>
+  <form.Field name="people">
+    {#snippet children(field)}
+      <div>
+        {#each field.state.value as person, i}
+          <form.Field name={`people[${i}].name`}>
+            {#snippet children(subField)}
+              <div>
+                <label>
+                  <div>Name for person {i}</div>
+                  <input
+                    value={person.name}
+                    oninput={(e: Event) => {
+                      const target = e.target as HTMLInputElement
+                      subField.handleChange(target.value)
+                    }}
+                  />
+                </label>
+              </div>
+            {/snippet}
+          </form.Field>
+        {/each}
+
+        <button
+          onclick={() => field.pushValue({ name: '', age: 0 })}
+          type="button"
+        >
+          Add person
+        </button>
+      </div>
+    {/snippet}
+  </form.Field>
+
+  <button type="submit"> Submit </button>
+</form>
+```
+
+----------------------------------------
+
+TITLE: Run Remix Application in Production Mode
+DESCRIPTION: Starts the Remix application in production mode after it has been built. This command is used to run the deployed application.
+
+SOURCE: https://github.com/tanstack/form/blob/main/examples/react/remix/README.md#_snippet_2
+
+LANGUAGE: sh
+CODE:
+```
+npm start
+```
+
+----------------------------------------
+
+TITLE: Vue: Full Example of Array Handling in TanStack Form
+DESCRIPTION: A complete example demonstrating TanStack Form with an array of objects in Vue. It includes form submission, adding new array elements, and input fields for each element.
+
+SOURCE: https://github.com/tanstack/form/blob/main/docs/framework/vue/guides/arrays.md#_snippet_1
+
+LANGUAGE: vue
+CODE:
+```
+<script setup lang="ts">
+import { useForm } from '@tanstack/vue-form'
+
+const form = useForm({
+  defaultValues: {
+    people: [] as Array<{ age: number; name: string }>
+  },
+  onSubmit: ({ value }) => alert(JSON.stringify(value))
+})
+</script>
+
+<template>
+  <form
+    @submit="
+      (e) => {
+        e.preventDefault()
+        e.stopPropagation()
+        form.handleSubmit()
+      }
+    "
+  >
+    <div>
+      <form.Field name="people">
+        <template v-slot="{ field, state }">
+          <div>
+            <form.Field
+              v-for="(_, i) of field.state.value"
+              :key="i"
+              :name="`people[${i}].name`"
+            >
+              <template v-slot="{ field: subField, state }">
+                <div>
+                  <label>
+                    <div>Name for person {{ i }}</div>
+                    <input
+                      :value="subField.state.value"
+                      @input="
+                        (e) =>
+                          subField.handleChange(
+                            (e.target as HTMLInputElement).value,
+                          )
+                      "
+                    />
+                  </label>
+                </div>
+              </template>
+            </form.Field>
+
+            <button
+              @click="field.pushValue({ name: '', age: 0 })"
+              type="button"
+            >
+              Add person
+            </button>
+          </div>
+        </template>
+      </form.Field>
+    </div>
+    <form.Subscribe>
+      <template v-slot="{ canSubmit, isSubmitting }">
+        <button type="submit" :disabled="!canSubmit">
+          {{ isSubmitting ? '...' : 'Submit' }}
+        </button>
+      </template>
+    </form.Subscribe>
+  </form>
+</template>
+```
+
+----------------------------------------
+
+TITLE: Full Example of Array Handling in TanStack Form
+DESCRIPTION: A comprehensive example showcasing the integration of array fields within a TanStack Form. This includes rendering a list of people, adding new people to the array, and handling form submission with the array data.
+
+SOURCE: https://github.com/tanstack/form/blob/main/docs/framework/react/guides/arrays.md#_snippet_1
+
+LANGUAGE: jsx
+CODE:
+```
+function App() {
+  const form = useForm({
+    defaultValues: {
+      people: [],
+    },
+    onSubmit({ value }) {
+      alert(JSON.stringify(value))
+    },
+  })
+
+  return (
+    <div>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault()
+          e.stopPropagation()
+          form.handleSubmit()
+        }}
+      >
+        <form.Field name="people" mode="array">
+          {(field) => {
+            return (
+              <div>
+                {field.state.value.map((_, i) => {
+                  return (
+                    <form.Field key={i} name={`people[${i}].name`}>
+                      {(subField) => {
+                        return (
+                          <div>
+                            <label>
+                              <div>Name for person {i}</div>
+                              <input
+                                value={subField.state.value}
+                                onChange={(e) =>
+                                  subField.handleChange(e.target.value)
+                                }
+                              />
+                            </label>
+                          </div>
+                        )
+                      }}
+                    </form.Field>
+                  )
+                })}
+                <button
+                  onClick={() => field.pushValue({ name: '', age: 0 })}
+                  type="button"
+                >
+                  Add person
+                </button>
+              </div>
+            )
+          }}
+        </form.Field>
+        <form.Subscribe
+          selector={(state) => [state.canSubmit, state.isSubmitting]}
+          children={([canSubmit, isSubmitting]) => (
+            <button type="submit" disabled={!canSubmit}>
+              {isSubmitting ? '...' : 'Submit'}
+            </button>
+          )}
+        />
+      </form>
+    </div>
+  )
+}
+```
+
+----------------------------------------
+
+TITLE: Example: String Validation with Zod (TypeScript)
+DESCRIPTION: An example demonstrating how to use Zod for string validation, ensuring the string is not empty.
+
+SOURCE: https://github.com/tanstack/form/blob/main/docs/reference/interfaces/fieldvalidators.md#_snippet_6
+
+LANGUAGE: ts
+CODE:
+```
+z.string().min(1)
+```
+
+----------------------------------------
+
+TITLE: Define Form Options in TanStack Start
+DESCRIPTION: Defines the initial shape and default values for a TanStack Form, intended to be shared between client and server in a TanStack Start project.
+
+SOURCE: https://github.com/tanstack/form/blob/main/docs/framework/react/guides/ssr.md#_snippet_0
+
+LANGUAGE: typescript
+CODE:
+```
+import { formOptions } from '@tanstack/react-form'
+
+// You can pass other form options here
+export const formOpts = formOptions({
+  defaultValues: {
+    firstName: '',
+    age: 0,
+  },
+})
+```
+
+----------------------------------------
+
+TITLE: Example: Async String Validation with Zod (TypeScript)
+DESCRIPTION: An example showcasing asynchronous validation using Zod, refining a string to ensure its length is greater than 3.
+
+SOURCE: https://github.com/tanstack/form/blob/main/docs/reference/interfaces/fieldvalidators.md#_snippet_7
+
+LANGUAGE: ts
+CODE:
+```
+z.string().refine(async (val) => val.length > 3, { message: 'Testing 123' })
+```
+
+----------------------------------------
+
+TITLE: Fetch Form Data from Server in TanStack Start
+DESCRIPTION: Creates a server function to retrieve form data, typically used in a loader function to pass server-side state to the client component in a TanStack Start application.
+
+SOURCE: https://github.com/tanstack/form/blob/main/docs/framework/react/guides/ssr.md#_snippet_2
+
+LANGUAGE: typescript
+CODE:
+```
+import { getFormData } from '@tanstack/react-form/start'
+
+export const getFormDataFromServer = createServerFn({ method: 'GET' }).handler(
+  async () => {
+    return getFormData()
+  },
+)
+```
+
+----------------------------------------
+
+TITLE: Render a Form Field with Input and State Handling
+DESCRIPTION: Provides an example of rendering a form field using `form.Field`, binding input values, and handling blur and change events.
+
+SOURCE: https://github.com/tanstack/form/blob/main/docs/framework/react/guides/basic-concepts.md#_snippet_3
+
+LANGUAGE: tsx
+CODE:
+```
+<form.Field
+  name="firstName"
+  children={(field) => (
+    <>
+      <input
+        value={field.state.value}
+        onBlur={field.handleBlur}
+        onChange={(e) => field.handleChange(e.target.value)}
+      />
+      <FieldInfo field={field} />
+    </>
+  )}
+/>
+```
+
+----------------------------------------
+
+TITLE: TanStack Start Route Component with Form Integration
+DESCRIPTION: Integrates TanStack Form into a React component within a TanStack Start application. It uses loader data for initial state, handles form submissions via a server action, and includes client-side validation.
+
+SOURCE: https://github.com/tanstack/form/blob/main/docs/framework/react/guides/ssr.md#_snippet_3
+
+LANGUAGE: tsx
+CODE:
+```
+import { createFileRoute } from '@tanstack/react-router'
+import {
+  mergeForm,
+  useForm,
+  useStore,
+  useTransform,
+} from '@tanstack/react-form'
+
+export const Route = createFileRoute('/')({
+  component: Home,
+  loader: async () => ({
+    state: await getFormDataFromServer(),
+  }),
+})
+
+function Home() {
+  const { state } = Route.useLoaderData()
+  const form = useForm({
+    ...formOpts,
+    transform: useTransform((baseForm) => mergeForm(baseForm, state), [state]),
+  })
+
+  const formErrors = useStore(form.store, (formState) => formState.errors)
+
+  return (
+    <form action={handleForm.url} method="post" encType={'multipart/form-data'}>
+      {formErrors.map((error) => (
+        <p key={error as string}>{error}</p>
+      ))}
+
+      <form.Field
+        name="age"
+        validators={{
+          onChange: ({ value }) =>
+            value < 8 ? 'Client validation: You must be at least 8' : undefined,
+        }}>
+        {(field) => {
+          return (
+            <div>
+              <input
+                name={field.name}
+                type="number"
+                value={field.state.value}
+                onChange={(e) => field.handleChange(e.target.valueAsNumber)}
+              />
+              {field.state.meta.errors.map((error) => (
+                <p key={error as string}>{error}</p>
+              ))}
+            </div>
+          )
+        }}
+      </form.Field>
+      <form.Subscribe
+        selector={(formState) => [formState.canSubmit, formState.isSubmitting]}>
+        {([canSubmit, isSubmitting]) => (
+          <button type="submit" disabled={!canSubmit}>
+            {isSubmitting ? '...' : 'Submit'}
+          </button>
+        )}
+      </form.Subscribe>
+    </form>
+  )
+}
+```
+
+----------------------------------------
+
+TITLE: Field API Usage for Input Events
+DESCRIPTION: Provides an example of using the Field API, accessed via `fieldName.api`, to handle input events like blur and change for an input element.
+
+SOURCE: https://github.com/tanstack/form/blob/main/docs/framework/angular/guides/basic-concepts.md#_snippet_5
+
+LANGUAGE: angular-html
+CODE:
+```
+<input
+  [value]="fieldName.api.state.value"
+  (blur)="fieldName.api.handleBlur()"
+  (input)="fieldName.api.handleChange($any($event).target.value)"
+/>
+```
+
+----------------------------------------
+
+TITLE: Get Field Info
+DESCRIPTION: Retrieves detailed information about a specified field. This includes metadata and configuration related to the field within the form.
+
+SOURCE: https://github.com/tanstack/form/blob/main/docs/reference/classes/formapi.md#_snippet_6
+
+LANGUAGE: typescript
+CODE:
+```
+getFieldInfo<TField>(field): FieldInfo<TFormData>
+```
+
+----------------------------------------
+
+TITLE: Render a Form Field
+DESCRIPTION: Provides an example of rendering a form input field using the `form.Field` component. It takes a `name` prop corresponding to the form's default values and uses a render prop to access field methods and state.
+
+SOURCE: https://github.com/tanstack/form/blob/main/docs/framework/solid/guides/basic-concepts.md#_snippet_3
+
+LANGUAGE: tsx
+CODE:
+```
+<form.Field
+  name="firstName"
+  children={(field) => (
+    <input
+      name={field().name}
+      value={field().state.value}
+      onBlur={field().handleBlur}
+      onInput={(e) => field().handleChange(e.target.value)}
+    />
+  )}
+/>
+```
+
+----------------------------------------
+
+TITLE: Get Field Meta Method
+DESCRIPTION: Retrieves the metadata associated with the field, providing detailed information about its state and configuration.
+
+SOURCE: https://github.com/tanstack/form/blob/main/docs/reference/classes/fieldapi.md#_snippet_12
+
+LANGUAGE: TypeScript
+CODE:
+```
+getMeta(): FieldMeta<TParentData, TName, TData, TOnMount, TOnChange, TOnChangeAsync, TOnBlur, TOnBlurAsync, TOnSubmit, TOnSubmitAsync, TOnDynamic, TOnDynamicAsync, TFormOnMount, TFormOnChange, TFormOnChangeAsync, TFormOnBlur, TFormOnBlurAsync, TFormOnSubmit, TFormOnSubmitAsync, TFormOnDynamic, TFormOnDynamicAsync>
+```
+
+----------------------------------------
+
+TITLE: Get Field Information Method
+DESCRIPTION: Retrieves an object containing information about the field, such as its name, value, and validation status.
+
+SOURCE: https://github.com/tanstack/form/blob/main/docs/reference/classes/fieldapi.md#_snippet_11
+
+LANGUAGE: TypeScript
+CODE:
+```
+getInfo(): FieldInfo<TParentData>
+```
+
+----------------------------------------
+
+TITLE: Render Form Field with Input Element
+DESCRIPTION: Provides an example of rendering a form input field using the `form.Field` component and its scoped slot, binding input attributes and event handlers to the field's state.
+
+SOURCE: https://github.com/tanstack/form/blob/main/docs/framework/vue/guides/basic-concepts.md#_snippet_3
+
+LANGUAGE: vue
+CODE:
+```
+<template>
+  <!-- ... -->
+  <form.Field name="fullName">
+    <template v-slot="{ field }">
+      <input
+        :name="field.name"
+        :value="field.state.value"
+        @blur="field.handleBlur"
+        @input="(e) => field.handleChange(e.target.value)"
+      />
+    </template>
+  </form.Field>
+  <!-- ... -->
+</template>
+```
+
+----------------------------------------
+
+TITLE: TanStack Form: Basic String Validation
+DESCRIPTION: Example of using a basic string validation with a minimum length requirement.
+
+SOURCE: https://github.com/tanstack/form/blob/main/docs/reference/interfaces/fieldvalidators.md#_snippet_0
+
+LANGUAGE: typescript
+CODE:
+```
+z.string().min(1)
+```
+
+----------------------------------------
+
+TITLE: Build Remix Application for Production
+DESCRIPTION: Builds the Remix application for production deployment. This command compiles the project's code and assets into an optimized format.
+
+SOURCE: https://github.com/tanstack/form/blob/main/examples/react/remix/README.md#_snippet_1
+
+LANGUAGE: sh
+CODE:
+```
+npm run build
+```
+
+----------------------------------------
+
+TITLE: Combine onDynamic with Other Validation Logic
+DESCRIPTION: Demonstrates integrating `onDynamic` validation alongside other validation types like `onChange`. This example shows how to manage separate validation rules for different fields.
+
+SOURCE: https://github.com/tanstack/form/blob/main/docs/framework/solid/guides/dynamic-validation.md#_snippet_3
+
+LANGUAGE: tsx
+CODE:
+```
+import { revalidateLogic, createForm } from '@tanstack/solid-form'
+
+function App() {
+  const form = createForm(() => ({
+    defaultValues: {
+      firstName: '',
+      lastName: '',
+    },
+    validationLogic: revalidateLogic(),
+    validators: {
+      onChange: ({ value }) => {
+        if (!value.firstName) {
+          return { firstName: 'A first name is required' }
+        }
+        return undefined
+      },
+      onDynamic: ({ value }) => {
+        if (!value.lastName) {
+          return { lastName: 'A last name is required' }
+        }
+        return undefined
+      },
+    },
+  }))
+
+  return (
+    <div>
+      <p>{form.state.errorMap.onChange?.firstName}</p>
+      <p>{form.state.errorMap.onDynamic?.lastName}</p>
+    </div>
+  )
+}
+```
+
+----------------------------------------
+
+TITLE: Create Form Hook with Components
+DESCRIPTION: Demonstrates how to create a custom form hook using `createFormHook` from TanStack Form, specifying field and form components. This setup is essential for defining the structure and behavior of your forms.
+
+SOURCE: https://github.com/tanstack/form/blob/main/docs/framework/solid/guides/form-composition.md#_snippet_3
+
+LANGUAGE: tsx
+CODE:
+```
+const { useAppForm, withForm } = createFormHook({
+  fieldComponents: {
+    TextField,
+  },
+  formComponents: {
+    SubscribeButton,
+  },
+  fieldContext,
+  formContext,
+})
+```
+
+----------------------------------------
+
+TITLE: Angular Form Validation with Zod
+DESCRIPTION: Demonstrates how to use Zod for both synchronous and asynchronous validation within an Angular component using TanStack Form. It shows schema definition, field integration, and asynchronous validator setup.
+
+SOURCE: https://github.com/tanstack/form/blob/main/docs/framework/angular/guides/basic-concepts.md#_snippet_7
+
+LANGUAGE: typescript
+CODE:
+```
+import { Component, inject } from '@angular/core'
+import { TanStackField, injectForm } from '@tanstack/angular-form'
+import { z } from 'zod'
+
+@Component({
+  selector: 'app-root',
+  standalone: true,
+  imports: [TanStackField],
+  template: `
+    <ng-container
+      [tanstackField]="form"
+      name="firstName"
+      [validators]="{
+        onChange: z.string().min(3, 'First name must be at least 3 characters'),
+        onChangeAsyncDebounceMs: 500,
+        onChangeAsync: firstNameAsyncValidator
+      }"
+      #firstName="field"
+    >
+      <!-- ... -->
+    </ng-container>
+  `,
+})
+export class AppComponent {
+  firstNameAsyncValidator = z.string().refine(
+    async (value) => {
+      await new Promise((resolve) => setTimeout(resolve, 1000))
+      return !value.includes('error')
+    },
+    {
+      message: "No 'error' allowed in first name",
+    },
+  )
+
+  form = injectForm({
+    defaultValues: {
+      firstName: '',
+    },
+    onSubmit({ value }) {
+      // Do something with form data
+      console.log(value)
+    },
+  })
+
+  z = z
+}
+```
+
+----------------------------------------
+
+TITLE: Instantiate TanStackFormController
+DESCRIPTION: Constructs a new instance of TanStackFormController. It requires a host element and accepts an optional configuration object for form options.
+
+SOURCE: https://github.com/tanstack/form/blob/main/docs/framework/lit/reference/classes/tanstackformcontroller.md#_snippet_0
+
+LANGUAGE: TypeScript
+CODE:
+```
+new TanStackFormController<TParentData, TFormOnMount, TFormOnChange, TFormOnChangeAsync, TFormOnBlur, TFormOnBlurAsync, TFormOnSubmit, TFormOnSubmitAsync, TFormOnDynamic, TFormOnDynamicAsync, TFormOnServer, TSubmitMeta>(host, config?)
+```

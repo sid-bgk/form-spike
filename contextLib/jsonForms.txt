@@ -1,0 +1,1875 @@
+========================
+CODE SNIPPETS
+========================
+TITLE: First-time Setup for JSON Forms Development
+DESCRIPTION: Steps to set up the development environment for JSON Forms, including installing Node.js, pnpm, cloning the repository, and installing dependencies.
+
+SOURCE: https://github.com/eclipsesource/jsonforms/blob/master/README.md#_snippet_1
+
+LANGUAGE: bash
+CODE:
+```
+# Install Node.js (v22+ < 23)
+# Install pnpm (v10.4.1+)
+git clone <repository_url>
+pnpm i --frozen-lockfile
+```
+
+----------------------------------------
+
+TITLE: Getting Started with JSON Forms React Seed
+DESCRIPTION: Instructions to clone, install dependencies, and run the JSON Forms React seed application. This provides a quick way to start developing with JSON Forms.
+
+SOURCE: https://github.com/eclipsesource/jsonforms/blob/master/README.md#_snippet_0
+
+LANGUAGE: bash
+CODE:
+```
+git clone https://github.com/eclipsesource/jsonforms-react-seed.git
+npm ci
+npm run start
+```
+
+----------------------------------------
+
+TITLE: Prepare Examples App
+DESCRIPTION: This script aggregates JSON Forms examples from built packages into a single index.html file. It assumes packages have been built and their examples bundled.
+
+SOURCE: https://github.com/eclipsesource/jsonforms/blob/master/packages/examples-app/README.md#_snippet_0
+
+LANGUAGE: javascript
+CODE:
+```
+import { prepareExamplesApp } from '@jsonforms/examples-app';
+
+prepareExamplesApp({
+  // Configuration options if any
+});
+```
+
+----------------------------------------
+
+TITLE: Install JSON Forms Packages
+DESCRIPTION: Installs the core JSON Forms library, the React integration, and the Material Renderers package using npm.
+
+SOURCE: https://github.com/eclipsesource/jsonforms/blob/master/packages/material-renderers/README.md#_snippet_0
+
+LANGUAGE: bash
+CODE:
+```
+npm i --save @jsonforms/core @jsonforms/react @jsonforms/material-renderers
+```
+
+----------------------------------------
+
+TITLE: Install JSON Forms Core, React, and Vanilla Renderers
+DESCRIPTION: This command installs the necessary packages for using JSON Forms with React and the Vanilla Renderers. It includes the core library, the React integration, and the vanilla renderers package.
+
+SOURCE: https://github.com/eclipsesource/jsonforms/blob/master/packages/vanilla-renderers/README.md#_snippet_0
+
+LANGUAGE: bash
+CODE:
+```
+npm i --save @jsonforms/core @jsonforms/react @jsonforms/vanilla-renderers
+```
+
+----------------------------------------
+
+TITLE: Running Example Applications
+DESCRIPTION: Commands to run development servers for various JSON Forms renderer packages, including React Vanilla, React Material, Angular Material, Vue Vanilla, and Vue Vuetify.
+
+SOURCE: https://github.com/eclipsesource/jsonforms/blob/master/README.md#_snippet_4
+
+LANGUAGE: bash
+CODE:
+```
+# Run React Vanilla examples
+cd packages/vanilla-renderers && pnpm run dev
+
+# Run React Material examples
+cd packages/material-renderers && pnpm run dev
+
+# Run Angular Material examples
+cd packages/angular-material && pnpm run dev
+
+# Run Vue Vanilla dev setup
+cd packages/vue-vanilla && pnpm run serve
+
+# Run Vue Vuetify dev setup
+cd packages/vue-vuetify && pnpm run dev
+```
+
+----------------------------------------
+
+TITLE: Install JSON Forms Packages
+DESCRIPTION: Installs the core JSON Forms library, the Angular integration, and the Angular Material renderers package using npm.
+
+SOURCE: https://github.com/eclipsesource/jsonforms/blob/master/packages/angular-material/README.md#_snippet_0
+
+LANGUAGE: bash
+CODE:
+```
+npm i --save @jsonforms/core @jsonforms/angular @jsonforms/angular-material
+```
+
+----------------------------------------
+
+TITLE: VS Code Dev Container Setup
+DESCRIPTION: Instructions for using the VS Code dev container to set up the JSON Forms development environment. This includes reopening the project in a container and handling potential initialization failures.
+
+SOURCE: https://github.com/eclipsesource/jsonforms/blob/master/README.md#_snippet_2
+
+LANGUAGE: bash
+CODE:
+```
+Remote Containers: Reopen in container
+# If initialization fails, try cleaning the repository:
+git clean -dfx
+```
+
+----------------------------------------
+
+TITLE: Install JSON Forms Vue Vuetify Renderers
+DESCRIPTION: Installs the necessary JSON Forms core, Vue 3, and Vue 3 Vuetify renderers packages using npm.
+
+SOURCE: https://github.com/eclipsesource/jsonforms/blob/master/packages/vue-vuetify/README.md#_snippet_0
+
+LANGUAGE: bash
+CODE:
+```
+npm i --save @jsonforms/core @jsonforms/vue @jsonforms/vue-vuetify
+```
+
+----------------------------------------
+
+TITLE: Vue Component with JSON Forms Integration
+DESCRIPTION: A Vue.js component example demonstrating the integration of the `json-forms` component, including data, schema, UI schema setup, and an `onChange` method.
+
+SOURCE: https://github.com/eclipsesource/jsonforms/blob/master/packages/vue/README.md#_snippet_1
+
+LANGUAGE: typescript
+CODE:
+```
+export default defineComponent({
+  components: {
+    JsonForms,
+  },
+  data() {
+    return {
+      // freeze renderers for performance gains
+      renderers: Object.freeze(renderers),
+      data: {
+        number: 5,
+      },
+      schema: {
+        properties: {
+          number: {
+            type: 'number',
+          },
+        },
+      },
+      uischema: {
+        type: 'VerticalLayout',
+        elements: [
+          {
+            type: 'Control',
+            scope: '#/properties/number',
+          },
+        ],
+      },
+    };
+  },
+  methods: {
+    onChange(event: JsonFormsChangeEvent) {
+      this.data = event.data;
+    },
+  },
+});
+```
+
+----------------------------------------
+
+TITLE: Install JSON Forms Vue Vanilla
+DESCRIPTION: Installs the core JSON Forms, Vue, and Vue Vanilla Renderer packages using npm. It also includes instructions for adding these packages to the transpile dependencies in `vue.config.js` to ensure proper compilation.
+
+SOURCE: https://github.com/eclipsesource/jsonforms/blob/master/packages/vue-vanilla/README.md#_snippet_0
+
+LANGUAGE: bash
+CODE:
+```
+npm i --save @jsonforms/core @jsonforms/vue @jsonforms/vue-vanilla
+```
+
+----------------------------------------
+
+TITLE: JSON Forms React Usage Example
+DESCRIPTION: Demonstrates how to use the JsonForms component in a React application. It includes setting up the schema, UI schema, initial data, and handling form changes.
+
+SOURCE: https://github.com/eclipsesource/jsonforms/blob/master/packages/react/README.md#_snippet_0
+
+LANGUAGE: ts
+CODE:
+```
+import React, { useState } from 'react';
+import {
+  materialRenderers,
+  materialCells,
+} from '@jsonforms/material-renderers';
+import { JsonForms } from '@jsonforms/react';
+
+const schema = {
+  type: 'object',
+  properties: {
+    name: {
+      type: 'string',
+      minLength: 1,
+    },
+    done: {
+      type: 'boolean',
+    },
+    due_date: {
+      type: 'string',
+      format: 'date',
+    },
+    recurrence: {
+      type: 'string',
+      enum: ['Never', 'Daily', 'Weekly', 'Monthly'],
+    },
+  },
+  required: ['name', 'due_date'],
+};
+const uischema = {
+  type: 'VerticalLayout',
+  elements: [
+    {
+      type: 'Control',
+      label: false,
+      scope: '#/properties/done',
+    },
+    {
+      type: 'Control',
+      scope: '#/properties/name',
+    },
+    {
+      type: 'HorizontalLayout',
+      elements: [
+        {
+          type: 'Control',
+          scope: '#/properties/due_date',
+        },
+        {
+          type: 'Control',
+          scope: '#/properties/recurrence',
+        },
+      ],
+    },
+  ],
+};
+const initialData = {};
+function App() {
+  const [data, setData] = useState(initialData);
+  return (
+    <JsonForms
+      schema={schema}
+      uischema={uischema}
+      data={data}
+      renderers={materialRenderers}
+      cells={materialCells}
+      onChange={({ data, _errors }) => setData(data)}
+    />
+  );
+}
+export default App;
+```
+
+----------------------------------------
+
+TITLE: Custom Layout Renderer Example
+DESCRIPTION: Shows how to create and register a custom layout renderer using the `useMaterialLayout` hook provided by the Material renderers. This allows for custom form layouts.
+
+SOURCE: https://github.com/eclipsesource/jsonforms/blob/master/packages/material-renderers/example/index.bundled.html#_snippet_1
+
+LANGUAGE: javascript
+CODE:
+```
+import React from 'react';
+import { JsonForms } from '@jsonforms/react';
+import { materialRenderers, useMaterialLayout } from '@jsonforms/material-renderers';
+
+const MyCustomLayout = useMaterialLayout(({ children }) => (
+  <div style={{ border: '1px solid blue', padding: '10px' }}>
+    {children}
+  </div>
+));
+
+const customRenderers = [
+  ...materialRenderers,
+  {
+    tester: ({ type }) => type === 'VerticalLayout',
+    renderer: MyCustomLayout,
+  },
+];
+
+const MyForm = ({ schema, uischema, data }) => (
+  <JsonForms
+    schema={schema}
+    uischema={uischema}
+    data={data}
+    renderers={customRenderers}
+  />
+);
+
+export default MyForm;
+
+```
+
+----------------------------------------
+
+TITLE: Custom Layout Renderer Example
+DESCRIPTION: Shows how to create and register a custom layout renderer using the `useMaterialLayout` hook provided by the Material renderers. This allows for custom form layouts.
+
+SOURCE: https://github.com/eclipsesource/jsonforms/blob/master/packages/material-renderers/example/index.html#_snippet_1
+
+LANGUAGE: javascript
+CODE:
+```
+import React from 'react';
+import { JsonForms } from '@jsonforms/react';
+import { materialRenderers, useMaterialLayout } from '@jsonforms/material-renderers';
+
+const MyCustomLayout = useMaterialLayout(({ children }) => (
+  <div style={{ border: '1px solid blue', padding: '10px' }}>
+    {children}
+  </div>
+));
+
+const customRenderers = [
+  ...materialRenderers,
+  {
+    tester: ({ type }) => type === 'VerticalLayout',
+    renderer: MyCustomLayout,
+  },
+];
+
+const MyForm = ({ schema, uischema, data }) => (
+  <JsonForms
+    schema={schema}
+    uischema={uischema}
+    data={data}
+    renderers={customRenderers}
+  />
+);
+
+export default MyForm;
+
+```
+
+----------------------------------------
+
+TITLE: Angular Module Setup
+DESCRIPTION: Shows the necessary configuration for an Angular module to use JSON Forms and its Angular Material renderers.
+
+SOURCE: https://github.com/eclipsesource/jsonforms/blob/master/packages/angular/README.md#_snippet_1
+
+LANGUAGE: typescript
+CODE:
+```
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { JsonFormsModule } from '@jsonforms/angular';
+import { JsonFormsAngularMaterialModule } from '@jsonforms/angular-material';
+import { AppComponent } from './app.component';
+
+@NgModule({
+  declarations: [AppComponent],
+  imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
+    JsonFormsModule,
+    JsonFormsAngularMaterialModule,
+  ],
+  schemas: [],
+  bootstrap: [AppComponent],
+})
+export class AppModule {}
+```
+
+----------------------------------------
+
+TITLE: JsonForms React Redux Fallback Imports
+DESCRIPTION: Provides the updated import paths for using the Redux fallback variant of JsonForms in React applications.
+
+SOURCE: https://github.com/eclipsesource/jsonforms/blob/master/MIGRATION.md#_snippet_7
+
+LANGUAGE: javascript
+CODE:
+```
+import {
+  jsonformsReducer,
+  JsonFormsReduxProvider,
+} from '@jsonforms/react/lib/redux';
+```
+
+----------------------------------------
+
+TITLE: UI Schema Control Scope Update
+DESCRIPTION: Demonstrates the simplified UI schema for controls in JSON Forms 2.x, where the 'ref' object within 'scope' has been removed for a more direct string reference.
+
+SOURCE: https://github.com/eclipsesource/jsonforms/blob/master/MIGRATION.md#_snippet_8
+
+LANGUAGE: typescript
+CODE:
+```
+const uischema = {
+  type: 'Control',
+  scope: '#/properties/name',
+};
+```
+
+----------------------------------------
+
+TITLE: JsonForms Angular Component Usage
+DESCRIPTION: Demonstrates how to use the JsonForms Angular component, including providing renderers and handling data changes. This component wraps the JsonForms service and utilizes databinding for user interaction.
+
+SOURCE: https://github.com/eclipsesource/jsonforms/blob/master/MIGRATION.md#_snippet_3
+
+LANGUAGE: ts
+CODE:
+```
+import { Component } from '@angular/core';
+import { angularMaterialRenderers } from '../../src/index';
+export const schema = {
+  type: 'object',
+  properties: {
+    name: {
+      type: 'string',
+    },
+  },
+  required: ['name'],
+};
+export const data = { name: 'Send email to Adrian' };
+
+@Component({
+  selector: 'app-root',
+  template: `
+    <div>Data: {{ data | json }}</div>
+    <jsonforms
+      [data]="data"
+      [schema]="schema"
+      [renderers]="renderers"
+      (dataChange)="onDataChange($event)"
+    ></jsonforms>
+  `,
+})
+export class AppComponent {
+  readonly renderers = angularMaterialRenderers;
+  data: any;
+  onDataChange(data: any) {
+    this.data = data;
+  }
+}
+```
+
+----------------------------------------
+
+TITLE: Migrating JsonForms React Data and Validation Change Listeners
+DESCRIPTION: Demonstrates how to listen for data and validation changes in JsonForms React. The standalone component provides an `onChange` prop for this purpose.
+
+SOURCE: https://github.com/eclipsesource/jsonforms/blob/master/MIGRATION.md#_snippet_6
+
+LANGUAGE: react
+CODE:
+```
+const MyApp = () => {
+  const [data, setData] = useState();
+  return (
+    <JsonForms
+      data={data}
+      // other necessary declarations go here...
+      onChange={({ data, errors }) => setData(data)}
+    />
+  );
+};
+```
+
+----------------------------------------
+
+TITLE: Migrating JsonForms React Redux Initialization
+DESCRIPTION: Shows the difference in initializing JsonForms with Redux versus the standalone variant. The standalone version passes data directly to the JsonForms component instead of initializing a Redux store.
+
+SOURCE: https://github.com/eclipsesource/jsonforms/blob/master/MIGRATION.md#_snippet_4
+
+LANGUAGE: javascript
+CODE:
+```
+const store = createStore(combineReducers({ jsonforms: jsonformsReducer() }), {
+  jsonforms: {
+    cells: materialCells,
+    renderers: materialRenderers,
+  },
+});
+store.dispatch(Actions.init(data, schema, uischema));
+return (
+  <Provider store={store}>
+    <JsonFormsReduxContext>
+      <JsonFormsDispatch />
+    </JsonFormsReduxContext>
+  </Provider>
+);
+```
+
+LANGUAGE: react
+CODE:
+```
+return (
+  <JsonForms
+    schema={schema}
+    uischema={uischema}
+    data={data}
+    renderers={materialRenderers}
+    cells={materialCells}
+  />
+);
+```
+
+----------------------------------------
+
+TITLE: JSON Forms Tester Interface Update
+DESCRIPTION: Illustrates the updated tester interfaces in JSON Forms, which now include a TesterContext parameter. This context provides the rootSchema and config, enabling testers to resolve $refs and access form-wide configuration, improving their ability to handle complex schemas.
+
+SOURCE: https://github.com/eclipsesource/jsonforms/blob/master/MIGRATION.md#_snippet_1
+
+LANGUAGE: ts
+CODE:
+```
+interface TesterContext {
+  rootSchema: JsonSchema;
+  config: any;
+}
+
+type Tester = (
+  uischema: UISchemaElement,
+  schema: JsonSchema,
+  context: TesterContext
+) => boolean;
+type RankedTester = (
+  uischema: UISchemaElement,
+  schema: JsonSchema,
+  context: TesterContext
+) => number;
+```
+
+----------------------------------------
+
+TITLE: Custom Binding Example
+DESCRIPTION: Demonstrates how to create a custom binding in Vue.js by injecting the 'jsonforms' state and 'dispatch' function. This allows for custom logic and state management within your bindings.
+
+SOURCE: https://github.com/eclipsesource/jsonforms/blob/master/packages/vue/README.md#_snippet_4
+
+LANGUAGE: ts
+CODE:
+```
+import { inject } from 'vue';
+
+const useCustomBinding = (props) => {
+  const jsonforms = inject<JsonFormsSubStates>('jsonforms');
+  const dispatch = inject<Dispatch<CoreActions>>('dispatch');
+
+  return {
+    // use props, jsonforms and dispatch to construct own binding
+  };
+};
+
+const myComponent = defineComponent({
+  inject: ['jsonforms', 'dispatch'],
+});
+```
+
+----------------------------------------
+
+TITLE: React Material Renderers: Using Standard Input Variant
+DESCRIPTION: Demonstrates how to configure React Material Renderers to use the 'standard' input variant instead of the default 'outlined' variant by utilizing the Material UI ThemeProvider. This is useful for maintaining a consistent look and feel with older versions of JSON Forms or Material UI.
+
+SOURCE: https://github.com/eclipsesource/jsonforms/blob/master/MIGRATION.md#_snippet_0
+
+LANGUAGE: ts
+CODE:
+```
+import {
+  JsonForms
+} from '@jsonforms/react';
+import {
+  createTheme,
+  ThemeProvider
+} from '@mui/material/styles';
+
+const theme = createTheme({
+  components: {
+    MuiFormControl: {
+      defaultProps: {
+        variant: 'standard',
+      },
+    },
+    MuiTextField: {
+      defaultProps: {
+        variant: 'standard',
+      },
+    },
+    MuiSelect: {
+      defaultProps: {
+        variant: 'standard',
+      },
+    },
+  },
+});
+
+...
+
+<ThemeProvider theme={theme}>
+  <JsonForms {...props} />
+</ThemeProvider>;
+```
+
+----------------------------------------
+
+TITLE: Using JSON Forms with Angular Material
+DESCRIPTION: Shows a basic example of how to use the JSON Forms component with the Angular Material RendererSet. This includes providing a JSON schema, a UI schema, and the data.
+
+SOURCE: https://github.com/eclipsesource/jsonforms/blob/master/packages/angular-material/example/index.html#_snippet_1
+
+LANGUAGE: typescript
+CODE:
+```
+<json-forms
+  [schema]="mySchema"
+  [uischema]="myUISchema"
+  [(data)]="myData"
+></json-forms>
+
+```
+
+----------------------------------------
+
+TITLE: JSON Forms Material Renderers Example
+DESCRIPTION: Demonstrates how to use the JsonForms component with Material Renderers in a React application. It includes defining JSON schema, UI schema, initial data, and handling form state changes.
+
+SOURCE: https://github.com/eclipsesource/jsonforms/blob/master/packages/material-renderers/README.md#_snippet_1
+
+LANGUAGE: typescript
+CODE:
+```
+import React, { useState } from 'react';
+import {
+  materialRenderers,
+  materialCells,
+} from '@jsonforms/material-renderers';
+import { JsonForms } from '@jsonforms/react';
+
+const schema = {
+  type: 'object',
+  properties: {
+    name: {
+      type: 'string',
+      minLength: 1,
+    },
+    done: {
+      type: 'boolean',
+    },
+    due_date: {
+      type: 'string',
+      format: 'date',
+    },
+    recurrence: {
+      type: 'string',
+      enum: ['Never', 'Daily', 'Weekly', 'Monthly'],
+    },
+  },
+  required: ['name', 'due_date'],
+};
+
+const uischema = {
+  type: 'VerticalLayout',
+  elements: [
+    {
+      type: 'Control',
+      label: false,
+      scope: '#/properties/done',
+    },
+    {
+      type: 'Control',
+      scope: '#/properties/name',
+    },
+    {
+      type: 'HorizontalLayout',
+      elements: [
+        {
+          type: 'Control',
+          scope: '#/properties/due_date',
+        },
+        {
+          type: 'Control',
+          scope: '#/properties/recurrence',
+        },
+      ],
+    },
+  ],
+};
+
+const initialData = {};
+
+function App() {
+  const [data, setData] = useState(initialData);
+  return (
+    <JsonForms
+      schema={schema}
+      uischema={uischema}
+      data={data}
+      renderers={materialRenderers}
+      cells={materialCells}
+      onChange={({ data, _errors }) => setData(data)}
+    />
+  );
+}
+
+```
+
+----------------------------------------
+
+TITLE: JSON Forms Angular Component Example
+DESCRIPTION: Demonstrates how to use the jsonforms component in an Angular application, passing data, schema, UI schema, and renderers. The renderers are set to use Angular Material renderers.
+
+SOURCE: https://github.com/eclipsesource/jsonforms/blob/master/packages/angular-material/README.md#_snippet_1
+
+LANGUAGE: typescript
+CODE:
+```
+import { Component } from '@angular/core';
+import { angularMaterialRenderers } from '@jsonforms/angular-material';
+
+@Component({
+  selector: 'app-root',
+  template: `<jsonforms
+    [data]="data"
+    [schema]="schema"
+    [uischema]="uischema"
+    [renderers]="renderers"
+  ></jsonforms>`,
+})
+export class AppComponent {
+  renderers = angularMaterialRenderers;
+  uischema = {
+    type: 'VerticalLayout',
+    elements: [
+      {
+        type: 'Control',
+        label: false,
+        scope: '#/properties/done',
+      },
+      {
+        type: 'Control',
+        scope: '#/properties/name',
+      },
+      {
+        type: 'HorizontalLayout',
+        elements: [
+          {
+            type: 'Control',
+            scope: '#/properties/due_date',
+          },
+          {
+            type: 'Control',
+            scope: '#/properties/recurrence',
+          },
+        ],
+      },
+    ],
+  };
+  schema = {
+    type: 'object',
+    properties: {
+      name: {
+        type: 'string',
+        minLength: 1,
+      },
+      done: {
+        type: 'boolean',
+      },
+      due_date: {
+        type: 'string',
+        format: 'date',
+      },
+      recurrence: {
+        type: 'string',
+        enum: ['Never', 'Daily', 'Weekly', 'Monthly'],
+      },
+    },
+    required: ['name', 'due_date'],
+  };
+  data = {};
+}
+```
+
+----------------------------------------
+
+TITLE: Migrating JsonForms React Custom Renderer Registration
+DESCRIPTION: Illustrates how to register a custom renderer in JsonForms React. The Redux approach involves dispatching an action, while the standalone version involves providing the renderer directly to the JsonForms component.
+
+SOURCE: https://github.com/eclipsesource/jsonforms/blob/master/MIGRATION.md#_snippet_5
+
+LANGUAGE: javascript
+CODE:
+```
+store.dispatch(Actions.registerRenderer(customControlTester, CustomControl));
+```
+
+LANGUAGE: react
+CODE:
+```
+const renderers = [
+  ...materialRenderers,
+  // register custom renderer
+  { tester: customControlTester, renderer: CustomControl },
+];
+
+const MyApp = () => (
+  <JsonForms
+    // other necessary declarations go here...
+    renderers={renderers}
+  />
+);
+```
+
+----------------------------------------
+
+TITLE: Extend Default Styles
+DESCRIPTION: This example illustrates how to extend the existing default styles with custom ones. It achieves this by spreading the `vanillaStyles` and then adding new style definitions for specific IDs. This approach ensures that both default and custom classes are applied.
+
+SOURCE: https://github.com/eclipsesource/jsonforms/blob/master/packages/vanilla-renderers/Styles.md#_snippet_1
+
+LANGUAGE: typescript
+CODE:
+```
+import { JsonFormsStyleContext, vanillaStyles } from '@jsonforms/vanilla-renderers';
+
+const styleContextValue = { styles: [
+  ...vanillaStyles,
+  {
+    name: 'control.input',
+    classNames: ['custom-input']
+  },
+  {
+    name: 'array.button',
+    classNames: ['custom-array-button']
+  }
+]};
+
+<JsonFormsStyleContext.Provider value={styleContextValue}>
+  <JsonForms
+    data={data}
+    schema={schema}
+    uischema={uischema}
+    ...
+  />
+</JsonFormsStyleContext.Provider>
+```
+
+----------------------------------------
+
+TITLE: JSON Forms Angular Module Setup
+DESCRIPTION: Configures the Angular module to use JSON Forms and Angular Material renderers. It imports necessary modules like BrowserModule, BrowserAnimationsModule, JsonFormsModule, and JsonFormsAngularMaterialModule.
+
+SOURCE: https://github.com/eclipsesource/jsonforms/blob/master/packages/angular-material/README.md#_snippet_2
+
+LANGUAGE: typescript
+CODE:
+```
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { JsonFormsModule } from '@jsonforms/angular';
+import { JsonFormsAngularMaterialModule } from '@jsonforms/angular-material';
+import { AppComponent } from './app.component';
+
+@NgModule({
+  declarations: [AppComponent],
+  imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
+    JsonFormsModule,
+    JsonFormsAngularMaterialModule,
+  ],
+  schemas: [],
+  bootstrap: [AppComponent],
+})
+export class AppModule {}
+```
+
+----------------------------------------
+
+TITLE: Resolving JSON Schema References with json-schema-ref-parser or json-refs
+DESCRIPTION: Demonstrates how to resolve external JSON Schema references using either the '$RefParser' library or 'JsonRefs' before passing the schema to JSON Forms. This is a workaround for users who relied on the previous behavior of resolving references.
+
+SOURCE: https://github.com/eclipsesource/jsonforms/blob/master/MIGRATION.md#_snippet_2
+
+LANGUAGE: ts
+CODE:
+```
+import React, { useState, useEffect } from 'react';
+import { JsonForms } from '@jsonforms/react';
+import {
+  materialCells,
+  materialRenderers,
+} from '@jsonforms/material-renderers';
+import $RefParser from '@apidevtools/json-schema-ref-parser';
+import JsonRefs from 'json-refs';
+
+import mySchemaWithReferences from 'myschema.json';
+
+const refParserOptions = {
+  dereference: {
+    circular: false,
+  },
+};
+
+function App() {
+  const [data, setData] = useState(initialData);
+  const [resolvedSchema, setSchema] = useState();
+
+  useEffect(() => {
+    $RefParser
+      .dereference(mySchemaWithReferences)
+      .then((res) => setSchema(res.$schema));
+    // or
+    JsonRefs.resolveRefs(mySchemaWithReferences).then((res) =>
+      setSchema(res.resolved)
+    );
+  }, []);
+
+  if (resolvedSchema === undefined) {
+    return <div> Loading... </div>;
+  }
+
+  return (
+    <JsonForms
+      schema={resolvedSchema}
+      uischema={uischema}
+      data={data}
+      renderers={materialRenderers}
+      cells={materialCells}
+      onChange={({ data, _errors }) => setData(data)}
+    />
+  );
+}
+
+```
+
+----------------------------------------
+
+TITLE: Override Default Styles
+DESCRIPTION: This example demonstrates how to completely replace the default styles provided by the Vanilla Renderer Set. It shows the creation of a style context value that defines custom class names for specific style IDs, such as 'control.input' and 'array.button'.
+
+SOURCE: https://github.com/eclipsesource/jsonforms/blob/master/packages/vanilla-renderers/Styles.md#_snippet_0
+
+LANGUAGE: typescript
+CODE:
+```
+import { JsonFormsStyleContext } from '@jsonforms/vanilla-renderers';
+
+const styleContextValue = { styles: [
+  {
+    name: 'control.input',
+    classNames: ['custom-input']
+  },
+  {
+    name: 'array.button',
+    classNames: ['custom-array-button']
+  }
+]};
+
+<JsonFormsStyleContext.Provider value={styleContextValue}>
+  <JsonForms
+    data={data}
+    schema={schema}
+    uischema={uischema}
+    ...
+  />
+</JsonFormsStyleContext.Provider>
+```
+
+----------------------------------------
+
+TITLE: Post-Release Full Steps
+DESCRIPTION: A checklist for actions to perform after a full release, including verifying npm packages, updating seed projects, rebuilding the website, and finalizing release notes.
+
+SOURCE: https://github.com/eclipsesource/jsonforms/blob/master/__wiki__/Developer-documentation.md#_snippet_1
+
+LANGUAGE: html
+CODE:
+```
+https://www.npmjs.com/search?q=%40jsonforms
+```
+
+LANGUAGE: html
+CODE:
+```
+https://github.com/eclipsesource/jsonforms/releases
+```
+
+LANGUAGE: html
+CODE:
+```
+https://github.com/eclipsesource/jsonforms-react-seed
+```
+
+LANGUAGE: html
+CODE:
+```
+https://github.com/eclipsesource/jsonforms-angular-seed
+```
+
+LANGUAGE: html
+CODE:
+```
+https://github.com/eclipsesource/jsonforms-vue-seed
+```
+
+LANGUAGE: html
+CODE:
+```
+https://github.com/eclipsesource/jsonforms2-website
+```
+
+LANGUAGE: markdown
+CODE:
+```
+Generate and copy API docs
+```
+
+LANGUAGE: markdown
+CODE:
+```
+Create changelog by going through all PRs since last stable release
+```
+
+LANGUAGE: markdown
+CODE:
+```
+Mark published tag as release in Github and attach changelog
+```
+
+LANGUAGE: markdown
+CODE:
+```
+Close milestone
+```
+
+LANGUAGE: markdown
+CODE:
+```
+Update news in [website](https://github.com/eclipsesource/jsonforms2-website)
+```
+
+----------------------------------------
+
+TITLE: Post-Release Prerelease Steps
+DESCRIPTION: Steps to follow after a prerelease, focusing on updating the website with the next version tag and potentially updating news.
+
+SOURCE: https://github.com/eclipsesource/jsonforms/blob/master/__wiki__/Developer-documentation.md#_snippet_2
+
+LANGUAGE: html
+CODE:
+```
+https://www.npmjs.com/search?q=%40jsonforms
+```
+
+LANGUAGE: html
+CODE:
+```
+https://github.com/eclipsesource/jsonforms/releases
+```
+
+LANGUAGE: html
+CODE:
+```
+https://github.com/eclipsesource/jsonforms2-website
+```
+
+LANGUAGE: markdown
+CODE:
+```
+Rebuild [jsonforms2-website](https://github.com/eclipsesource/jsonforms2-website) to update next version tag
+```
+
+LANGUAGE: markdown
+CODE:
+```
+Update news in [website](https://github.com/eclipsesource/jsonforms2-website) if it makes sense
+```
+
+----------------------------------------
+
+TITLE: JSON Forms Build and Testing Commands
+DESCRIPTION: Common commands for building, testing, and cleaning the JSON Forms project packages. These commands are essential for development and maintenance.
+
+SOURCE: https://github.com/eclipsesource/jsonforms/blob/master/README.md#_snippet_3
+
+LANGUAGE: bash
+CODE:
+```
+# Build all packages
+pnpm run build
+
+# Test all packages
+pnpm run test
+
+# Clean build artifacts (dist folders)
+pnpm run clean
+```
+
+----------------------------------------
+
+TITLE: JSONForms Release Process Overview
+DESCRIPTION: Details the automated release process managed by GitHub Actions and the accounts involved in publishing to GitHub and npmJS.
+
+SOURCE: https://github.com/eclipsesource/jsonforms/blob/master/__wiki__/Developer-documentation.md#_snippet_0
+
+LANGUAGE: github-actions
+CODE:
+```
+name: Publish
+
+# ... workflow definition ...
+```
+
+LANGUAGE: markdown
+CODE:
+```
+- Releases are managed by the [Publish GitHub Action](https://github.com/eclipsesource/jsonforms/actions/workflows/publish.yaml)
+- Github Bot account [jsonforms-publish](https://github.com/jsonforms-publish) is allowed to bypass branch protections to push the version update commits on the `master` branch. For this a time-restricted PAT is used which needs to be renewed regularly.
+- NpmJS Bot account [jsonforms-publish](https://www.npmjs.com/~jsonforms-publish) is allowed to release new JSON Forms packages on NpmJS. For this a time-restricted access token is used which needs to be renewed regularly.
+```
+
+----------------------------------------
+
+TITLE: Vue Vanilla RendererSet Initialization
+DESCRIPTION: Demonstrates how to initialize and use the Vanilla RendererSet in a Vue.js application with JSON Forms. This includes setting up the renderer and applying it to a form.
+
+SOURCE: https://github.com/eclipsesource/jsonforms/blob/master/packages/vue-vanilla/example/index.bundled.html#_snippet_0
+
+LANGUAGE: vue
+CODE:
+```
+<template>
+  <div id="app">
+    <JsonForms
+      :schema="schema"
+      :uischema="uiSchema"
+      :data="data"
+      :renderers="renderers"
+    />
+  </div>
+</template>
+
+<script lang="ts">
+import { defineComponent } from 'vue';
+import { JsonForms } from '@jsonforms/vue';
+import { vanillaRenderers, VanillaRendererProps } from '@jsonforms/vue';
+
+// Define your schema, uiSchema, and data
+const schema = {
+  type: 'object',
+  properties: {
+    name: { type: 'string' },
+    age: { type: 'integer' },
+  },
+};
+
+const uiSchema = {
+  type: 'VerticalLayout',
+  elements: [
+    { type: 'Control', scope: '#/properties/name' },
+    { type: 'Control', scope: '#/properties/age' },
+  ],
+};
+
+const data = {
+  name: 'John Doe',
+  age: 30,
+};
+
+export default defineComponent({
+  name: 'App',
+  components: {
+    JsonForms,
+  },
+  setup() {
+    const renderers: VanillaRendererProps[] = [
+      ...vanillaRenderers
+    ];
+
+    return {
+      schema,
+      uiSchema,
+      data,
+      renderers
+    };
+  },
+});
+</script>
+
+<style>
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
+}
+</style>
+```
+
+----------------------------------------
+
+TITLE: RendererSet Initialization
+DESCRIPTION: Demonstrates how to initialize the Material RendererSet for use with JSON Forms in a React application. This includes importing necessary components and setting up the renderer set.
+
+SOURCE: https://github.com/eclipsesource/jsonforms/blob/master/packages/material-renderers/example/index.bundled.html#_snippet_0
+
+LANGUAGE: typescript
+CODE:
+```
+import { JsonFormsReactContext } from '@jsonforms/react';
+import { materialRenderers, useMaterialLayout } from '@jsonforms/material-renderers';
+
+// ... inside your React component
+
+const rendererSet = [
+  ...materialRenderers,
+  // Add custom renderers if needed
+];
+
+// Provide the rendererSet via context
+<JsonFormsReactContext.Provider value={{ rendererSet }}>
+  {/* Your form components */}
+</JsonFormsReactContext.Provider>
+
+```
+
+----------------------------------------
+
+TITLE: RendererSet Initialization
+DESCRIPTION: Demonstrates how to initialize the Material RendererSet for use with JSON Forms in a React application. This includes importing necessary components and setting up the renderer set.
+
+SOURCE: https://github.com/eclipsesource/jsonforms/blob/master/packages/material-renderers/example/index.html#_snippet_0
+
+LANGUAGE: typescript
+CODE:
+```
+import { JsonFormsReactContext } from '@jsonforms/react';
+import { materialRenderers, useMaterialLayout } from '@jsonforms/material-renderers';
+
+// ... inside your React component
+
+const rendererSet = [
+  ...materialRenderers,
+  // Add custom renderers if needed
+];
+
+// Provide the rendererSet via context
+<JsonFormsReactContext.Provider value={{ rendererSet }}>
+  {/* Your form components */}
+</JsonFormsReactContext.Provider>
+
+```
+
+----------------------------------------
+
+TITLE: JSON Forms React Integration with Vanilla Renderers
+DESCRIPTION: This JavaScript code demonstrates how to use the JsonForms component in a React application. It sets up a form with a schema, UI schema, initial data, and uses the vanilla renderers and cells provided by the `@jsonforms/vanilla-renderers` package. The `onChange` handler updates the component's state with the form data.
+
+SOURCE: https://github.com/eclipsesource/jsonforms/blob/master/packages/vanilla-renderers/README.md#_snippet_1
+
+LANGUAGE: javascript
+CODE:
+```
+import React, { useState } from 'react';
+import { JsonForms } from '@jsonforms/react';
+import { vanillaCells, vanillaRenderers } from '@jsonforms/vanilla-renderers';
+
+const schema = {
+  type: 'object',
+  properties: {
+    name: {
+      type: 'string',
+      minLength: 1,
+    },
+    done: {
+      type: 'boolean',
+    },
+    due_date: {
+      type: 'string',
+      format: 'date',
+    },
+    recurrence: {
+      type: 'string',
+      enum: ['Never', 'Daily', 'Weekly', 'Monthly'],
+    },
+  },
+  required: ['name', 'due_date'],
+};
+const uischema = {
+  type: 'VerticalLayout',
+  elements: [
+    {
+      type: 'Control',
+      label: false,
+      scope: '#/properties/done',
+    },
+    {
+      type: 'Control',
+      scope: '#/properties/name',
+    },
+    {
+      type: 'HorizontalLayout',
+      elements: [
+        {
+          type: 'Control',
+          scope: '#/properties/due_date',
+        },
+        {
+          type: 'Control',
+          scope: '#/properties/recurrence',
+        },
+      ],
+    },
+  ],
+};
+const initialData = {};
+function App() {
+  const [data, setData] = useState(initialData);
+  return (
+    <JsonForms
+      schema={schema}
+      uischema={uischema}
+      data={data}
+      renderers={vanillaRenderers}
+      cells={vanillaCells}
+      onChange={({ data, _errors }) => setData(data)}
+    />
+  );
+}
+```
+
+----------------------------------------
+
+TITLE: Basic JSON Forms Vue Component
+DESCRIPTION: Demonstrates the basic usage of the `json-forms` component in a Vue.js application. It shows how to import necessary renderers, define data, schema, and UI schema, and handle form changes.
+
+SOURCE: https://github.com/eclipsesource/jsonforms/blob/master/packages/vue-vanilla/README.md#_snippet_2
+
+LANGUAGE: vue
+CODE:
+```
+<script>
+import { JsonForms } from '@jsonforms/vue';
+import { vanillaRenderers } from '@jsonforms/vue-vanilla';
+import { defineComponent } from 'vue';
+
+const renderers = [
+  ...vanillaRenderers,
+  // here you can add custom renderers
+];
+
+export default defineComponent({
+  components: {
+    JsonForms,
+  },
+  data() {
+    return {
+      renderers: Object.freeze(renderers),
+
+      data: {
+        number: 5,
+      },
+      schema: {
+        properties: {
+          number: {
+            type: 'number',
+          },
+        },
+      },
+      uischema: {
+        type: 'VerticalLayout',
+        elements: [
+          {
+            type: 'Control',
+            scope: '#/properties/number',
+          },
+        ],
+      },
+    };
+  },
+  methods: {
+    onChange(event) {
+      this.data = event.data;
+    },
+  },
+});
+</script>
+<template>
+  <json-forms
+    :data="data"
+    :schema="schema"
+    :uischema="uischema"
+    :renderers="renderers"
+    @change="onChange"
+  />
+</template>
+```
+
+----------------------------------------
+
+TITLE: JSON Forms Vue Component Usage
+DESCRIPTION: Demonstrates how to use the `json-forms` component in a Vue.js application, including mandatory and optional props and event handling.
+
+SOURCE: https://github.com/eclipsesource/jsonforms/blob/master/packages/vue/README.md#_snippet_0
+
+LANGUAGE: html
+CODE:
+```
+<json-forms
+  :data="data"
+  :renderers="renderers"
+  :schema="schema"
+  :uischema="uischema"
+  @change="onChange"
+/>
+```
+
+----------------------------------------
+
+TITLE: Angular Material RendererSet Initialization
+DESCRIPTION: Demonstrates how to initialize the Angular Material RendererSet for use with JSON Forms. This involves importing the necessary modules and creating an instance of the RendererSet.
+
+SOURCE: https://github.com/eclipsesource/jsonforms/blob/master/packages/angular-material/example/index.html#_snippet_0
+
+LANGUAGE: typescript
+CODE:
+```
+import { JsonFormsModule } from '@jsonforms/angular';
+import { MaterialRendererSet } from '@jsonforms/angular-material';
+
+@NgModule({
+  imports: [
+    JsonFormsModule.forRoot(MaterialRendererSet)
+  ],
+  // ... other module configurations
+})
+export class AppModule {}
+
+```
+
+----------------------------------------
+
+TITLE: Angular Component Usage
+DESCRIPTION: Demonstrates how to use the JsonForms component in an Angular application, including setting up data, schema, UI schema, and renderers.
+
+SOURCE: https://github.com/eclipsesource/jsonforms/blob/master/packages/angular/README.md#_snippet_0
+
+LANGUAGE: typescript
+CODE:
+```
+import { Component } from '@angular/core';
+import { angularMaterialRenderers } from '@jsonforms/angular-material';
+
+@Component({
+  selector: 'app-root',
+  template: `<jsonforms
+    [data]="data"
+    [schema]="schema"
+    [uischema]="uischema"
+    [renderers]="renderers"
+  ></jsonforms>`,
+})
+export class AppComponent {
+  renderers = angularMaterialRenderers;
+  uischema = {
+    type: 'VerticalLayout',
+    elements: [
+      {
+        type: 'Control',
+        label: false,
+        scope: '#/properties/done',
+      },
+      {
+        type: 'Control',
+        scope: '#/properties/name',
+      },
+      {
+        type: 'HorizontalLayout',
+        elements: [
+          {
+            type: 'Control',
+            scope: '#/properties/due_date',
+          },
+          {
+            type: 'Control',
+            scope: '#/properties/recurrence',
+          },
+        ],
+      },
+    ],
+  };
+  schema = {
+    type: 'object',
+    properties: {
+      name: {
+        type: 'string',
+        minLength: 1,
+      },
+      done: {
+        type: 'boolean',
+      },
+      due_date: {
+        type: 'string',
+        format: 'date',
+      },
+      recurrence: {
+        type: 'string',
+        enum: ['Never', 'Daily', 'Weekly', 'Monthly'],
+      },
+    },
+    required: ['name', 'due_date'],
+  };
+  data = {};
+}
+```
+
+----------------------------------------
+
+TITLE: CSS Styling for Theme
+DESCRIPTION: Defines absolute positioning and styling for a theme element within the JSON Forms React Vanilla Renderer.
+
+SOURCE: https://github.com/eclipsesource/jsonforms/blob/master/packages/vanilla-renderers/example/index.html#_snippet_0
+
+LANGUAGE: css
+CODE:
+```
+#theme {
+  position: absolute;
+  color: whitesmoke;
+  top: 0.25em;
+  left: 0.25em;
+}
+```
+
+----------------------------------------
+
+TITLE: CSS Styling for Theme
+DESCRIPTION: Defines absolute positioning and styling for a theme element within the JSON Forms React Vanilla Renderer.
+
+SOURCE: https://github.com/eclipsesource/jsonforms/blob/master/packages/vanilla-renderers/example/index.bundled.html#_snippet_0
+
+LANGUAGE: css
+CODE:
+```
+#theme {
+  position: absolute;
+  color: whitesmoke;
+  top: 0.25em;
+  left: 0.25em;
+}
+```
+
+----------------------------------------
+
+TITLE: Configure Vue.js Transpile Dependencies
+DESCRIPTION: Configures the `vue.config.js` file to include JSON Forms packages in the transpile dependencies. This is crucial for the build process to correctly handle the packages.
+
+SOURCE: https://github.com/eclipsesource/jsonforms/blob/master/packages/vue-vanilla/README.md#_snippet_1
+
+LANGUAGE: javascript
+CODE:
+```
+module.exports = {
+  transpileDependencies: [
+    '@jsonforms/core',
+    '@jsonforms/vue',
+    '@jsonforms/vue-vanilla',
+  ],
+};
+```
+
+----------------------------------------
+
+TITLE: Enable JavaScript for React App
+DESCRIPTION: This message indicates that the React application requires JavaScript to be enabled in the browser to run correctly. Ensure your browser settings allow JavaScript execution.
+
+SOURCE: https://github.com/eclipsesource/jsonforms/blob/master/packages/examples-react/public/index.html#_snippet_0
+
+LANGUAGE: text
+CODE:
+```
+You need to enable JavaScript to run this app.
+```
+
+----------------------------------------
+
+TITLE: Vue Basic Control Renderer
+DESCRIPTION: Demonstrates a basic Vue.js renderer for control elements in JSON Forms. It utilizes `useJsonFormsControl` for data binding and provides an input field with error display. The `rendererProps` factory is used for type safety.
+
+SOURCE: https://github.com/eclipsesource/jsonforms/blob/master/packages/vue/README.md#_snippet_2
+
+LANGUAGE: ts
+CODE:
+```
+import { ControlElement } from '@jsonforms/core';
+import { defineComponent } from 'vue';
+import { rendererProps, useJsonFormsControl } from '@jsonforms/vue';
+
+const controlRenderer = defineComponent({
+  name: 'control-renderer',
+  props: {
+    ...rendererProps<ControlElement>(),
+  },
+  setup(props) {
+    return useJsonFormsControl(props);
+  },
+  methods: {
+    onChange(event: Event) {
+      this.handleChange(
+        this.control.path,
+        (event.target as HTMLInputElement).value
+      );
+    },
+  },
+});
+export default controlRenderer;
+```
+
+LANGUAGE: html
+CODE:
+```
+<div>
+  <input v-bind:value="control.data" @change="onChange" />
+  <div class="error" v-if="control.errors">{{ control.errors }}</div>
+</div>
+```
+
+LANGUAGE: ts
+CODE:
+```
+import {
+  isControl,
+  JsonFormsRendererRegistryEntry,
+  rankWith,
+} from '@jsonforms/core';
+export const entry: JsonFormsRendererRegistryEntry = {
+  renderer: controlRenderer,
+  tester: rankWith(1, isControl),
+};
+```
+
+----------------------------------------
+
+TITLE: Vue Basic Layout Renderer
+DESCRIPTION: Illustrates a basic Vue.js renderer for layout elements in JSON Forms. It uses the `DispatchRenderer` component to render child elements based on the UI schema. The `useJsonFormsLayout` hook is employed for layout-specific bindings.
+
+SOURCE: https://github.com/eclipsesource/jsonforms/blob/master/packages/vue/README.md#_snippet_3
+
+LANGUAGE: ts
+CODE:
+```
+import {
+  isLayout,
+  JsonFormsRendererRegistryEntry,
+  Layout,
+  rankWith,
+} from '@jsonforms/core';
+import { defineComponent } from 'vue';
+import {
+  DispatchRenderer,
+  rendererProps,
+  useJsonFormsLayout,
+} from '@jsonforms/vue';
+
+const layoutRenderer = defineComponent({
+  name: 'layout-renderer',
+  components: {
+    DispatchRenderer,
+  },
+  props: {
+    ...rendererProps<Layout>(),
+  },
+  setup(props) {
+    return useJsonFormsLayout(props);
+  },
+});
+
+export default layoutRenderer;
+
+export const entry: JsonFormsRendererRegistryEntry = {
+  renderer: layoutRenderer,
+  tester: rankWith(1, isLayout),
+};
+```
+
+LANGUAGE: html
+CODE:
+```
+<div>
+  <div
+    v-for="(element, index) in layout.uischema.elements"
+    v-bind:key="`${layout.path}-${index}`"
+  >
+    <dispatch-renderer
+      v-bind:schema="layout.schema"
+      v-bind:uischema="element"
+      v-bind:path="layout.path"
+      v-bind:enabled="layout.enabled"
+      v-bind:renderers="layout.renderers"
+      v-bind:cells="layout.cells"
+    />
+  </div>
+</div>
+```
+
+----------------------------------------
+
+TITLE: Vue Component for JSON Forms with Vuetify
+DESCRIPTION: Demonstrates how to use the JsonForms component in a Vue 3 application with Vuetify renderers. It includes setting up renderers, data, schema, UI schema, and handling form changes.
+
+SOURCE: https://github.com/eclipsesource/jsonforms/blob/master/packages/vue-vuetify/README.md#_snippet_2
+
+LANGUAGE: javascript
+CODE:
+```
+import { JsonForms } from '@jsonforms/vue';
+import { extendedVuetifyRenderers } from '@jsonforms/vue-vuetify';
+import { markRaw } from 'vue';
+
+const renderers = markRaw([
+  ...extendedVuetifyRenderers,
+  // here you can add custom renderers
+]);
+
+export default defineComponent({
+  name: 'app',
+  components: {
+    JsonForms,
+  },
+  data() {
+    return {
+      renderers: Object.freeze(renderers),
+      data,
+      schema,
+      uischema,
+    };
+  },
+  methods: {
+    onChange(event) {
+      this.data = event.data;
+    },
+  },
+});
+```
+
+LANGUAGE: html
+CODE:
+```
+<template>
+  <json-forms
+    :data="data"
+    :schema="schema"
+    :uischema="uischema"
+    :renderers="renderers"
+    @change="onChange"
+  />
+</template>
+```
+
+LANGUAGE: css
+CODE:
+```
+<style>
+@import '@jsonforms/vue-vuetify/lib/jsonforms-vue-vuetify.css';
+</style>
+```
+
+----------------------------------------
+
+TITLE: Custom Styling with JSON Forms Vue Vanilla
+DESCRIPTION: Illustrates how to customize the styling of JSON Forms components in Vue.js by merging default styles with custom CSS classes. This allows for easy integration with any CSS-only UI framework.
+
+SOURCE: https://github.com/eclipsesource/jsonforms/blob/master/packages/vue-vanilla/README.md#_snippet_3
+
+LANGUAGE: vue
+CODE:
+```
+<script>
+import { JsonForms } from '@jsonforms/vue';
+import {
+  defaultStyles,
+  mergeStyles,
+  vanillaRenderers,
+} from '@jsonforms/vue-vanilla';
+import { defineComponent } from 'vue';
+
+// mergeStyles combines all classes from both styles definitions
+const myStyles = mergeStyles(defaultStyles, {
+  control: { root: 'my-control' },
+});
+
+export default defineComponent({
+  name: 'app',
+  components: {
+    JsonForms,
+  },
+  data() {
+    return {
+      renderers: Object.freeze(vanillaRenderers),
+      data: {
+        number: 5,
+      },
+      schema: {
+        properties: {
+          number: {
+            type: 'number',
+          },
+        },
+      },
+      uischema: {
+        type: 'VerticalLayout',
+        elements: [
+          {
+            type: 'Control',
+            scope: '#/properties/number',
+          },
+        ],
+      },
+    };
+  },
+  methods: {
+    onChange(event) {
+      this.data = event.data;
+    },
+  },
+  provide() {
+    return {
+      styles: myStyles,
+    };
+  },
+});
+</script>
+<template>
+  <json-forms
+    :data="data"
+    :schema="schema"
+    :uischema="uischema"
+    :renderers="renderers"
+    @change="onChange"
+  />
+</template>
+```

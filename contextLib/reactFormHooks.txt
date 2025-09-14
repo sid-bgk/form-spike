@@ -1,0 +1,1872 @@
+========================
+CODE SNIPPETS
+========================
+TITLE: React Hook Form Quickstart
+DESCRIPTION: Demonstrates the basic setup and usage of React Hook Form, including registering input fields, handling form submission, and displaying validation errors.
+
+SOURCE: https://github.com/react-hook-form/react-hook-form/blob/master/README.md#_snippet_0
+
+LANGUAGE: jsx
+CODE:
+```
+import {
+  useForm
+} from 'react-hook-form';
+
+function App() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  return (
+    <form onSubmit={handleSubmit((data) => console.log(data))}>
+      <input {...register('firstName')} />
+      <input {...register('lastName', { required: true })} />
+      {errors.lastName && <p>Last name is required.</p>}
+      <input {...register('age', { pattern: /\d+/ })} />
+      {errors.age && <p>Please enter number for age.</p>}
+      <input type="submit" />
+    </form>
+  );
+}
+```
+
+----------------------------------------
+
+TITLE: Install and Run Development Server
+DESCRIPTION: Installs project dependencies and starts the development server for manual testing or Cypress execution.
+
+SOURCE: https://github.com/react-hook-form/react-hook-form/blob/master/app/README.md#_snippet_0
+
+LANGUAGE: bash
+CODE:
+```
+npm i && npm run dev
+```
+
+----------------------------------------
+
+TITLE: React Hook Form Quick Start
+DESCRIPTION: This snippet demonstrates the basic setup for using React Hook Form. It shows how to register input fields, handle form submission, and display validation errors.
+
+SOURCE: https://github.com/react-hook-form/react-hook-form/blob/master/docs/README.ar-AR.md#_snippet_0
+
+LANGUAGE: jsx
+CODE:
+```
+import React from 'react';
+import { useForm } from 'react-hook-form';
+
+function App() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+  const onSubmit = (data) => console.log(data);
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <input {...register('firstName')} />
+      <input {...register('lastName', { required: true })} />
+      {errors.lastName && <p>اسم العائلة مطلوب.</p>}
+      <input {...register('age', { pattern: /\d+/ })} />
+      {errors.age && <p>الرجاء إدخال عدد للعمر.</p>}
+      <input type="submit" />
+    </form>
+  );
+}
+```
+
+----------------------------------------
+
+TITLE: Basic Form Example
+DESCRIPTION: A fundamental example showcasing the basic setup and usage of React Hook Form.
+
+SOURCE: https://github.com/react-hook-form/react-hook-form/blob/master/examples/V6/README.md#_snippet_4
+
+LANGUAGE: javascript
+CODE:
+```
+https://codesandbox.io/s/yj07z1639
+```
+
+----------------------------------------
+
+TITLE: Project Setup and Dependencies
+DESCRIPTION: Installs project dependencies using pnpm, specifying Node.js and pnpm version requirements for development.
+
+SOURCE: https://github.com/react-hook-form/react-hook-form/blob/master/CONTRIBUTING.md#_snippet_0
+
+LANGUAGE: shellscript
+CODE:
+```
+pnpm install
+```
+
+----------------------------------------
+
+TITLE: React Hook Form Quick Start
+DESCRIPTION: A basic example demonstrating how to use the `useForm` hook for form validation in a React application. It shows how to register input fields, handle form submission, and display validation errors.
+
+SOURCE: https://github.com/react-hook-form/react-hook-form/blob/master/docs/README.pt-BR.md#_snippet_0
+
+LANGUAGE: jsx
+CODE:
+```
+import React from 'react';
+import { useForm } from 'react-hook-form';
+
+function App() {
+  const { register, handleSubmit, errors } = useForm(); // initialise the hook
+  const onSubmit = (data) => {
+    console.log(data);
+  };
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <input name="firstname" ref={register} /> {/* register an input */}
+      <input name="lastname" ref={register({ required: true })} />
+      {errors.lastname && 'Last name is required.'}
+      <input name="age" ref={register({ pattern: /\d+/ })} />
+      {errors.age && 'Please enter number for age.'}
+      <input type="submit" />
+    </form>
+  );
+}
+```
+
+----------------------------------------
+
+TITLE: React Hook Form Wizard Form Example
+DESCRIPTION: Illustrates how to implement a multi-step or funnel form using React Hook Form. This is useful for guiding users through a complex process.
+
+SOURCE: https://github.com/react-hook-form/react-hook-form/blob/master/examples/README.md#_snippet_27
+
+LANGUAGE: javascript
+CODE:
+```
+// Example for a wizard (funnel/multi-step) form
+// See: https://codesandbox.io/s/react-hook-form-wizard-form-ir780
+```
+
+----------------------------------------
+
+TITLE: Default/Initial Form Value Example
+DESCRIPTION: A basic example of setting initial values for the entire form.
+
+SOURCE: https://github.com/react-hook-form/react-hook-form/blob/master/examples/V6/README.md#_snippet_17
+
+LANGUAGE: javascript
+CODE:
+```
+https://codesandbox.io/s/l3mxpvmm9
+```
+
+----------------------------------------
+
+TITLE: React Hook Form Installation
+DESCRIPTION: Instructions for installing React Hook Form using npm.
+
+SOURCE: https://github.com/react-hook-form/react-hook-form/blob/master/docs/README.ja-JP.md#_snippet_1
+
+LANGUAGE: bash
+CODE:
+```
+$ npm install react-hook-form
+```
+
+----------------------------------------
+
+TITLE: React Hook Form Installation
+DESCRIPTION: Instructions for installing React Hook Form using npm.
+
+SOURCE: https://github.com/react-hook-form/react-hook-form/blob/master/docs/README.pt-BR.md#_snippet_1
+
+LANGUAGE: javascript
+CODE:
+```
+npm install react-hook-form
+```
+
+----------------------------------------
+
+TITLE: Parse and Format Input Value Example (Textarea)
+DESCRIPTION: Shows how to parse and format input values, using a textarea as an example, to handle specific data transformations.
+
+SOURCE: https://github.com/react-hook-form/react-hook-form/blob/master/examples/V6/README.md#_snippet_23
+
+LANGUAGE: javascript
+CODE:
+```
+https://codesandbox.io/s/react-hook-form-parse-and-format-textarea-furtc
+```
+
+----------------------------------------
+
+TITLE: Field Array Example
+DESCRIPTION: A foundational example of using the `useFieldArray` hook for managing dynamic lists of fields.
+
+SOURCE: https://github.com/react-hook-form/react-hook-form/blob/master/examples/V6/README.md#_snippet_20
+
+LANGUAGE: javascript
+CODE:
+```
+https://codesandbox.io/s/6j1760jkjk
+```
+
+----------------------------------------
+
+TITLE: Install React Hook Form
+DESCRIPTION: Command to install React Hook Form using npm.
+
+SOURCE: https://github.com/react-hook-form/react-hook-form/blob/master/docs/README.ru-RU.md#_snippet_1
+
+LANGUAGE: bash
+CODE:
+```
+npm install react-hook-form
+```
+
+----------------------------------------
+
+TITLE: FormProvider Example
+DESCRIPTION: Illustrates the usage of `FormProvider` for sharing form context with deeply nested components.
+
+SOURCE: https://github.com/react-hook-form/react-hook-form/blob/master/examples/V6/README.md#_snippet_22
+
+LANGUAGE: javascript
+CODE:
+```
+https://codesandbox.io/s/react-hook-form-form-context-dkvjz
+```
+
+----------------------------------------
+
+TITLE: DefaultValues Example
+DESCRIPTION: Illustrates how to set default values for form fields when the component mounts.
+
+SOURCE: https://github.com/react-hook-form/react-hook-form/blob/master/examples/V6/README.md#_snippet_16
+
+LANGUAGE: javascript
+CODE:
+```
+https://codesandbox.io/s/react-hook-form-defaultvalues-n5gvx
+```
+
+----------------------------------------
+
+TITLE: React Hook Form Error Handling
+DESCRIPTION: Demonstrates how to handle and display errors for specific input types, such as set or select inputs, within a React Hook Form setup.
+
+SOURCE: https://github.com/react-hook-form/react-hook-form/blob/master/examples/V6/README.md#_snippet_36
+
+LANGUAGE: javascript
+CODE:
+```
+SetInputSelectError:
+  // Example for handling errors on set/select inputs
+  // Link: https://codesandbox.io/s/o7rxyym3q5
+```
+
+----------------------------------------
+
+TITLE: Custom Input Example
+DESCRIPTION: Illustrates how to integrate custom input components with React Hook Form.
+
+SOURCE: https://github.com/react-hook-form/react-hook-form/blob/master/examples/V6/README.md#_snippet_8
+
+LANGUAGE: javascript
+CODE:
+```
+https://codesandbox.io/s/72j69vnk1x
+```
+
+----------------------------------------
+
+TITLE: Basic Validation Example
+DESCRIPTION: Covers the essential validation rules and how to apply them to form fields.
+
+SOURCE: https://github.com/react-hook-form/react-hook-form/blob/master/examples/V6/README.md#_snippet_5
+
+LANGUAGE: javascript
+CODE:
+```
+https://codesandbox.io/s/rwpz2jn6ln
+```
+
+----------------------------------------
+
+TITLE: Basic Form Handling
+DESCRIPTION: A fundamental example of setting up and submitting a basic form using React Hook Form. It covers registration of input fields and handling form submission.
+
+SOURCE: https://github.com/react-hook-form/react-hook-form/blob/master/examples/README.md#_snippet_4
+
+LANGUAGE: javascript
+CODE:
+```
+import React from 'react';
+import { useForm } from 'react-hook-form';
+
+function App() {
+  const { register, handleSubmit } = useForm();
+
+  const onSubmit = (data) => {
+    console.log('Form submitted:', data);
+  };
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <input {...register('firstName')} />
+      <input {...register('lastName')} />
+      <button type="submit">Submit</button>
+    </form>
+  );
+}
+
+export default App;
+```
+
+----------------------------------------
+
+TITLE: React Hook Form Validation Examples
+DESCRIPTION: Demonstrates different validation strategies for React Hook Form, including validation on blur, on change, and using validation schemas. These examples help users understand how to implement robust form validation.
+
+SOURCE: https://github.com/react-hook-form/react-hook-form/blob/master/examples/V6/README.md#_snippet_34
+
+LANGUAGE: javascript
+CODE:
+```
+ValidationOnBlur:
+  // Example demonstrating validation on blur
+  // Link: https://codesandbox.io/s/w7p3km6nyw
+
+ValidationOnChange:
+  // Example demonstrating validation on change
+  // Link: https://codesandbox.io/s/74zw1oqozx
+
+ValidationSchema:
+  // Example demonstrating validation with a schema (e.g., Yup, Zod)
+  // Link: https://codesandbox.io/s/928po918qr
+
+TriggerFieldValidation:
+  // Example showing how to manually trigger field validation
+  // Link: https://codesandbox.io/s/react-hook-form-trigger-validation-w1g0m
+```
+
+----------------------------------------
+
+TITLE: Normalize/Format/Mask Field Example
+DESCRIPTION: Provides examples of normalizing, formatting, or masking field input values for better data consistency.
+
+SOURCE: https://github.com/react-hook-form/react-hook-form/blob/master/examples/V6/README.md#_snippet_27
+
+LANGUAGE: javascript
+CODE:
+```
+https://codesandbox.io/s/react-hook-form-normalize-field-forked-01lgs
+```
+
+----------------------------------------
+
+TITLE: React Hook Form Quick Start
+DESCRIPTION: This snippet demonstrates the basic usage of React Hook Form. It shows how to initialize the hook, register input fields, handle form submission, and display validation errors. The `useForm` hook provides methods for managing form state and validation.
+
+SOURCE: https://github.com/react-hook-form/react-hook-form/blob/master/docs/README.de-DE.md#_snippet_0
+
+LANGUAGE: jsx
+CODE:
+```
+import React from 'react';
+import { useForm } from 'react-hook-form';
+
+function App() {
+  const { register, handleSubmit, errors } = useForm(); // initialise the hook
+  const onSubmit = (data) => {
+    console.log(data);
+  };
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <input name="firstname" ref={register} /> {/* register an input */}
+      <input name="lastname" ref={register({ required: true })} />
+      {errors.lastname && 'Last name is required.'}
+      <input name="age" ref={register({ pattern: /\d+/ })} />
+      {errors.age && 'Please enter number for age.'}
+      <input type="submit" />
+    </form>
+  );
+}
+```
+
+----------------------------------------
+
+TITLE: React Hook Form Quickstart
+DESCRIPTION: This snippet demonstrates the basic usage of React Hook Form, including registering input fields, handling form submission, and displaying validation errors. It utilizes the `useForm` hook to manage form state and validation.
+
+SOURCE: https://github.com/react-hook-form/react-hook-form/blob/master/docs/Template.md#_snippet_0
+
+LANGUAGE: jsx
+CODE:
+```
+import React from 'react';
+import { useForm } from 'react-hook-form';
+
+function App() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+  const onSubmit = (data) => console.log(data);
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <input {...register('firstName')} />
+      <input {...register('lastName', { required: true })} />
+      {errors.lastName && <p>Last name is required.</p>}
+      <input {...register('age', { pattern: /\d+/ })} />
+      {errors.age && <p>Please enter number for age.</p>}
+      <input type="submit" />
+    </form>
+  );
+}
+```
+
+----------------------------------------
+
+TITLE: Install React Hook Form
+DESCRIPTION: This command installs the React Hook Form library using npm. It's the first step to integrate the library into your React project.
+
+SOURCE: https://github.com/react-hook-form/react-hook-form/blob/master/docs/Template.md#_snippet_1
+
+LANGUAGE: bash
+CODE:
+```
+npm install react-hook-form
+```
+
+----------------------------------------
+
+TITLE: React Hook Form Validation Examples
+DESCRIPTION: Demonstrates how to configure React Hook Form validation to trigger on blur or change events. These examples showcase different validation strategies.
+
+SOURCE: https://github.com/react-hook-form/react-hook-form/blob/master/examples/README.md#_snippet_26
+
+LANGUAGE: javascript
+CODE:
+```
+// Example for validation on blur/change
+// See: https://codesandbox.io/s/react-hook-form-validation-onblur-onchange-pnq16
+```
+
+----------------------------------------
+
+TITLE: Format/Mask Field Example (Third Party Library)
+DESCRIPTION: Shows how to integrate third-party libraries for advanced input formatting and masking.
+
+SOURCE: https://github.com/react-hook-form/react-hook-form/blob/master/examples/V6/README.md#_snippet_28
+
+LANGUAGE: javascript
+CODE:
+```
+https://codesandbox.io/s/react-hook-form-normalize-field-1jumn
+```
+
+----------------------------------------
+
+TITLE: Controller with MUI, React-Select, and etc. Example
+DESCRIPTION: Shows how to integrate the `Controller` component with popular UI libraries like Material-UI and React-Select.
+
+SOURCE: https://github.com/react-hook-form/react-hook-form/blob/master/examples/V6/README.md#_snippet_12
+
+LANGUAGE: javascript
+CODE:
+```
+https://codesandbox.io/s/react-hook-form-controller-079xx
+```
+
+----------------------------------------
+
+TITLE: Set Input/Select Value Example
+DESCRIPTION: Shows how to programmatically set the value of input and select elements within the form.
+
+SOURCE: https://github.com/react-hook-form/react-hook-form/blob/master/examples/V6/README.md#_snippet_33
+
+LANGUAGE: javascript
+CODE:
+```
+https://codesandbox.io/s/react-hook-form-set-inputselect-value-c46ly
+```
+
+----------------------------------------
+
+TITLE: Reset Form Example
+DESCRIPTION: Shows how to reset the form to its initial state, including all field values and validation status.
+
+SOURCE: https://github.com/react-hook-form/react-hook-form/blob/master/examples/V6/README.md#_snippet_30
+
+LANGUAGE: javascript
+CODE:
+```
+https://codesandbox.io/s/jjm3wyqmjy
+```
+
+----------------------------------------
+
+TITLE: Custom Input with ForwardRef Example
+DESCRIPTION: Shows how to use `forwardRef` with custom input components to integrate them seamlessly with React Hook Form.
+
+SOURCE: https://github.com/react-hook-form/react-hook-form/blob/master/examples/V6/README.md#_snippet_9
+
+LANGUAGE: javascript
+CODE:
+```
+https://codesandbox.io/s/rhfex-en254
+```
+
+----------------------------------------
+
+TITLE: React Hook Form Form Handling Examples
+DESCRIPTION: Illustrates various form handling scenarios in React Hook Form, including multi-step or wizard forms, handling native multiple inputs, and integrating with UI libraries like Material-UI (MUI) for tabbed forms.
+
+SOURCE: https://github.com/react-hook-form/react-hook-form/blob/master/examples/V6/README.md#_snippet_35
+
+LANGUAGE: javascript
+CODE:
+```
+WizardForm:
+  // Example of a multi-step or wizard form
+  // Link: https://codesandbox.io/s/react-hook-form-wizard-form-13yud
+
+NativeMultipleInput:
+  // Example for handling native multiple select inputs
+  // Link: https://codesandbox.io/s/react-hook-form-native-multiple-input-tyhue
+
+TabsFormMUI:
+  // Example of a form using tabs with Material-UI components
+  // Link: https://codesandbox.io/s/tabs-760h9
+```
+
+----------------------------------------
+
+TITLE: React Hook Form Quick Start
+DESCRIPTION: Demonstrates the basic usage of React Hook Form with `useForm` hook for form validation. It shows how to register input fields, handle form submission, and display validation errors.
+
+SOURCE: https://github.com/react-hook-form/react-hook-form/blob/master/docs/README.ru-RU.md#_snippet_0
+
+LANGUAGE: jsx
+CODE:
+```
+import React from 'react';
+import { useForm } from 'react-hook-form';
+
+function App() {
+  const { register, handleSubmit, errors } = useForm(); // инициализация хука
+  const onSubmit = (data) => {
+    console.log(data);
+  };
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <input name="firstname" ref={register} /> {/* регистрация поля ввода */}
+      <input name="lastname" ref={register({ required: true })} />
+      {errors.lastname && 'Фамилия обязательна.'}
+      <input name="age" ref={register({ pattern: /\d+/ })} />
+      {errors.age && 'Пожалуйста, введите ваш возраст.'}
+      <input type="submit" />
+    </form>
+  );
+}
+```
+
+----------------------------------------
+
+TITLE: Dirty/Touched/Submitted State Example
+DESCRIPTION: Demonstrates how to track and utilize the dirty, touched, and submitted states of form fields.
+
+SOURCE: https://github.com/react-hook-form/react-hook-form/blob/master/examples/V6/README.md#_snippet_18
+
+LANGUAGE: javascript
+CODE:
+```
+https://codesandbox.io/s/7o2wrp86k6
+```
+
+----------------------------------------
+
+TITLE: React Hook Form Basic Usage
+DESCRIPTION: Demonstrates the basic setup and usage of React Hook Form, including registering input fields, handling form submission, and displaying validation errors.
+
+SOURCE: https://github.com/react-hook-form/react-hook-form/blob/master/docs/README.tr-TR.md#_snippet_0
+
+LANGUAGE: jsx
+CODE:
+```
+import React from 'react';
+import { useForm } from 'react-hook-form';
+
+function App() {
+  const { register, handleSubmit, errors } = useForm(); // initialise the hook
+  const onSubmit = (data) => {
+    console.log(data);
+  };
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <input name="firstname" ref={register} /> {/* register an input */}
+      <input name="lastname" ref={register({ required: true })} />
+      {errors.lastname && 'Last name is required.'}
+      <input name="age" ref={register({ pattern: /\d+/ })} />
+      {errors.age && 'Please enter number for age.'}
+      <input type="submit" />
+    </form>
+  );
+}
+```
+
+----------------------------------------
+
+TITLE: Custom Masked Input with Tel Number Example
+DESCRIPTION: A specific example of using custom masked inputs for telephone numbers.
+
+SOURCE: https://github.com/react-hook-form/react-hook-form/blob/master/examples/V6/README.md#_snippet_11
+
+LANGUAGE: javascript
+CODE:
+```
+https://codesandbox.io/s/react-hook-form-gv5su
+```
+
+----------------------------------------
+
+TITLE: Modal/Toggle Input Example
+DESCRIPTION: Shows how to manage form inputs within modals or conditionally rendered components.
+
+SOURCE: https://github.com/react-hook-form/react-hook-form/blob/master/examples/V6/README.md#_snippet_25
+
+LANGUAGE: javascript
+CODE:
+```
+https://codesandbox.io/s/react-hook-form-conditional-inputs-c7n0r
+```
+
+----------------------------------------
+
+TITLE: React Hook Form Basic Usage
+DESCRIPTION: Demonstrates the basic setup and usage of React Hook Form. It shows how to register input fields, handle form submission, and display validation errors.
+
+SOURCE: https://github.com/react-hook-form/react-hook-form/blob/master/docs/README.es-ES.md#_snippet_0
+
+LANGUAGE: jsx
+CODE:
+```
+import React from 'react';
+import { useForm } from 'react-hook-form';
+
+function App() {
+  const { register, handleSubmit, errors } = useForm(); // initialize the hook
+  const onSubmit = (data) => {
+    console.log(data);
+  };
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <input name="firstname" ref={register} /> {/* register an input */}
+      <input name="lastname" ref={register({ required: true })} />
+      {errors.lastname && 'Last name is required.'}
+      <input name="age" ref={register({ pattern: /\d+/ })} />
+      {errors.age && 'Please enter number for age.'}
+      <input type="submit" />
+    </form>
+  );
+}
+```
+
+----------------------------------------
+
+TITLE: Custom Validation Example
+DESCRIPTION: Shows how to implement custom validation logic for specific field requirements.
+
+SOURCE: https://github.com/react-hook-form/react-hook-form/blob/master/examples/V6/README.md#_snippet_6
+
+LANGUAGE: javascript
+CODE:
+```
+https://codesandbox.io/s/8n937m64o9
+```
+
+----------------------------------------
+
+TITLE: Running Development Server and E2E Tests
+DESCRIPTION: Starts the development server in one terminal and runs end-to-end tests in another concurrently.
+
+SOURCE: https://github.com/react-hook-form/react-hook-form/blob/master/CONTRIBUTING.md#_snippet_3
+
+LANGUAGE: shellscript
+CODE:
+```
+pnpm start
+# In another terminal, while 'start' runs:
+pnpm e2e
+```
+
+----------------------------------------
+
+TITLE: Native Validation Example
+DESCRIPTION: Demonstrates how to leverage native HTML5 validation attributes with React Hook Form.
+
+SOURCE: https://github.com/react-hook-form/react-hook-form/blob/master/examples/V6/README.md#_snippet_29
+
+LANGUAGE: javascript
+CODE:
+```
+https://codesandbox.io/s/react-hook-form-native-validation-ez5ww
+```
+
+----------------------------------------
+
+TITLE: Nested Fields Example
+DESCRIPTION: Illustrates how to handle form fields that are nested within objects or arrays.
+
+SOURCE: https://github.com/react-hook-form/react-hook-form/blob/master/examples/V6/README.md#_snippet_26
+
+LANGUAGE: javascript
+CODE:
+```
+https://codesandbox.io/s/react-hook-form-nested-fields-mv1bb
+```
+
+----------------------------------------
+
+TITLE: Async Submit Validation Example
+DESCRIPTION: Demonstrates how to perform asynchronous validation when the form is submitted. This is useful for server-side validation checks.
+
+SOURCE: https://github.com/react-hook-form/react-hook-form/blob/master/examples/V6/README.md#_snippet_0
+
+LANGUAGE: javascript
+CODE:
+```
+https://codesandbox.io/s/xrjv48o0qp
+```
+
+----------------------------------------
+
+TITLE: Compare Field Values Example
+DESCRIPTION: Shows how to compare the values of different form fields, often used for password confirmation.
+
+SOURCE: https://github.com/react-hook-form/react-hook-form/blob/master/examples/V6/README.md#_snippet_15
+
+LANGUAGE: javascript
+CODE:
+```
+https://codesandbox.io/s/react-hook-form-getvalues-compare-field-values-qrtvx
+```
+
+----------------------------------------
+
+TITLE: React Native Controller Example
+DESCRIPTION: Shows how to use the Controller component in React Native with React Hook Form for managing form inputs and state.
+
+SOURCE: https://github.com/react-hook-form/react-hook-form/blob/master/examples/README.md#_snippet_28
+
+LANGUAGE: javascript
+CODE:
+```
+// React Native Controller example
+// See: https://snack.expo.io/@bluebill1049/react-hook-form-v7---controller
+```
+
+----------------------------------------
+
+TITLE: Async Set Form Values Example
+DESCRIPTION: Shows how to asynchronously update form values. This can be used when fetching data from an API and populating the form.
+
+SOURCE: https://github.com/react-hook-form/react-hook-form/blob/master/examples/V6/README.md#_snippet_1
+
+LANGUAGE: javascript
+CODE:
+```
+https://codesandbox.io/s/react-hook-from-async-set-form-values-ztpd6
+```
+
+----------------------------------------
+
+TITLE: Controller Modify Return Value Example
+DESCRIPTION: Illustrates how to customize the return value of the `Controller` component.
+
+SOURCE: https://github.com/react-hook-form/react-hook-form/blob/master/examples/V6/README.md#_snippet_13
+
+LANGUAGE: javascript
+CODE:
+```
+https://codesandbox.io/s/react-hook-form-v6-customise-controller-return-value-jopm9
+```
+
+----------------------------------------
+
+TITLE: Conditional Fields Example
+DESCRIPTION: Demonstrates how to show or hide form fields based on certain conditions or user input.
+
+SOURCE: https://github.com/react-hook-form/react-hook-form/blob/master/examples/V6/README.md#_snippet_7
+
+LANGUAGE: javascript
+CODE:
+```
+https://codesandbox.io/s/13ykqx4wx7
+```
+
+----------------------------------------
+
+TITLE: FormProvider and FormContext
+DESCRIPTION: Demonstrates the usage of `FormProvider` and `useFormContext` in React Hook Form. This allows you to share form state and methods with deeply nested components without prop drilling.
+
+SOURCE: https://github.com/react-hook-form/react-hook-form/blob/master/examples/README.md#_snippet_19
+
+LANGUAGE: javascript
+CODE:
+```
+import React from 'react';
+import { useForm, FormProvider, useFormContext } from 'react-hook-form';
+
+function InputField() {
+  const { register } = useFormContext();
+  return <input {...register('nestedField')} />;
+}
+
+function App() {
+  const methods = useForm();
+
+  const onSubmit = (data) => {
+    console.log('Form submitted:', data);
+  };
+
+  return (
+    <FormProvider {...methods}>
+      <form onSubmit={methods.handleSubmit(onSubmit)}>
+        <InputField />
+        <button type="submit">Submit</button>
+      </form>
+    </FormProvider>
+  );
+}
+
+export default App;
+```
+
+----------------------------------------
+
+TITLE: Checkbox Minimum Checked Example (Native)
+DESCRIPTION: Demonstrates how to enforce a minimum number of checked checkboxes using native HTML validation.
+
+SOURCE: https://github.com/react-hook-form/react-hook-form/blob/master/examples/V6/README.md#_snippet_14
+
+LANGUAGE: javascript
+CODE:
+```
+https://codesandbox.io/s/checkbox-min-checked-5vocd
+```
+
+----------------------------------------
+
+TITLE: React Hook Form Type Definitions
+DESCRIPTION: Provides links to the definitions of key types used within the React Hook Form library, essential for understanding and utilizing the library's API effectively.
+
+SOURCE: https://github.com/react-hook-form/react-hook-form/blob/master/examples/V6/README.md#_snippet_37
+
+LANGUAGE: typescript
+CODE:
+```
+NestedValue:
+  // Type definition for nested form values
+  // Link: https://codesandbox.io/s/react-hook-form-nestedvalue-dujyc
+
+SubmitHandler:
+  // Type definition for the form submission handler
+  // Link: https://codesandbox.io/s/react-hook-form-submithandler-kfmqy
+
+Resolver:
+  // Type definition for form validation resolvers (e.g., Yup, Zod)
+  // Link: https://codesandbox.io/s/react-hook-form-resolver-juwui
+
+UseFormReturn:
+  // Type definition for the return value of the useForm hook
+  // Link: https://codesandbox.io/s/react-hook-form-useformmethods-mycp2
+
+Control:
+  // Type definition for the control object used in custom inputs
+  // Link: https://codesandbox.io/s/react-hook-form-control-yq73k
+```
+
+----------------------------------------
+
+TITLE: Custom Masked Input with Controller Example
+DESCRIPTION: Demonstrates using the `Controller` component with a custom masked input, often used for phone numbers or currency.
+
+SOURCE: https://github.com/react-hook-form/react-hook-form/blob/master/examples/V6/README.md#_snippet_10
+
+LANGUAGE: javascript
+CODE:
+```
+https://codesandbox.io/s/morning-sunset-8n3sx
+```
+
+----------------------------------------
+
+TITLE: Field Array Min Length Example (Yup Validation)
+DESCRIPTION: Demonstrates using `useFieldArray` with Yup for validation, specifically enforcing a minimum length for the array.
+
+SOURCE: https://github.com/react-hook-form/react-hook-form/blob/master/examples/V6/README.md#_snippet_21
+
+LANGUAGE: javascript
+CODE:
+```
+https://codesandbox.io/s/react-hook-form-fieldsarray-yup-validation-min-length-57qtb
+```
+
+----------------------------------------
+
+TITLE: Remote/Trigger Form Submit Example
+DESCRIPTION: Illustrates how to trigger form submission programmatically from outside the form component.
+
+SOURCE: https://github.com/react-hook-form/react-hook-form/blob/master/examples/V6/README.md#_snippet_31
+
+LANGUAGE: javascript
+CODE:
+```
+https://codesandbox.io/s/remote-handlesubmit-w0win
+```
+
+----------------------------------------
+
+TITLE: Array of Field Array Example
+DESCRIPTION: Demonstrates the usage of `useFieldArray` with nested arrays, allowing for complex dynamic form structures.
+
+SOURCE: https://github.com/react-hook-form/react-hook-form/blob/master/examples/V6/README.md#_snippet_3
+
+LANGUAGE: javascript
+CODE:
+```
+https://codesandbox.io/s/react-hook-form-usefieldarray-nested-arrays-x7btr
+```
+
+----------------------------------------
+
+TITLE: Default Form Values
+DESCRIPTION: Shows how to set default or initial values for form fields in React Hook Form. This is useful for pre-populating forms with existing data or default settings.
+
+SOURCE: https://github.com/react-hook-form/react-hook-form/blob/master/examples/README.md#_snippet_12
+
+LANGUAGE: javascript
+CODE:
+```
+import React from 'react';
+import { useForm } from 'react-hook-form';
+
+function App() {
+  const { register, handleSubmit } = useForm({
+    defaultValues: {
+      firstName: 'John',
+      lastName: 'Doe'
+    }
+  });
+
+  const onSubmit = (data) => {
+    console.log('Form submitted:', data);
+  };
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <input {...register('firstName')} />
+      <input {...register('lastName')} />
+      <button type="submit">Submit</button>
+    </form>
+  );
+}
+
+export default App;
+```
+
+----------------------------------------
+
+TITLE: Modal/Toggle Input
+DESCRIPTION: Demonstrates how to manage form inputs that are conditionally displayed or toggled, such as within modals or based on user interactions, using React Hook Form. This example focuses on dynamic input visibility.
+
+SOURCE: https://github.com/react-hook-form/react-hook-form/blob/master/examples/README.md#_snippet_21
+
+LANGUAGE: javascript
+CODE:
+```
+import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
+
+function App() {
+  const { register, handleSubmit } = useForm();
+  const [showModalInput, setShowModalInput] = useState(false);
+
+  const onSubmit = (data) => {
+    console.log('Form submitted:', data);
+  };
+
+  return (
+    <div>
+      <button onClick={() => setShowModalInput(true)}>Open Modal Input</button>
+      {showModalInput && (
+        <div style={{ border: '1px solid black', padding: '10px', marginTop: '10px' }}>
+          <input {...register('modalInput')} />
+          <button onClick={() => setShowModalInput(false)}>Close</button>
+        </div>
+      )}
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+  );
+}
+
+export default App;
+```
+
+----------------------------------------
+
+TITLE: Async Set Form Values
+DESCRIPTION: Shows how to asynchronously set form values in React Hook Form. This is useful when fetching data from an API and populating the form.
+
+SOURCE: https://github.com/react-hook-form/react-hook-form/blob/master/examples/README.md#_snippet_1
+
+LANGUAGE: javascript
+CODE:
+```
+import React, { useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+
+function App() {
+  const { register, setValue, handleSubmit } = useForm();
+
+  useEffect(() => {
+    // Simulate fetching data
+    const fetchData = async () => {
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      setValue('name', 'John Doe');
+      setValue('email', 'john.doe@example.com');
+    };
+    fetchData();
+  }, [setValue]);
+
+  const onSubmit = (data) => {
+    console.log('Form submitted:', data);
+  };
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <input {...register('name')} />
+      <input {...register('email')} />
+      <button type="submit">Submit</button>
+    </form>
+  );
+}
+
+export default App;
+```
+
+----------------------------------------
+
+TITLE: README Marker Syntax
+DESCRIPTION: Defines the syntax for markers used within the README.md template file. Markers are placed at the start of a line and are identified by a '~' followed by a Marker_Id.
+
+SOURCE: https://github.com/react-hook-form/react-hook-form/blob/master/scripts/README/README.md#_snippet_0
+
+LANGUAGE: markdown
+CODE:
+```
+~Marker_Id
+```
+
+----------------------------------------
+
+TITLE: Persist Input Value on Unmount Example
+DESCRIPTION: Demonstrates how to persist input values even when the component unmounts, useful for maintaining state across navigation.
+
+SOURCE: https://github.com/react-hook-form/react-hook-form/blob/master/examples/V6/README.md#_snippet_24
+
+LANGUAGE: javascript
+CODE:
+```
+https://codesandbox.io/s/headless-sound-wgetb
+```
+
+----------------------------------------
+
+TITLE: Basic Validation
+DESCRIPTION: Demonstrates how to implement basic validation rules (e.g., required fields) for form inputs using React Hook Form. It shows how to display validation errors.
+
+SOURCE: https://github.com/react-hook-form/react-hook-form/blob/master/examples/README.md#_snippet_5
+
+LANGUAGE: javascript
+CODE:
+```
+import React from 'react';
+import { useForm } from 'react-hook-form';
+
+function App() {
+  const { register, handleSubmit, formState: { errors } } = useForm();
+
+  const onSubmit = (data) => {
+    console.log('Form submitted:', data);
+  };
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <input {...register('username', { required: 'Username is required' }) } />
+      {errors.username && <span>{errors.username.message}</span>}
+      <button type="submit">Submit</button>
+    </form>
+  );
+}
+
+export default App;
+```
+
+----------------------------------------
+
+TITLE: Disable Native Validation Example
+DESCRIPTION: Shows how to disable the browser's default form validation behavior.
+
+SOURCE: https://github.com/react-hook-form/react-hook-form/blob/master/examples/V6/README.md#_snippet_19
+
+LANGUAGE: javascript
+CODE:
+```
+https://codesandbox.io/s/keen-mccarthy-4pqn6
+```
+
+----------------------------------------
+
+TITLE: Register Error Messages Example
+DESCRIPTION: Demonstrates how to manually register error messages for form fields, useful for custom validation feedback.
+
+SOURCE: https://github.com/react-hook-form/react-hook-form/blob/master/examples/V6/README.md#_snippet_32
+
+LANGUAGE: javascript
+CODE:
+```
+https://codesandbox.io/s/o766kp4z05
+```
+
+----------------------------------------
+
+TITLE: Async Submit Validation
+DESCRIPTION: Demonstrates how to perform asynchronous validation on form submission in React Hook Form. This is useful for server-side validation.
+
+SOURCE: https://github.com/react-hook-form/react-hook-form/blob/master/examples/README.md#_snippet_0
+
+LANGUAGE: javascript
+CODE:
+```
+import React from 'react';
+import { useForm } from 'react-hook-form';
+
+function App() {
+  const { register, handleSubmit, formState: { errors } } = useForm();
+
+  const onSubmit = async (data) => {
+    // Simulate async validation
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    console.log('Form submitted:', data);
+  };
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <input {...register('username', { required: 'Username is required' }) } />
+      {errors.username && <span>{errors.username.message}</span>}
+      <button type="submit">Submit</button>
+    </form>
+  );
+}
+
+export default App;
+```
+
+----------------------------------------
+
+TITLE: useForm Types and Methods
+DESCRIPTION: Details the various types and methods available through the `useForm` hook, including clearing errors, getting field state, getting values, and handling submission.
+
+SOURCE: https://github.com/react-hook-form/react-hook-form/blob/master/reports/api-extractor.md#_snippet_23
+
+LANGUAGE: APIDOC
+CODE:
+```
+UseFormClearErrors<TFieldValues>:
+  - Clears form errors.
+  - Signature: clearErrors(name?: FieldPath<TFieldValues> | FieldPath<TFieldValues>[] | readonly FieldPath<TFieldValues>[] | `root.${string}` | 'root')
+
+UseFormGetFieldState<TFieldValues>:
+  - Gets the state of a specific field.
+  - Signature: getFieldState<TFieldName extends FieldPath<TFieldValues>>(name: TFieldName, formState?: FormState<TFieldValues>): {
+      invalid: boolean;
+      isDirty: boolean;
+      isTouched: boolean;
+      isValidating: boolean;
+      error?: FieldError;
+    };
+
+UseFormGetValues<TFieldValues>:
+  - Retrieves form values.
+  - Signatures:
+    - getValues(): TFieldValues;
+    - getValues<TFieldName extends FieldPath<TFieldValues>>(name: TFieldName): FieldPathValue<TFieldValues, TFieldName>;
+    - getValues<TFieldNames extends FieldPath<TFieldValues>[]>(names: readonly [...TFieldNames]): [...FieldPathValues<TFieldValues, TFieldNames>];
+
+UseFormHandleSubmit<TFieldValues, TTransformedValues = TFieldValues>:
+  - Creates a submit handler.
+  - Signature: handleSubmit(onValid: SubmitHandler<TTransformedValues>, onInvalid?: SubmitErrorHandler<TFieldValues>) => (e?: React_2.BaseSyntheticEvent) => Promise<void>;
+  - Calls `onValid` with form values on successful validation, or `onInvalid` if validation fails.
+```
+
+----------------------------------------
+
+TITLE: React Hook Form Resolver Type
+DESCRIPTION: Documentation for the Resolver type, which allows integration with external validation schema libraries like Yup or Zod.
+
+SOURCE: https://github.com/react-hook-form/react-hook-form/blob/master/examples/README.md#_snippet_31
+
+LANGUAGE: typescript
+CODE:
+```
+// Type definition for Resolver
+// See: https://codesandbox.io/s/react-hook-form-resolver-rvspp
+```
+
+----------------------------------------
+
+TITLE: Async Field Validation Example
+DESCRIPTION: Illustrates performing asynchronous validation on individual form fields. This is common for checking the availability of usernames or email addresses.
+
+SOURCE: https://github.com/react-hook-form/react-hook-form/blob/master/examples/V6/README.md#_snippet_2
+
+LANGUAGE: javascript
+CODE:
+```
+https://codesandbox.io/s/m5pj55yj7x
+```
+
+----------------------------------------
+
+TITLE: React Hook Form UseFormReturn Type
+DESCRIPTION: Details the UseFormReturn type, which represents the return value of the useForm hook, including all methods and state for form management.
+
+SOURCE: https://github.com/react-hook-form/react-hook-form/blob/master/examples/README.md#_snippet_32
+
+LANGUAGE: typescript
+CODE:
+```
+// Type definition for UseFormReturn
+// See: https://codesandbox.io/s/react-hook-form-useformmethods-e3411
+```
+
+----------------------------------------
+
+TITLE: Custom Input Component Integration
+DESCRIPTION: Shows how to integrate custom input components (like those from Material-UI or React-Select) with React Hook Form using the `Controller` component. This allows for seamless integration with third-party UI libraries.
+
+SOURCE: https://github.com/react-hook-form/react-hook-form/blob/master/examples/README.md#_snippet_8
+
+LANGUAGE: javascript
+CODE:
+```
+import React from 'react';
+import { useForm, Controller } from 'react-hook-form';
+import Select from 'react-select'; // Example custom input
+
+function App() {
+  const { handleSubmit, control } = useForm();
+  const options = [
+    { value: 'chocolate', label: 'Chocolate' },
+    { value: 'strawberry', label: 'Strawberry' },
+    { value: 'vanilla', label: 'Vanilla' }
+  ];
+
+  const onSubmit = (data) => {
+    console.log('Form submitted:', data);
+  };
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <Controller
+        name="selectField"
+        control={control}
+        render={({ field }) => (
+          <Select {...field} options={options} />
+        )}
+      />
+      <button type="submit">Submit</button>
+    </form>
+  );
+}
+
+export default App;
+```
+
+----------------------------------------
+
+TITLE: Compare Field Values
+DESCRIPTION: Demonstrates how to compare the values of two different fields in React Hook Form. This is commonly used for password confirmation fields.
+
+SOURCE: https://github.com/react-hook-form/react-hook-form/blob/master/examples/README.md#_snippet_11
+
+LANGUAGE: javascript
+CODE:
+```
+import React from 'react';
+import { useForm } from 'react-hook-form';
+
+function App() {
+  const { register, handleSubmit, formState: { errors } } = useForm();
+
+  const onSubmit = (data) => {
+    console.log('Form submitted:', data);
+  };
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <input {...register('password', { required: 'Password is required' }) } />
+      <input {...register('confirmPassword', {
+        required: 'Confirm password is required',
+        validate: (value, allValues) => value === allValues.password || 'Passwords do not match'
+      })} />
+      {errors.confirmPassword && <span>{errors.confirmPassword.message}</span>}
+      <button type="submit">Submit</button>
+    </form>
+  );
+}
+
+export default App;
+```
+
+----------------------------------------
+
+TITLE: Nested Forms
+DESCRIPTION: Demonstrates how to implement nested forms in React Hook Form, allowing you to create forms within forms or manage complex form structures with reusable form components. This example shows a parent form containing a child form.
+
+SOURCE: https://github.com/react-hook-form/react-hook-form/blob/master/examples/README.md#_snippet_23
+
+LANGUAGE: javascript
+CODE:
+```
+import React from 'react';
+import { useForm, useFieldArray } from 'react-hook-form';
+
+function ChildForm() {
+  const { register, control } = useForm();
+  const { fields, append } = useFieldArray({ control, name: 'childItems' });
+
+  return (
+    <div>
+      {fields.map((field, index) => (
+        <input key={field.id} {...register(`childItems.${index}.value`)} />
+      ))}
+      <button type="button" onClick={() => append({ value: '' }) }>
+        Add Child Item
+      </button>
+    </div>
+  );
+}
+
+function App() {
+  const { register, handleSubmit } = useForm();
+
+  const onSubmit = (data) => {
+    console.log('Form submitted:', data);
+  };
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <input {...register('parentField')} />
+      <ChildForm />
+      <button type="submit">Submit</button>
+    </form>
+  );
+}
+
+export default App;
+```
+
+----------------------------------------
+
+TITLE: Normalize/Format/Mask Field
+DESCRIPTION: Shows how to normalize, format, or mask input field values in React Hook Form. This is useful for ensuring data consistency and improving user experience by automatically formatting input.
+
+SOURCE: https://github.com/react-hook-form/react-hook-form/blob/master/examples/README.md#_snippet_24
+
+LANGUAGE: javascript
+CODE:
+```
+import React from 'react';
+import { useForm } from 'react-hook-form';
+
+function App() {
+  const { register, handleSubmit } = useForm();
+
+  const formatInput = (value) => {
+    // Example: format to uppercase
+    return value.toUpperCase();
+  };
+
+  const onSubmit = (data) => {
+    console.log('Form submitted:', data);
+  };
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <input {...register('formattedField', { onChange: (e) => {
+        e.target.value = formatInput(e.target.value);
+      } }) } />
+      <button type="submit">Submit</button>
+    </form>
+  );
+}
+
+export default App;
+```
+
+----------------------------------------
+
+TITLE: React Hook Form Control Type
+DESCRIPTION: Explains the Control type, which provides access to the form's internal state and methods for advanced form manipulation.
+
+SOURCE: https://github.com/react-hook-form/react-hook-form/blob/master/examples/README.md#_snippet_33
+
+LANGUAGE: typescript
+CODE:
+```
+// Type definition for Control
+// See: https://codesandbox.io/s/react-hook-form-control-forked-giq0e
+```
+
+----------------------------------------
+
+TITLE: Async Field Validation
+DESCRIPTION: Demonstrates how to perform asynchronous validation on individual fields in React Hook Form. This is commonly used for checking username availability or email uniqueness.
+
+SOURCE: https://github.com/react-hook-form/react-hook-form/blob/master/examples/README.md#_snippet_2
+
+LANGUAGE: javascript
+CODE:
+```
+import React from 'react';
+import { useForm } from 'react-hook-form';
+
+function App() {
+  const { register, handleSubmit, formState: { errors } } = useForm();
+
+  const validateUsername = async (value) => {
+    // Simulate async check for username availability
+    await new Promise(resolve => setTimeout(resolve, 500));
+    if (value === 'admin') {
+      return 'Username already taken';
+    }
+    return true;
+  };
+
+  const onSubmit = (data) => {
+    console.log('Form submitted:', data);
+  };
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <input {...register('username', { validate: validateUsername }) } />
+      {errors.username && <span>{errors.username.message}</span>}
+      <button type="submit">Submit</button>
+    </form>
+  );
+}
+
+export default App;
+```
+
+----------------------------------------
+
+TITLE: React Hook Form SubmitHandler Type
+DESCRIPTION: Defines the SubmitHandler type, used for handling form submission events in React Hook Form.
+
+SOURCE: https://github.com/react-hook-form/react-hook-form/blob/master/examples/README.md#_snippet_30
+
+LANGUAGE: typescript
+CODE:
+```
+// Type definition for SubmitHandler
+// See: https://codesandbox.io/s/react-hook-form-submithandler-e2r3u
+```
+
+----------------------------------------
+
+TITLE: Reset Form
+DESCRIPTION: Demonstrates how to reset form fields to their initial values or clear them entirely in React Hook Form. This is commonly used after successful submission or when the user cancels an operation.
+
+SOURCE: https://github.com/react-hook-form/react-hook-form/blob/master/examples/README.md#_snippet_25
+
+LANGUAGE: javascript
+CODE:
+```
+import React from 'react';
+import { useForm } from 'react-hook-form';
+
+function App() {
+  const { register, handleSubmit, reset } = useForm({
+    defaultValues: {
+      firstName: 'John',
+      lastName: 'Doe'
+    }
+  });
+
+  const onSubmit = (data) => {
+    console.log('Form submitted:', data);
+    reset(); // Reset form after submission
+  };
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <input {...register('firstName')} />
+      <
+```
+
+----------------------------------------
+
+TITLE: Conditional Fields
+DESCRIPTION: Demonstrates how to conditionally render form fields based on other form values or application state in React Hook Form. This is useful for dynamic forms.
+
+SOURCE: https://github.com/react-hook-form/react-hook-form/blob/master/examples/README.md#_snippet_7
+
+LANGUAGE: javascript
+CODE:
+```
+import React from 'react';
+import { useForm } from 'react-hook-form';
+
+function App() {
+  const { register, handleSubmit, watch } = useForm();
+  const showExtraField = watch('showField');
+
+  const onSubmit = (data) => {
+    console.log('Form submitted:', data);
+  };
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <label>
+        <input type="checkbox" {...register('showField')} />
+        Show Extra Field
+      </label>
+      {showExtraField && (
+        <div>
+          <label>Extra Field:</label>
+          <input {...register('extraField')} />
+        </div>
+      )}
+      <button type="submit">Submit</button>
+    </form>
+  );
+}
+
+export default App;
+```
+
+----------------------------------------
+
+TITLE: React Hook Form NestedValue Type
+DESCRIPTION: Documentation for the NestedValue type, which is used to handle nested form values within React Hook Form.
+
+SOURCE: https://github.com/react-hook-form/react-hook-form/blob/master/examples/README.md#_snippet_29
+
+LANGUAGE: typescript
+CODE:
+```
+// Type definition for NestedValue
+// See: https://codesandbox.io/s/react-hook-form-nestedvalue-forked-7bt6l
+```
+
+----------------------------------------
+
+TITLE: Field Array Minimum Length
+DESCRIPTION: Shows how to enforce a minimum length for arrays managed by `useFieldArray` in React Hook Form. This is useful for ensuring a certain number of items are present in a dynamic list.
+
+SOURCE: https://github.com/react-hook-form/react-hook-form/blob/master/examples/README.md#_snippet_16
+
+LANGUAGE: javascript
+CODE:
+```
+import React from 'react';
+import { useForm, useFieldArray } from 'react-hook-form';
+
+function App() {
+  const { register, control, handleSubmit, formState: { errors } } = useForm();
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: 'items',
+    rules: {
+      minLength: {
+        value: 2,
+        message: 'Please add at least 2 items'
+      }
+    }
+  });
+
+  const onSubmit = (data) => {
+    console.log('Form submitted:', data);
+  };
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      {fields.map((field, index) => (
+        <div key={field.id}>
+          <input {...register(`items.${index}.name`)} />
+          <button type="button" onClick={() => remove(index)}>
+            Remove
+          </button>
+        </div>
+      ))}
+      <button type="button" onClick={() => append({ name: '' }) }>
+        Add Item
+      </button>
+      {errors.items && <span>{errors.items.message}</span>}
+      <button type="submit">Submit</button>
+    </form>
+  );
+}
+
+export default App;
+```
+
+----------------------------------------
+
+TITLE: Array of Field Array (Nested Arrays)
+DESCRIPTION: Illustrates how to handle arrays of fields, including nested arrays, using React Hook Form's `useFieldArray` hook. This is useful for dynamic lists of items.
+
+SOURCE: https://github.com/react-hook-form/react-hook-form/blob/master/examples/README.md#_snippet_3
+
+LANGUAGE: javascript
+CODE:
+```
+import React from 'react';
+import { useForm, useFieldArray } from 'react-hook-form';
+
+function App() {
+  const { register, control, handleSubmit } = useForm();
+  const { fields, append, remove } = useFieldArray({ control, name: 'test' });
+
+  const onSubmit = (data) => {
+    console.log('Form submitted:', data);
+  };
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      {fields.map((field, index) => (
+        <div key={field.id}>
+          <input {...register(`test.${index}.firstName`)} />
+          <button type="button" onClick={() => remove(index)}>
+            Remove
+          </button>
+        </div>
+      ))}
+      <button type="button" onClick={() => append({ firstName: '' }) }>
+        Add Field
+      </button>
+      <button type="submit">Submit</button>
+    </form>
+  );
+}
+
+export default App;
+```
+
+----------------------------------------
+
+TITLE: Custom Validation
+DESCRIPTION: Shows how to define and apply custom validation functions to form fields in React Hook Form. This allows for complex validation logic beyond built-in rules.
+
+SOURCE: https://github.com/react-hook-form/react-hook-form/blob/master/examples/README.md#_snippet_6
+
+LANGUAGE: javascript
+CODE:
+```
+import React from 'react';
+import { useForm } from 'react-hook-form';
+
+function App() {
+  const { register, handleSubmit, formState: { errors } } = useForm();
+
+  const customValidation = (value) => {
+    if (value.length < 5) {
+      return 'Must be at least 5 characters';
+    }
+    return true;
+  };
+
+  const onSubmit = (data) => {
+    console.log('Form submitted:', data);
+  };
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <input {...register('customField', { validate: customValidation }) } />
+      {errors.customField && <span>{errors.customField.message}</span>}
+      <button type="submit">Submit</button>
+    </form>
+  );
+}
+
+export default App;
+```
+
+----------------------------------------
+
+TITLE: Submit Only Dirty Fields
+DESCRIPTION: Shows how to submit only the fields that have been modified by the user in React Hook Form. This can optimize API calls by sending only changed data.
+
+SOURCE: https://github.com/react-hook-form/react-hook-form/blob/master/examples/README.md#_snippet_14
+
+LANGUAGE: javascript
+CODE:
+```
+import React from 'react';
+import { useForm } from 'react-hook-form';
+
+function App() {
+  const { register, handleSubmit, formState: { dirtyFields } } = useForm();
+
+  const onSubmit = (data) => {
+    const dirtyData = Object.keys(dirtyFields).reduce((acc, key) => {
+      acc[key] = data[key];
+      return acc;
+    }, {});
+    console.log('Dirty fields submitted:', dirtyData);
+  };
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <input {...register('field1')} />
+      <input {...register('field2')} />
+      <button type="submit">Submit</button>
+    </form>
+  );
+}
+
+export default App;
+```
+
+----------------------------------------
+
+TITLE: Parse and Format Input Value
+DESCRIPTION: Shows how to parse and format input values in React Hook Form, allowing you to transform user input before it's stored in the form state. This is useful for handling specific data formats like numbers or dates.
+
+SOURCE: https://github.com/react-hook-form/react-hook-form/blob/master/examples/README.md#_snippet_20
+
+LANGUAGE: javascript
+CODE:
+```
+import React from 'react';
+import { useForm } from 'react-hook-form';
+
+function App() {
+  const { register, handleSubmit, formState: { errors } } = useForm();
+
+  const onSubmit = (data) => {
+    console.log('Form submitted:', data);
+  };
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <input 
+        {...register('numericValue', {
+          valueAsNumber: true,
+          validate: (value) => !isNaN(value) || 'Please enter a valid number'
+        })} 
+      />
+      {errors.numericValue && <span>{errors.numericValue.message}</span>}
+      <button type="submit">Submit</button>
+    </form>
+  );
+}
+
+export default App;
+```
+
+----------------------------------------
+
+TITLE: Field Array Controlled
+DESCRIPTION: Demonstrates how to manage a field array in a controlled manner using React Hook Form's `useFieldArray` hook. This provides fine-grained control over the array's state and updates.
+
+SOURCE: https://github.com/react-hook-form/react-hook-form/blob/master/examples/README.md#_snippet_17
+
+LANGUAGE: javascript
+CODE:
+```
+import React from 'react';
+import { useForm, useFieldArray } from 'react-hook-form';
+
+function App() {
+  const { register, control, handleSubmit } = useForm();
+  const { fields, append, remove, swap, move, prepend, update } = useFieldArray({ control, name: 'controlledArray' });
+
+  const onSubmit = (data) => {
+    console.log('Form submitted:', data);
+  };
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      {fields.map((field, index) => (
+        <div key={field.id}>
+          <input {...register(`controlledArray.${index}.value`)} />
+          <button type="button" onClick={() => remove(index)}>
+            Remove
+          </button>
+          <button type="button" onClick={() => swap(index, index + 1)}>
+            Swap
+          </button>
+        </div>
+      ))}
+      <button type="button" onClick={() => append({ value: '' }) }>
+        Append
+      </button>
+      <button type="submit">Submit</button>
+    </form>
+  );
+}
+
+export default App;
+```
+
+----------------------------------------
+
+TITLE: React Hook Form Basic Usage
+DESCRIPTION: Demonstrates the basic usage of the `useForm` hook for form submission and input registration. It shows how to handle input values, validation, and submission.
+
+SOURCE: https://github.com/react-hook-form/react-hook-form/blob/master/docs/README.fr-FR.md#_snippet_0
+
+LANGUAGE: jsx
+CODE:
+```
+import React from 'react';
+import { useForm } from 'react-hook-form';
+
+function App() {
+  const { register, handleSubmit, errors } = useForm(); // initialise the hook
+  const onSubmit = (data) => {
+    console.log(data);
+  };
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <input name="firstname" ref={register} /> {/* register an input */}
+      <input name="lastname" ref={register({ required: true })} />
+      {errors.lastname && 'Last name is required.'}
+      <input name="age" ref={register({ pattern: /\d+/ })} />
+      {errors.age && 'Please enter number for age.'}
+      <input type="submit" />
+    </form>
+  );
+}
+```

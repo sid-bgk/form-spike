@@ -1,0 +1,24 @@
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
+import { Navigation } from '@/components/Navigation'
+import { Home } from '@/pages/Home'
+import { TanUserRegistration } from '@/pages/TanUserRegistration'
+import { TanCompanyRegistration } from '@/pages/TanCompanyRegistration'
+
+function App() {
+  return (
+    <Router>
+      <div className="min-h-screen bg-gray-50">
+        <Navigation />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/tan-user-registration" element={<TanUserRegistration />} />
+          <Route path="/tan-company-registration" element={<TanCompanyRegistration />} />
+          {/* Redirect any unknown routes to home */}
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </div>
+    </Router>
+  )
+}
+
+export default App

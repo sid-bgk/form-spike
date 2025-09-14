@@ -1,0 +1,1747 @@
+========================
+CODE SNIPPETS
+========================
+TITLE: Contributing Setup
+DESCRIPTION: Instructions for setting up the development environment for Formik, including installing dependencies and running tests.
+
+SOURCE: https://github.com/jaredpalmer/formik/blob/main/packages/formik/README.md#_snippet_1
+
+LANGUAGE: bash
+CODE:
+```
+yarn install
+npx playwright install
+yarn start:app
+yarn e2e:ui
+```
+
+----------------------------------------
+
+TITLE: Formik Starter Code
+DESCRIPTION: Example JavaScript code for the Formik tutorial's starting point.
+
+SOURCE: https://github.com/jaredpalmer/formik/blob/main/docs/tutorial.md#_snippet_5
+
+LANGUAGE: javascript
+CODE:
+```
+import React from 'react';
+import ReactDOM from 'react-dom';
+import './styles.css';
+
+function App() {
+  return (
+    <form>
+      <input type="email" name="email" placeholder="Enter your email" />
+      <button type="submit">Submit</button>
+    </form>
+  );
+}
+
+ReactDOM.render(<App />, document.getElementById('root'));
+
+```
+
+----------------------------------------
+
+TITLE: Contributing Setup
+DESCRIPTION: Instructions for setting up the development environment for Formik, including installing dependencies and running tests.
+
+SOURCE: https://github.com/jaredpalmer/formik/blob/main/README.md#_snippet_1
+
+LANGUAGE: bash
+CODE:
+```
+yarn install
+npx playwright install
+yarn start:app
+yarn e2e:ui
+```
+
+----------------------------------------
+
+TITLE: Install Yup for Validation Schema
+DESCRIPTION: Instructions to install the Yup library, which is commonly used with Formik for schema-based validation.
+
+SOURCE: https://github.com/jaredpalmer/formik/blob/main/docs/guides/validation.md#_snippet_2
+
+LANGUAGE: sh
+CODE:
+```
+npm install yup --save
+```
+
+----------------------------------------
+
+TITLE: Install Formik (yarn)
+DESCRIPTION: Command to install Formik using yarn.
+
+SOURCE: https://github.com/jaredpalmer/formik/blob/main/docs/tutorial.md#_snippet_2
+
+LANGUAGE: bash
+CODE:
+```
+yarn add formik
+```
+
+----------------------------------------
+
+TITLE: Install Formik (npm)
+DESCRIPTION: Command to install Formik using npm.
+
+SOURCE: https://github.com/jaredpalmer/formik/blob/main/docs/tutorial.md#_snippet_1
+
+LANGUAGE: bash
+CODE:
+```
+npm i formik
+```
+
+----------------------------------------
+
+TITLE: Basic Formik Usage
+DESCRIPTION: This snippet shows a fundamental Formik setup for a simple form with input fields and a submit button. It covers state management, input handling, and submission logic.
+
+SOURCE: https://github.com/jaredpalmer/formik/blob/main/examples/basic/README.md#_snippet_0
+
+LANGUAGE: jsx
+CODE:
+```
+import React from 'react';
+import { Formik, Field, Form, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
+
+const basicSchema = Yup.object().shape({
+  email: Yup.string().email('Invalid email').required('Required'),
+});
+
+const BasicForm = () => (
+  <div>
+    <h1>Simple Form</h1>
+    <Formik
+      initialValues={{ email: '' }}
+      validationSchema={basicSchema}
+      onSubmit={async (values) => {
+        await new Promise((r) => setTimeout(r, 500));
+        alert(JSON.stringify(values, null, 2));
+      }}
+    >
+      <Form>
+        <label htmlFor="email">Email</label>
+        <Field id="email" name="email" placeholder="jane@acme.com" type="email" />
+        <ErrorMessage name="email" />
+
+        <button type="submit">Submit</button>
+      </Form>
+    </Formik>
+  </div>
+);
+
+export default BasicForm;
+```
+
+----------------------------------------
+
+TITLE: Basic Formik Usage
+DESCRIPTION: This snippet showcases the core implementation of Formik for managing form state and submission in a basic React application. It highlights the essential components and props required for initial setup.
+
+SOURCE: https://github.com/jaredpalmer/formik/blob/main/docs/examples/basic.md#_snippet_0
+
+LANGUAGE: javascript
+CODE:
+```
+import React from 'react';
+import { useFormik } from 'formik';
+
+function BasicForm() {
+  const formik = useFormik({
+    initialValues: {
+      firstName: '',
+      lastName: '',
+      email: '',
+    },
+    onSubmit: values => {
+      alert(JSON.stringify(values, null, 2));
+    },
+  });
+  return (
+    <form onSubmit={formik.handleSubmit}>
+      <label htmlFor="firstName">First Name</label>
+      <input
+        id="firstName"
+        name="firstName"
+        type="text"
+        onChange={formik.handleChange}
+        value={formik.values.firstName}
+      />
+
+      <label htmlFor="lastName">Last Name</label>
+      <input
+        id="lastName"
+        name="lastName"
+        type="text"
+        onChange={formik.handleChange}
+        value={formik.values.lastName}
+      />
+
+      <label htmlFor="email">Email Address</label>
+      <input
+        id="email"
+        name="email"
+        type="email"
+        onChange={formik.handleChange}
+        value={formik.values.email}
+      />
+
+      <button type="submit">Submit</button>
+    </form>
+  );
+}
+```
+
+----------------------------------------
+
+TITLE: Install Formik
+DESCRIPTION: Installs the Formik library using npm or yarn.
+
+SOURCE: https://github.com/jaredpalmer/formik/blob/main/packages/formik/README.md#_snippet_0
+
+LANGUAGE: bash
+CODE:
+```
+npm install formik
+# or
+yarn add formik
+```
+
+----------------------------------------
+
+TITLE: Install Formik
+DESCRIPTION: Installs the Formik library using npm or yarn.
+
+SOURCE: https://github.com/jaredpalmer/formik/blob/main/README.md#_snippet_0
+
+LANGUAGE: bash
+CODE:
+```
+npm install formik
+# or
+yarn add formik
+```
+
+----------------------------------------
+
+TITLE: Install Dependencies
+DESCRIPTION: Installs all necessary project dependencies using Yarn.
+
+SOURCE: https://github.com/jaredpalmer/formik/blob/main/website/README.md#_snippet_0
+
+LANGUAGE: sh
+CODE:
+```
+yarn install
+```
+
+----------------------------------------
+
+TITLE: Embedded Formik Demo
+DESCRIPTION: An interactive demonstration of the basic Formik example hosted on CodeSandbox. This allows users to directly interact with and explore the functionality.
+
+SOURCE: https://github.com/jaredpalmer/formik/blob/main/docs/examples/basic.md#_snippet_1
+
+LANGUAGE: html
+CODE:
+```
+<div className="embed-responsive aspect-ratio-square">
+  <iframe
+  src="https://codesandbox.io/embed/github/formik/formik/tree/main/examples/basic?fontsize=14&hidenavigation=1&theme=dark"
+  style={{ width:'100%', height: '100%', border:0, borderRadius: 4, overflow: 'hidden'}}
+  title="formik/formik: async-submission"
+  allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
+  sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
+  ></iframe>
+</div>
+```
+
+----------------------------------------
+
+TITLE: Install Yup
+DESCRIPTION: Installs the Yup library, a popular choice for schema validation with Formik, using either npm or yarn.
+
+SOURCE: https://github.com/jaredpalmer/formik/blob/main/docs/tutorial.md#_snippet_12
+
+LANGUAGE: bash
+CODE:
+```
+npm install yup --save
+
+# or via yarn
+
+yarn add yup
+```
+
+----------------------------------------
+
+TITLE: Field-Level Validation Example
+DESCRIPTION: Demonstrates how to implement field-level validation in Formik using the `validate` prop on `<Field>` components. Includes examples of synchronous validation functions for email and username.
+
+SOURCE: https://github.com/jaredpalmer/formik/blob/main/docs/guides/validation.md#_snippet_4
+
+LANGUAGE: jsx
+CODE:
+```
+import React from 'react';
+import { Formik, Form, Field } from 'formik';
+
+function validateEmail(value) {
+  let error;
+  if (!value) {
+    error = 'Required';
+  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)) {
+    error = 'Invalid email address';
+  }
+  return error;
+}
+
+function validateUsername(value) {
+  let error;
+  if (value === 'admin') {
+    error = 'Nice try!';
+  }
+  return error;
+}
+
+export const FieldLevelValidationExample = () => (
+  <div>
+    <h1>Signup</h1>
+    <Formik
+      initialValues={{
+        username: '',
+        email: '',
+      }}
+      onSubmit={values => {
+        // same shape as initial values
+        console.log(values);
+      }}
+    >
+      {({ errors, touched, isValidating }) => (
+        <Form>
+          <Field name="email" validate={validateEmail} />
+          {errors.email && touched.email && <div>{errors.email}</div>}
+
+          <Field name="username" validate={validateUsername} />
+          {errors.username && touched.username && <div>{errors.username}</div>}
+
+          <button type="submit">Submit</button>
+        </Form>
+      )}
+    </Formik>
+  </div>
+);
+```
+
+----------------------------------------
+
+TITLE: Create React App Installation
+DESCRIPTION: Command to create a new React project using Create React App.
+
+SOURCE: https://github.com/jaredpalmer/formik/blob/main/docs/tutorial.md#_snippet_0
+
+LANGUAGE: bash
+CODE:
+```
+npx create-react-app my-app
+```
+
+----------------------------------------
+
+TITLE: Basic Formik with TypeScript
+DESCRIPTION: This snippet illustrates a fundamental Formik setup using TypeScript. It's designed to show the basic structure for handling form state, validation, and submission within a TypeScript environment. No external dependencies beyond Formik and React are required for this basic usage.
+
+SOURCE: https://github.com/jaredpalmer/formik/blob/main/examples/basic-typescript/README.md#_snippet_0
+
+LANGUAGE: typescript
+CODE:
+```
+import React from 'react';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
+
+interface MyFormValues {
+  firstName: string;
+  lastName: string;
+  email: string;
+}
+
+const validationSchema = Yup.object({
+  firstName: Yup.string()
+    .max(15, 'Must be 15 characters or less')
+    .required('Required'),
+  lastName: Yup.string()
+    .max(20, 'Must be 20 characters or less')
+    .required('Required'),
+  email: Yup.string()
+    .email('Invalid email address')
+    .required('Required'),
+});
+
+const MyForm = () => (
+  <div>
+    <h1>My Form</h1>
+    <Formik
+      initialValues={{ firstName: '', lastName: '', email: '' }}
+      validationSchema={validationSchema}
+      onSubmit={(values: MyFormValues, { setSubmitting }) => {
+        setTimeout(() => {
+          alert(JSON.stringify(values, null, 2));
+          setSubmitting(false);
+        }, 400);
+      }}
+    >
+      {formik => (
+        <Form>
+          <div>
+            <label htmlFor="firstName">First Name</label>
+            <Field name="firstName" />
+            <ErrorMessage name="firstName" component="div" />
+          </div>
+
+          <div>
+            <label htmlFor="lastName">Last Name</label>
+            <Field name="lastName" />
+            <ErrorMessage name="lastName" component="div" />
+          </div>
+
+          <div>
+            <label htmlFor="email">Email Address</label>
+            <Field name="email" type="email" />
+            <ErrorMessage name="email" component="div" />
+          </div>
+
+          <button type="submit" disabled={formik.isSubmitting}>
+            Submit
+          </button>
+        </Form>
+      )}
+    </Formik>
+  </div>
+);
+
+export default MyForm;
+
+```
+
+----------------------------------------
+
+TITLE: Basic Form Example with withFormik
+DESCRIPTION: Demonstrates how to use the withFormik HOC to create a form component. It includes input fields, validation, and submission handling. The example showcases mapping props to form values and defining validation rules.
+
+SOURCE: https://github.com/jaredpalmer/formik/blob/main/docs/api/withFormik.md#_snippet_0
+
+LANGUAGE: jsx
+CODE:
+```
+import React from 'react';
+import { withFormik } from 'formik';
+
+const MyForm = props => {
+  const {
+    values,
+    touched,
+    errors,
+    handleChange,
+    handleBlur,
+    handleSubmit,
+  } = props;
+  return (
+    <form onSubmit={handleSubmit}>
+      <input
+        type="text"
+        onChange={handleChange}
+        onBlur={handleBlur}
+        value={values.name}
+        name="name"
+      />
+      {errors.name && touched.name && <div id="feedback">{errors.name}</div>}
+      <button type="submit">Submit</button>
+    </form>
+  );
+};
+
+const MyEnhancedForm = withFormik({
+  mapPropsToValues: () => ({ name: '' }),
+
+  // Custom sync validation
+  validate: values => {
+    const errors = {};
+
+    if (!values.name) {
+      errors.name = 'Required';
+    }
+
+    return errors;
+  },
+
+  handleSubmit: (values, { setSubmitting }) => {
+    setTimeout(() => {
+      alert(JSON.stringify(values, null, 2));
+      setSubmitting(false);
+    }, 1000);
+  },
+
+  displayName: 'BasicForm',
+})(MyForm);
+```
+
+----------------------------------------
+
+TITLE: Install Formik Native
+DESCRIPTION: Installs Formik Native and its peer dependency Formik using Yarn. This command is essential for setting up the library in a React Native project.
+
+SOURCE: https://github.com/jaredpalmer/formik/blob/main/packages/formik-native/README.md#_snippet_0
+
+LANGUAGE: bash
+CODE:
+```
+yarn add formik formik-native
+```
+
+----------------------------------------
+
+TITLE: Formik Checkbox Group Example
+DESCRIPTION: This example shows how to manage a group of checkboxes using Formik. It covers setting up the form, handling checkbox state, and rendering the checkboxes within a Formik form context. Dependencies include Formik itself.
+
+SOURCE: https://github.com/jaredpalmer/formik/blob/main/examples/checkboxes/README.md#_snippet_0
+
+LANGUAGE: javascript
+CODE:
+```
+import React from 'react';
+import { Formik, Field, Form } from 'formik';
+
+const CheckboxExample = () => (
+  <div>
+    <h1>Formik Checkboxes</h1>
+    <Formik
+      initialValues={{
+        checked: [],
+      }}
+      onSubmit={(values) => {
+        alert(JSON.stringify(values, null, 2));
+      }}
+      render={({ handleSubmit, values }) => (
+        <Form onSubmit={handleSubmit}>
+          <h3>Select your interests:</h3>
+          <div>
+            <label>
+              <Field type="checkbox" name="checked" value="coding" />
+              Coding
+            </label>
+          </div>
+          <div>
+            <label>
+              <Field type="checkbox" name="checked" value="reading" />
+              Reading
+            </label>
+          </div>
+          <div>
+            <label>
+              <Field type="checkbox" name="checked" value="hiking" />
+              Hiking
+            </label>
+          </div>
+          <button type="submit">Submit</button>
+          <pre>{JSON.stringify(values, null, 2)}</pre>
+        </Form>
+      )}
+    />
+  </div>
+);
+
+export default CheckboxExample;
+```
+
+----------------------------------------
+
+TITLE: Install Yup Validation Library
+DESCRIPTION: Provides instructions for installing the Yup validation library using either npm or yarn. Yup is recommended for its efficient object schema validation and its compatibility with Formik's `validationSchema` prop.
+
+SOURCE: https://github.com/jaredpalmer/formik/blob/main/docs/overview.md#_snippet_4
+
+LANGUAGE: bash
+CODE:
+```
+npm install yup --save
+```
+
+LANGUAGE: bash
+CODE:
+```
+yarn add yup
+```
+
+----------------------------------------
+
+TITLE: Embedded Async Submission Example
+DESCRIPTION: An embedded view of the async submission example hosted on CodeSandbox, allowing for interactive exploration of the Formik async submission functionality.
+
+SOURCE: https://github.com/jaredpalmer/formik/blob/main/docs/examples/async-submission.md#_snippet_1
+
+LANGUAGE: html
+CODE:
+```
+<div className="embed-responsive aspect-ratio-square">
+  <iframe
+  src="https://codesandbox.io/embed/github/formik/formik/tree/main/examples/async-submission?fontsize=14&hidenavigation=1&theme=dark"
+  style={{ width:'100%', height: '100%', border:0, borderRadius: 4, overflow: 'hidden'}}
+  title="formik/formik: async-submission"
+  allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
+  sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
+  ></iframe>
+</div>
+```
+
+----------------------------------------
+
+TITLE: Install Formik 3 Alpha
+DESCRIPTION: Command to install the next version of Formik, which is the v3 alpha release.
+
+SOURCE: https://github.com/jaredpalmer/formik/blob/main/website/src/blog/formik-3-alpha.md#_snippet_0
+
+LANGUAGE: jsx
+CODE:
+```
+npm install formik@next
+```
+
+----------------------------------------
+
+TITLE: Formik Radio Group Implementation
+DESCRIPTION: Demonstrates the setup and usage of a radio group component within a Formik form. This includes handling the state and submission of radio button selections.
+
+SOURCE: https://github.com/jaredpalmer/formik/blob/main/docs/examples/radio-group.md#_snippet_0
+
+LANGUAGE: jsx
+CODE:
+```
+import React from 'react';
+import { Formik, Field, Form } from 'formik';
+
+const RadioGroupExample = () => (
+  <div>
+    <h1>Radio Group Example</h1>
+    <Formik
+      initialValues={{
+        picked: '', // set initial value for radio group
+      }}
+      onSubmit={async (values) => {
+        // Simulate submission
+        await new Promise((r) => setTimeout(r, 500));
+        alert(JSON.stringify(values, null, 2));
+      }}
+    >
+      {({ values }) => (
+        <Form>
+          <div id="my-radio-group">
+            <label>
+              <Field type="radio" name="picked" value="One" />
+              One
+            </label>
+            <label>
+              <Field type="radio" name="picked" value="Two" />
+              Two
+            </label>
+          </div>
+          <button type="submit">Submit</button>
+        </Form>
+      )}
+    </Formik>
+  </div>
+);
+
+export default RadioGroupExample;
+```
+
+----------------------------------------
+
+TITLE: Instant Feedback Example
+DESCRIPTION: This example demonstrates providing instant feedback to users as they type, which is useful for validating input like usernames without requiring form submission. It uses Formik to manage form state and validation.
+
+SOURCE: https://github.com/jaredpalmer/formik/blob/main/docs/examples/instant-feedback.md#_snippet_0
+
+LANGUAGE: javascript
+CODE:
+```
+import React from 'react';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
+
+const validationSchema = Yup.object({
+  username: Yup.string()
+    .min(3, 'Username must be at least 3 characters')
+    .max(15, 'Username must be at most 15 characters')
+    .required('Username is required'),
+});
+
+const InstantFeedbackForm = () => (
+  <Formik
+    initialValues={{ username: '' }}
+    validationSchema={validationSchema}
+    onSubmit={(values, { setSubmitting }) => {
+      setTimeout(() => {
+        alert(JSON.stringify(values, null, 2));
+        setSubmitting(false);
+      }, 400);
+    }}
+  >
+    {({ isSubmitting, handleChange, values }) => (
+      <Form>
+        <div>
+          <label htmlFor="username">Username</label>
+          <Field 
+            type="text"
+            name="username"
+            id="username"
+            onChange={handleChange}
+            value={values.username}
+            aria-describedby="username-error"
+          />
+          <ErrorMessage name="username" component="div" className="error" id="username-error" />
+        </div>
+        <button type="submit" disabled={isSubmitting}>
+          Submit
+        </button>
+      </Form>
+    )}
+  </Formik>
+);
+
+export default InstantFeedbackForm;
+
+```
+
+----------------------------------------
+
+TITLE: Basic Formik Implementation
+DESCRIPTION: Demonstrates a fundamental Formik setup with manual handling of input changes and blur events. It includes initial form values, a validation function for email, and an onSubmit handler that simulates an asynchronous operation.
+
+SOURCE: https://github.com/jaredpalmer/formik/blob/main/docs/overview.md#_snippet_2
+
+LANGUAGE: jsx
+CODE:
+```
+import React from 'react';
+import { Formik } from 'formik';
+
+const Basic = () => (
+  <div>
+    <h1>Anywhere in your app!</h1>
+    <Formik
+      initialValues={{ email: '', password: '' }}
+      validate={values => {
+        const errors = {};
+        if (!values.email) {
+          errors.email = 'Required';
+        } else if (
+          !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
+        ) {
+          errors.email = 'Invalid email address';
+        }
+        return errors;
+      }}
+      onSubmit={(values, { setSubmitting }) => {
+        setTimeout(() => {
+          alert(JSON.stringify(values, null, 2));
+          setSubmitting(false);
+        }, 400);
+      }}
+    >
+      {({
+        values,
+        errors,
+        touched,
+        handleChange,
+        handleBlur,
+        handleSubmit,
+        isSubmitting,
+        /* and other goodies */
+      }) => (
+        <form onSubmit={handleSubmit}>
+          <input
+            type="email"
+            name="email"
+            onChange={handleChange}
+            onBlur={handleBlur}
+            value={values.email}
+          />
+          {errors.email && touched.email && errors.email}
+          <input
+            type="password"
+            name="password"
+            onChange={handleChange}
+            onBlur={handleBlur}
+            value={values.password}
+          />
+          {errors.password && touched.password && errors.password}
+          <button type="submit" disabled={isSubmitting}>
+            Submit
+          </button>
+        </form>
+      )}
+    </Formik>
+  </div>
+);
+
+export default Basic;
+```
+
+----------------------------------------
+
+TITLE: Async Submission Example
+DESCRIPTION: This example shows how to handle asynchronous form submissions in Formik using the async/await pattern. It includes a basic form structure and a submit handler that simulates an asynchronous operation.
+
+SOURCE: https://github.com/jaredpalmer/formik/blob/main/docs/examples/async-submission.md#_snippet_0
+
+LANGUAGE: javascript
+CODE:
+```
+import React from 'react';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+
+const AsyncSubmissionForm = () => {
+  const initialValues = {
+    name: '',
+    email: '',
+  };
+
+  const handleSubmit = async (values, { setSubmitting }) => {
+    // Simulate an asynchronous API call
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+    console.log('Form submitted:', values);
+    setSubmitting(false);
+  };
+
+  return (
+    <Formik initialValues={initialValues} onSubmit={handleSubmit}>
+      {({ isSubmitting }) => (
+        <Form>
+          <div>
+            <label htmlFor="name">Name:</label>
+            <Field type="text" id="name" name="name" />
+            <ErrorMessage name="name" component="div" />
+          </div>
+          <div>
+            <label htmlFor="email">Email:</label>
+            <Field type="email" id="email" name="email" />
+            <ErrorMessage name="email" component="div" />
+          </div>
+          <button type="submit" disabled={isSubmitting}>
+            {isSubmitting ? 'Submitting...' : 'Submit'}
+          </button>
+        </Form>
+      )}
+    </Formik>
+  );
+};
+
+export default AsyncSubmissionForm;
+```
+
+----------------------------------------
+
+TITLE: Formik Component with useFormik() Hook Replacement
+DESCRIPTION: This example demonstrates replacing the `useFormik()` hook with the `<Formik />` component. It shows how to pass form configuration (initialValues, validationSchema, onSubmit) as props to the `<Formik />` component and access form state and helpers through its render prop child. The example includes basic form fields for first name, last name, and email, along with validation using Yup.
+
+SOURCE: https://github.com/jaredpalmer/formik/blob/main/docs/tutorial.md#_snippet_16
+
+LANGUAGE: jsx
+CODE:
+```
+import React from 'react';
+import { Formik } from 'formik';
+import * as Yup from 'yup';
+
+const SignupForm = () => {
+  return (
+    <Formik
+      initialValues={{ firstName: '', lastName: '', email: '' }}
+      validationSchema={Yup.object({
+        firstName: Yup.string()
+          .max(15, 'Must be 15 characters or less')
+          .required('Required'),
+        lastName: Yup.string()
+          .max(20, 'Must be 20 characters or less')
+          .required('Required'),
+        email: Yup.string().email('Invalid email address').required('Required'),
+      })}
+      onSubmit={(values, { setSubmitting }) => {
+        setTimeout(() => {
+          alert(JSON.stringify(values, null, 2));
+          setSubmitting(false);
+        }, 400);
+      }}
+    >
+      {formik => (
+        <form onSubmit={formik.handleSubmit}>
+          <label htmlFor="firstName">First Name</label>
+          <input
+            id="firstName"
+            type="text"
+            {...formik.getFieldProps('firstName')}
+          />
+          {formik.touched.firstName && formik.errors.firstName ? (
+            <div>{formik.errors.firstName}</div>
+          ) : null}
+
+          <label htmlFor="lastName">Last Name</label>
+          <input
+            id="lastName"
+            type="text"
+            {...formik.getFieldProps('lastName')}
+          />
+          {formik.touched.lastName && formik.errors.lastName ? (
+            <div>{formik.errors.lastName}</div>
+          ) : null}
+
+          <label htmlFor="email">Email Address</label>
+          <input id="email" type="email" {...formik.getFieldProps('email')} />
+          {formik.touched.email && formik.errors.email ? (
+            <div>{formik.errors.email}</div>
+          ) : null}
+
+          <button type="submit">Submit</button>
+        </form>
+      )}
+    </Formik>
+  );
+};
+
+```
+
+----------------------------------------
+
+TITLE: Install Formik with NPM or Yarn
+DESCRIPTION: Installs the Formik library using either NPM or Yarn package managers. Formik is compatible with React v15+ and works with both ReactDOM and React Native.
+
+SOURCE: https://github.com/jaredpalmer/formik/blob/main/docs/overview.md#_snippet_0
+
+LANGUAGE: sh
+CODE:
+```
+npm install formik --save
+yarn add formik
+```
+
+----------------------------------------
+
+TITLE: Formik Basic Usage Example
+DESCRIPTION: A conceptual example demonstrating how Formik might be used within a React component to manage form state and submission. This snippet illustrates the core idea of integrating Formik into a form.
+
+SOURCE: https://github.com/jaredpalmer/formik/blob/main/docs/overview.md#_snippet_1
+
+LANGUAGE: javascript
+CODE:
+```
+import { useFormik } from 'formik';
+
+function MyForm() {
+  const formik = useFormik({
+    initialValues: {
+      firstName: '',
+      lastName: '',
+      email: '',
+    },
+    onSubmit: values => {
+      alert(JSON.stringify(values, null, 2));
+    },
+  });
+  return (
+    <form onSubmit={formik.handleSubmit}>
+      <label htmlFor="firstName">First Name</label>
+      <input
+        id="firstName"
+        name="firstName"
+        type="text"
+        onChange={formik.handleChange}
+        value={formik.values.firstName}
+      />
+
+      <label htmlFor="lastName">Last Name</label>
+      <input
+        id="lastName"
+        name="lastName"
+        type="text"
+        onChange={formik.handleChange}
+        value={formik.values.lastName}
+      />
+
+      <label htmlFor="email">Email</label>
+      <input
+        id="email"
+        name="email"
+        type="email"
+        onChange={formik.handleChange}
+        value={formik.values.email}
+      />
+
+      <button type="submit">Submit</button>
+    </form>
+  );
+}
+```
+
+----------------------------------------
+
+TITLE: Formik Components for Concise Form Handling
+DESCRIPTION: This example showcases the use of Formik's dedicated form components (`<Formik />`, `<Form />`, `<Field />`, `<ErrorMessage />`) for a more declarative and concise form implementation. It demonstrates how these components abstract away the need for manual prop drilling and event handling, simplifying the form structure. The example includes the same form fields and validation as the previous snippet.
+
+SOURCE: https://github.com/jaredpalmer/formik/blob/main/docs/tutorial.md#_snippet_17
+
+LANGUAGE: jsx
+CODE:
+```
+import React from 'react';
+import { Formik, Field, Form, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
+
+const SignupForm = () => {
+  return (
+    <Formik
+      initialValues={{ firstName: '', lastName: '', email: '' }}
+      validationSchema={Yup.object({
+        firstName: Yup.string()
+          .max(15, 'Must be 15 characters or less')
+          .required('Required'),
+        lastName: Yup.string()
+          .max(20, 'Must be 20 characters or less')
+          .required('Required'),
+        email: Yup.string().email('Invalid email address').required('Required'),
+      })}
+      onSubmit={(values, { setSubmitting }) => {
+        setTimeout(() => {
+          alert(JSON.stringify(values, null, 2));
+          setSubmitting(false);
+        }, 400);
+      }}
+    >
+      <Form>
+        <label htmlFor="firstName">First Name</label>
+        <Field name="firstName" type="text" />
+        <ErrorMessage name="firstName" />
+
+        <label htmlFor="lastName">Last Name</label>
+        <Field name="lastName" type="text" />
+
+```
+
+----------------------------------------
+
+TITLE: Formik with Yup Validation Schema
+DESCRIPTION: An example of using Formik with Yup for schema-based validation. It defines a Yup schema for form fields and integrates it with the Formik component to handle validation and error display.
+
+SOURCE: https://github.com/jaredpalmer/formik/blob/main/docs/guides/validation.md#_snippet_3
+
+LANGUAGE: jsx
+CODE:
+```
+import React from 'react';
+import { Formik, Form, Field } from 'formik';
+import * as Yup from 'yup';
+
+const SignupSchema = Yup.object().shape({
+  firstName: Yup.string()
+    .min(2, 'Too Short!')
+    .max(50, 'Too Long!')
+    .required('Required'),
+  lastName: Yup.string()
+    .min(2, 'Too Short!')
+    .max(50, 'Too Long!')
+    .required('Required'),
+  email: Yup.string().email('Invalid email').required('Required'),
+});
+
+export const ValidationSchemaExample = () => (
+  <div>
+    <h1>Signup</h1>
+    <Formik
+      initialValues={{
+        firstName: '',
+        lastName: '',
+        email: '',
+      }}
+      validationSchema={SignupSchema}
+      onSubmit={values => {
+        // same shape as initial values
+        console.log(values);
+      }}
+    >
+      {({ errors, touched }) => (
+        <Form>
+          <Field name="firstName" />
+          {errors.firstName && touched.firstName ? (
+            <div>{errors.firstName}</div>
+          ) : null}
+          <Field name="lastName" />
+          {errors.lastName && touched.lastName ? (
+            <div>{errors.lastName}</div>
+          ) : null}
+          <Field name="email" type="email" />
+          {errors.email && touched.email ? <div>{errors.email}</div> : null}
+          <button type="submit">Submit</button>
+        </Form>
+      )}
+    </Formik>
+  </div>
+);
+```
+
+----------------------------------------
+
+TITLE: Displaying Formik Error Messages with Yup Validation
+DESCRIPTION: This example demonstrates how to set up Formik with Yup for validation and display error messages for form fields. It shows how to access `errors` and `touched` props to conditionally render error messages.
+
+SOURCE: https://github.com/jaredpalmer/formik/blob/main/docs/guides/validation.md#_snippet_6
+
+LANGUAGE: javascript
+CODE:
+```
+import React from 'react';
+import { Formik, Form, Field } from 'formik';
+import * as Yup from 'yup';
+
+const DisplayingErrorMessagesSchema = Yup.object().shape({
+  username: Yup.string()
+    .min(2, 'Too Short!')
+    .max(50, 'Too Long!')
+    .required('Required'),
+  email: Yup.string().email('Invalid email').required('Required'),
+});
+
+export const DisplayingErrorMessagesExample = () => (
+  <div>
+    <h1>Displaying Error Messages</h1>
+    <Formik
+      initialValues={{
+        username: '',
+        email: '',
+      }}
+      validationSchema={DisplayingErrorMessagesSchema}
+      onSubmit={values => {
+        // same shape as initial values
+        console.log(values);
+      }}
+    >
+      {({ errors, touched }) => (
+        <Form>
+          <Field name="username" />
+          {/* If this field has been touched, and it contains an error, display it
+           */}
+          {touched.username && errors.username && <div>{errors.username}</div>}
+          <Field name="email" />
+          {/* If this field has been touched, and it contains an error, display
+          it */}
+          {touched.email && errors.email && <div>{errors.email}</div>}
+          <button type="submit">Submit</button>
+        </Form>
+      )}
+    </Formik>
+  </div>
+);
+```
+
+----------------------------------------
+
+TITLE: Basic Formik Example
+DESCRIPTION: A simple React component demonstrating the usage of the Formik component to create a form with input fields, handling changes, blur, submission, and displaying errors.
+
+SOURCE: https://github.com/jaredpalmer/formik/blob/main/docs/api/formik.md#_snippet_0
+
+LANGUAGE: jsx
+CODE:
+```
+import React from 'react';
+import { Formik } from 'formik';
+
+const BasicExample = () => (
+  <div>
+    <h1>My Form</h1>
+    <Formik
+      initialValues={{ name: 'jared' }}
+      onSubmit={(values, actions) => {
+        setTimeout(() => {
+          alert(JSON.stringify(values, null, 2));
+          actions.setSubmitting(false);
+        }, 1000);
+      }}
+    >
+      {props => (
+        <form onSubmit={props.handleSubmit}>
+          <input
+            type="text"
+            onChange={props.handleChange}
+            onBlur={props.handleBlur}
+            value={props.values.name}
+            name="name"
+          />
+          {props.errors.name && <div id="feedback">{props.errors.name}</div>}
+          <button type="submit">Submit</button>
+        </form>
+      )}
+    </Formik>
+  </div>
+);
+
+```
+
+----------------------------------------
+
+TITLE: Basic Newsletter Signup Form with Formik
+DESCRIPTION: Demonstrates a simple newsletter signup form using Formik's `useFormik` hook. It initializes form values, handles input changes, and processes form submission. This example includes a single email input field.
+
+SOURCE: https://github.com/jaredpalmer/formik/blob/main/docs/tutorial.md#_snippet_7
+
+LANGUAGE: jsx
+CODE:
+```
+import React from 'react';
+import { useFormik } from 'formik';
+
+const SignupForm = () => {
+  // Pass the useFormik() hook initial form values and a submit function that will
+  // be called when the form is submitted
+  const formik = useFormik({
+    initialValues: {
+      email: '',
+    },
+    onSubmit: values => {
+      alert(JSON.stringify(values, null, 2));
+    },
+  });
+  return (
+    <form onSubmit={formik.handleSubmit}>
+      <label htmlFor="email">Email Address</label>
+      <input
+        id="email"
+        name="email"
+        type="email"
+        onChange={formik.handleChange}
+        value={formik.values.email}
+      />
+
+      <button type="submit">Submit</button>
+    </form>
+  );
+};
+
+```
+
+----------------------------------------
+
+TITLE: Asynchronous Validation Example
+DESCRIPTION: Shows an example of asynchronous validation using Promises and setTimeout.
+
+SOURCE: https://github.com/jaredpalmer/formik/blob/main/docs/api/formik.md#_snippet_11
+
+LANGUAGE: javascript
+CODE:
+```
+const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
+
+const validate = values => {
+  return sleep(2000).then(() => {
+    const errors = {};
+    if (['admin', 'null', 'god'].includes(values.username)) {
+      errors.username = 'Nice try';
+    }
+    // ...
+    return errors;
+  });
+};
+```
+
+----------------------------------------
+
+TITLE: Formik with Render Props
+DESCRIPTION: This example demonstrates using Formik's render props API to manage form state and submission. It includes defining form values, setting initial values, and handling form submission. The `<Formik>`, `<Form>`, and `<Field>` components are used for a declarative approach to form creation.
+
+SOURCE: https://github.com/jaredpalmer/formik/blob/main/docs/guides/typescript.md#_snippet_0
+
+LANGUAGE: typescript
+CODE:
+```
+import * as React from 'react';
+import {
+  Formik,
+  FormikHelpers,
+  FormikProps,
+  Form,
+  Field,
+  FieldProps,
+} from 'formik';
+
+interface MyFormValues {
+  firstName: string;
+}
+
+export const MyApp: React.FC<{}> = () => {
+  const initialValues: MyFormValues = { firstName: '' };
+  return (
+    <div>
+      <h1>My Example</h1>
+      <Formik
+        initialValues={initialValues}
+        onSubmit={(values, actions) => {
+          console.log({ values, actions });
+          alert(JSON.stringify(values, null, 2));
+          actions.setSubmitting(false);
+        }}
+      >
+        <Form>
+          <label htmlFor="firstName">First Name</label>
+          <Field id="firstName" name="firstName" placeholder="First Name" />
+          <button type="submit">Submit</button>
+        </Form>
+      </Formik>
+    </div>
+  );
+};
+
+```
+
+----------------------------------------
+
+TITLE: Basic Formik Usage with TypeScript
+DESCRIPTION: Demonstrates the fundamental usage of Formik with TypeScript. This example covers basic form handling, state management, and submission within a TypeScript environment.
+
+SOURCE: https://github.com/jaredpalmer/formik/blob/main/docs/examples/typescript.md#_snippet_0
+
+LANGUAGE: typescript
+CODE:
+```
+import React from 'react';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+
+interface FormValues {
+  firstName: string;
+  lastName: string;
+  email: string;
+}
+
+const validationSchema = Yup.object({
+  firstName: Yup.string()
+    .max(15, 'Must be 15 characters or less')
+    .required('Required'),
+  lastName: Yup.string()
+    .max(20, 'Must be 20 characters or less')
+    .required('Required'),
+  email: Yup.string()
+    .email('Invalid email address')
+    .required('Required'),
+});
+
+const BasicForm: React.FC = () => {
+  const formik = useFormik<FormValues>({
+    initialValues: {
+      firstName: '',
+      lastName: '',
+      email: '',
+    },
+    validationSchema: validationSchema,
+    onSubmit: values => {
+      alert(JSON.stringify(values, null, 2));
+    },
+  });
+
+  return (
+    <form onSubmit={formik.handleSubmit}>
+      <label htmlFor="firstName">First Name</label>
+      <input
+        id="firstName"
+        name="firstName"
+        type="text"
+        onChange={formik.handleChange}
+        onBlur={formik.handleBlur}
+        value={formik.values.firstName}
+      />
+      {formik.touched.firstName && formik.errors.firstName ? (
+        <div>{formik.errors.firstName}</div>
+      ) : null}
+
+      <label htmlFor="lastName">Last Name</label>
+      <input
+        id="lastName"
+        name="lastName"
+        type="text"
+        onChange={formik.handleChange}
+        onBlur={formik.handleBlur}
+        value={formik.values.lastName}
+      />
+      {formik.touched.lastName && formik.errors.lastName ? (
+        <div>{formik.errors.lastName}</div>
+      ) : null}
+
+      <label htmlFor="email">Email Address</label>
+      <input
+        id="email"
+        name="email"
+        type="email"
+        onChange={formik.handleChange}
+        onBlur={formik.handleBlur}
+        value={formik.values.email}
+      />
+      {formik.touched.email && formik.errors.email ? (
+        <div>{formik.errors.email}</div>
+      ) : null}
+
+      <button type="submit">Submit</button>
+    </form>
+  );
+};
+
+export default BasicForm;
+
+```
+
+----------------------------------------
+
+TITLE: Formik Dependent Fields with Async API Request Example
+DESCRIPTION: This code snippet demonstrates a Formik v2 setup where a field's value is dynamically updated by an asynchronous API request. It handles dependencies between fields and shows how to manage loading states and API responses within the form.
+
+SOURCE: https://github.com/jaredpalmer/formik/blob/main/examples/dependent-fields-async-api-request/README.md#_snippet_0
+
+LANGUAGE: javascript
+CODE:
+```
+import React, { useState, useEffect } from 'react';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+
+const MyForm = () => {
+  const [countryOptions, setCountryOptions] = useState([]);
+  const [loadingCountry, setLoadingCountry] = useState(false);
+
+  useEffect(() => {
+    // Simulate fetching countries based on a hypothetical initial value or condition
+    const fetchCountries = async () => {
+      setLoadingCountry(true);
+      // Replace with your actual API call
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      setCountryOptions([{ value: 'USA', label: 'United States' }, { value: 'CAN', label: 'Canada' }]);
+      setLoadingCountry(false);
+    };
+    fetchCountries();
+  }, []);
+
+  return (
+    <Formik
+      initialValues={{ country: '', city: '' }}
+      onSubmit={(values, { setSubmitting }) => {
+        setTimeout(() => {
+          alert(JSON.stringify(values, null, 2));
+          setSubmitting(false);
+        }, 400);
+      }}
+    >
+      {({ values, setFieldValue }) => (
+        <Form>
+          <div>
+            <label htmlFor="country">Country</label>
+            <Field name="country" as="select" disabled={loadingCountry}>
+              <option value="" disabled>Select a country</option>
+              {countryOptions.map(option => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </Field>
+            <ErrorMessage name="country" component="div" />
+          </div>
+
+          <div>
+            <label htmlFor="city">City</label>
+            <Field name="city" type="text" />
+            <ErrorMessage name="city" component="div" />
+          </div>
+
+          <button type="submit">Submit</button>
+        </Form>
+      )}
+    </Formik>
+  );
+};
+
+export default MyForm;
+
+```
+
+LANGUAGE: typescript
+CODE:
+```
+import React, { useState, useEffect } from 'react';
+import { Formik, Form, Field, ErrorMessage, FormikHelpers } from 'formik';
+
+interface FormValues {
+  country: string;
+  city: string;
+}
+
+interface CountryOption {
+  value: string;
+  label: string;
+}
+
+const MyFormTs = () => {
+  const [countryOptions, setCountryOptions] = useState<CountryOption[]>([]);
+  const [loadingCountry, setLoadingCountry] = useState<boolean>(false);
+
+  useEffect(() => {
+    const fetchCountries = async () => {
+      setLoadingCountry(true);
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      setCountryOptions([{ value: 'USA', label: 'United States' }, { value: 'CAN', label: 'Canada' }]);
+      setLoadingCountry(false);
+    };
+    fetchCountries();
+  }, []);
+
+  return (
+    <Formik<FormValues>
+      initialValues={{ country: '', city: '' }}
+      onSubmit={(values: FormValues, { setSubmitting }: FormikHelpers<FormValues>) => {
+        setTimeout(() => {
+          alert(JSON.stringify(values, null, 2));
+          setSubmitting(false);
+        }, 400);
+      }}
+    >
+      {({ values, setFieldValue }) => (
+        <Form>
+          <div>
+            <label htmlFor="country">Country</label>
+            <Field name="country" as="select" disabled={loadingCountry}>
+              <option value="" disabled>Select a country</option>
+              {countryOptions.map(option => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </Field>
+            <ErrorMessage name="country" component="div" />
+          </div>
+
+          <div>
+            <label htmlFor="city">City</label>
+            <Field name="city" type="text" />
+            <ErrorMessage name="city" component="div" />
+          </div>
+
+          <button type="submit">Submit</button>
+        </Form>
+      )}
+    </Formik>
+  );
+};
+
+export default MyFormTs;
+
+```
+
+----------------------------------------
+
+TITLE: Example Usage of connect()
+DESCRIPTION: This example demonstrates how to use the connect() HoC to create a custom ErrorMessage component that displays an error if a field has been touched and has an error.
+
+SOURCE: https://github.com/jaredpalmer/formik/blob/main/docs/api/connect.md#_snippet_1
+
+LANGUAGE: jsx
+CODE:
+```
+import React from 'react';
+import { connect, getIn } from 'formik';
+
+// This component renders an error message if a field has
+// an error and it's already been touched.
+const ErrorMessage = props => {
+  // All FormikProps available on props.formik!
+  const error = getIn(props.formik.errors, props.name);
+  const touch = getIn(props.formik.touched, props.name);
+  return touch && error ? error : null;
+};
+
+export default connect(ErrorMessage);
+```
+
+----------------------------------------
+
+TITLE: Material UI Integration Example
+DESCRIPTION: This example shows how to use Formik with Material UI components. It involves passing Formik props directly to the corresponding Material UI component props.
+
+SOURCE: https://github.com/jaredpalmer/formik/blob/main/docs/examples/with-material-ui.md#_snippet_0
+
+LANGUAGE: javascript
+CODE:
+```
+function MyForm() {
+  const formik = useFormik({
+    initialValues: {
+      firstName: '',
+      lastName: '',
+      email: '',
+    },
+    onSubmit: values => {
+      alert(JSON.stringify(values, null, 2));
+    },
+  });
+  return (
+    <form onSubmit={formik.handleSubmit}>
+      <TextField
+        id="firstName"
+        name="firstName"
+        label="First Name"
+        value={formik.values.firstName}
+        onChange={formik.handleChange}
+        error={formik.touched.firstName && Boolean(formik.errors.firstName)}
+        helperText={formik.touched.firstName && formik.errors.firstName}
+      />
+      {/* ... other fields */}
+      <Button color="primary" variant="contained" type="submit">
+        Submit
+      </Button>
+    </form>
+  );
+}
+```
+
+LANGUAGE: html
+CODE:
+```
+<div className="embed-responsive aspect-ratio-square">
+  <iframe
+  src="https://codesandbox.io/embed/github/formik/formik/tree/main/examples/with-material-ui?fontsize=14&hidenavigation=1&theme=dark"
+  style={{ width:'100%', height: '100%', border:0, borderRadius: 4, overflow: 'hidden'}}
+  title="formik/formik: async-submission"
+  allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
+  sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
+  >
+  </iframe>
+</div>
+```
+
+----------------------------------------
+
+TITLE: Checkboxes Example
+DESCRIPTION: This example demonstrates how to use Formik with a checkbox group. Formik automatically binds checkboxes with the same `name` attribute to a single array.
+
+SOURCE: https://github.com/jaredpalmer/formik/blob/main/docs/examples/checkboxes.md#_snippet_0
+
+LANGUAGE: javascript
+CODE:
+```
+import React from 'react';
+import { Formik, Field, Form } from 'formik';
+
+const Checkboxes = () => (
+  <div>
+    <h1>Checkboxes Example</h1>
+    <Formik
+      initialValues={{
+        checked: [],
+      }}
+      onSubmit={(values) => {
+        alert(JSON.stringify(values, null, 2));
+      }}
+    >
+      {({ handleSubmit, values }) => (
+        <Form onSubmit={handleSubmit}>
+          <label>
+            <Field type="checkbox" name="checked" value="1" />
+            Option 1
+          </label>
+          <br />
+          <label>
+            <Field type="checkbox" name="checked" value="2" />
+            Option 2
+          </label>
+          <br />
+          <label>
+            <Field type="checkbox" name="checked" value="3" />
+            Option 3
+          </label>
+          <br />
+          <button type="submit">Submit</button>
+        </Form>
+      )}
+    </Formik>
+  </div>
+);
+
+export default Checkboxes;
+```
+
+LANGUAGE: html
+CODE:
+```
+<div className="embed-responsive aspect-ratio-square">
+  <iframe
+  src="https://codesandbox.io/embed/github/formik/formik/tree/main/examples/checkboxes?fontsize=14&hidenavigation=1&theme=dark"
+  style={{ width:'100%', height: '100%', border:0, borderRadius: 4, overflow: 'hidden'}}
+  title="formik/formik: async-submission"
+  allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
+  sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
+  >
+  </iframe>
+</div>
+```
+
+----------------------------------------
+
+TITLE: Formik Radio Group Implementation
+DESCRIPTION: This snippet shows how to set up a radio group using Formik. It includes the necessary Formik components and state management for handling radio button selections within a form.
+
+SOURCE: https://github.com/jaredpalmer/formik/blob/main/examples/radio-group/README.md#_snippet_0
+
+LANGUAGE: javascript
+CODE:
+```
+import React from 'react';
+import {
+  Formik,
+  Field,
+  Form,
+  ErrorMessage
+} from 'formik';
+
+const RadioGroupExample = () => (
+  <div>
+    <h1>Radio Group Example</h1>
+    <Formik
+      initialValues={{
+        picked: ''
+      }}
+      onSubmit={async (values) => {
+        await new Promise((r) => setTimeout(r, 500));
+        alert(JSON.stringify(values, null, 2));
+      }}
+    >
+      {({ values }) => (
+        <Form>
+          <div id="my-radio-group">
+            <label>
+              <Field type="radio" name="picked" value="One" />
+              One
+            </label>
+            <label>
+              <Field type="radio" name="picked" value="Two" />
+              Two
+            </label>
+          </div>
+          <div>My Radio Group value: {values.picked}</div>
+          <button type="submit">Submit</button>
+        </Form>
+      )}
+    </Formik>
+  </div>
+);
+
+export default RadioGroupExample;
+```
