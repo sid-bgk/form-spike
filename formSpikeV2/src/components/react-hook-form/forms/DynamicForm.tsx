@@ -3,6 +3,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import * as jsonLogic from 'json-logic-js'
 import { Button } from '@/components/ui/button'
 import { DynamicField } from './DynamicField'
+import { useRef } from 'react'
 import type { FormConfig } from '../types/form'
 import { createFormSchema } from '../utils/ValidationConfigParser'
 
@@ -11,6 +12,10 @@ type DynamicFormProps = {
 }
 
 export function DynamicForm({ config }: DynamicFormProps) {
+  const renderCount = useRef(0);
+  renderCount.current += 1;
+  console.log(`[performace][react-hook-form]React Hook Form re-render count: ${renderCount.current}`);
+
   const form = useForm({
     defaultValues: config.defaultValues,
     mode: 'onChange',
