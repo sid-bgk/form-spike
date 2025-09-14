@@ -1,8 +1,10 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import axios from 'axios'
-import { DynamicForm } from '@/components/tanstack/forms'
+import { DynamicForm as TanStackDynamicForm } from '@/components/tanstack/forms'
+import { DynamicForm as ReactHookFormDynamicForm } from '@/components/react-hook-form/forms'
 import type { FieldConfig, FieldType, FormConfig, ArrayItemFieldConfig } from '@/components/tanstack/types/form'
+import type { FormConfig as ReactHookFormConfig } from '@/components/react-hook-form/types/form'
 
 type ApiArrayItemField = {
   name: string
@@ -205,11 +207,15 @@ export function RemoteForm() {
           {!loading && !error && (
             formType.toLowerCase() === 'tanstack' ? (
               formConfig ? (
-                <DynamicForm config={formConfig} />
+                <TanStackDynamicForm config={formConfig} />
+              ) : null
+            ) : formType.toLowerCase() === 'react-hook-form' ? (
+              formConfig ? (
+                <ReactHookFormDynamicForm config={formConfig as ReactHookFormConfig} />
               ) : null
             ) : (
               <div className="text-sm text-gray-600">
-                Renderer "{formType}" not implemented yet. Try tanstack.
+                Renderer "{formType}" not implemented yet. Try tanstack or react-hook-form.
               </div>
             )
           )}
