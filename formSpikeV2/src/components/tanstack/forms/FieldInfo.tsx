@@ -5,11 +5,9 @@ export function FieldInfo({ field }: FieldInfoProps) {
     <>
       {field.state.meta.isTouched && !field.state.meta.isValid && (
         <div className="text-sm text-red-500 mt-1">
-          {Array.from(new Set((field.state.meta.errors || []).filter(Boolean))).map(
-            (error: string, index: number) => (
-              <div key={index}>{error}</div>
-            )
-          )}
+          {field.state.meta.errors.map((error: string, index: number) => (
+            <div key={index}>{error}</div>
+          ))}
         </div>
       )}
       {field.state.meta.isValidating && (

@@ -1,5 +1,4 @@
 import type { FormConfig } from '../types/form'
-import { buildValidatorsForField } from '@/lib/validation'
 
 interface UserRegistrationData {
   firstName: string
@@ -12,7 +11,6 @@ interface UserRegistrationData {
   bio: string
   newsletter: boolean
   accountType: string
-  phone: string
 }
 
 export const userRegistrationFormConfig: FormConfig<UserRegistrationData> = {
@@ -30,8 +28,7 @@ export const userRegistrationFormConfig: FormConfig<UserRegistrationData> = {
     country: undefined,
     bio: '',
     newsletter: false,
-    accountType: 'personal',
-    phone: ''
+    accountType: 'personal'
   },
   fields: [
     {
@@ -40,16 +37,14 @@ export const userRegistrationFormConfig: FormConfig<UserRegistrationData> = {
       type: 'text',
       placeholder: 'Enter your first name',
       required: true,
-      validators: buildValidatorsForField(
-        { name: 'firstName', label: 'First Name', type: 'text', required: true },
-        {
-          string: {
-            trim: true,
-            minLength: { value: 2, message: 'First name must be at least 2 characters' },
-            maxLength: { value: 50, message: 'First name must be less than 50 characters' },
-          },
+      validators: {
+        onChange: ({ value }) => {
+          if (!value) return 'First name is required'
+          if (value.length < 2) return 'First name must be at least 2 characters'
+          if (value.length > 50) return 'First name must be less than 50 characters'
+          return undefined
         }
-      ).validators
+      }
     },
     {
       name: 'lastName',
@@ -57,16 +52,14 @@ export const userRegistrationFormConfig: FormConfig<UserRegistrationData> = {
       type: 'text',
       placeholder: 'Enter your last name',
       required: true,
-      validators: buildValidatorsForField(
-        { name: 'lastName', label: 'Last Name', type: 'text', required: true },
-        {
-          string: {
-            trim: true,
-            minLength: { value: 2, message: 'Last name must be at least 2 characters' },
-            maxLength: { value: 50, message: 'Last name must be less than 50 characters' },
-          },
+      validators: {
+        onChange: ({ value }) => {
+          if (!value) return 'Last name is required'
+          if (value.length < 2) return 'Last name must be at least 2 characters'
+          if (value.length > 50) return 'Last name must be less than 50 characters'
+          return undefined
         }
-      ).validators
+      }
     },
     {
       name: 'email',
@@ -75,9 +68,12 @@ export const userRegistrationFormConfig: FormConfig<UserRegistrationData> = {
       placeholder: 'Enter your email address',
       required: true,
       validators: {
-        ...buildValidatorsForField(
-          { name: 'email', label: 'Email Address', type: 'email', required: true }
-        ).validators,
+        onChange: ({ value }) => {
+          if (!value) return 'Email is required'
+          const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+          if (!emailRegex.test(value)) return 'Please enter a valid email address'
+          return undefined
+        },
         onChangeAsync: async ({ value }) => {
           // Simulate API call to check if email exists
           await new Promise(resolve => setTimeout(resolve, 500))
@@ -86,7 +82,7 @@ export const userRegistrationFormConfig: FormConfig<UserRegistrationData> = {
           }
           return undefined
         },
-        onChangeAsyncDebounceMs: 300,
+        onChangeAsyncDebounceMs: 300
       }
     },
     {
@@ -95,17 +91,16 @@ export const userRegistrationFormConfig: FormConfig<UserRegistrationData> = {
       type: 'password',
       placeholder: 'Create a secure password',
       required: true,
-      validators: buildValidatorsForField(
-        { name: 'password', label: 'Password', type: 'password', required: true },
-        {
-          string: { minLength: { value: 8, message: 'Password must be at least 8 characters' } },
-          customize: (schema) =>
-            schema
-              .refine((v) => /(?=.*[a-z])/.test(v), 'Password must contain at least one lowercase letter')
-              .refine((v) => /(?=.*[A-Z])/.test(v), 'Password must contain at least one uppercase letter')
-              .refine((v) => /(?=.*\d)/.test(v), 'Password must contain at least one number'),
+      validators: {
+        onChange: ({ value }) => {
+          if (!value) return 'Password is required'
+          if (value.length < 8) return 'Password must be at least 8 characters'
+          if (!/(?=.*[a-z])/.test(value)) return 'Password must contain at least one lowercase letter'
+          if (!/(?=.*[A-Z])/.test(value)) return 'Password must contain at least one uppercase letter'
+          if (!/(?=.*\d)/.test(value)) return 'Password must contain at least one number'
+          return undefined
         }
-      ).validators
+      }
     },
     {
       name: 'confirmPassword',
@@ -126,10 +121,14 @@ export const userRegistrationFormConfig: FormConfig<UserRegistrationData> = {
       type: 'number',
       placeholder: 'Enter your age',
       required: true,
-      validators: buildValidatorsForField(
-        { name: 'age', label: 'Age', type: 'number', required: true },
-        { number: { int: true, min: { value: 13, message: 'You must be at least 13 years old' }, max: { value: 120, message: 'Please enter a valid age' } } }
-      ).validators
+      validators: {
+        onChange: ({ value }) => {
+          if (!value) return 'Age is required'
+          if (value < 13) return 'You must be at least 13 years old'
+          if (value > 120) return 'Please enter a valid age'
+          return undefined
+        }
+      }
     },
     {
       name: 'country',
@@ -148,9 +147,12 @@ export const userRegistrationFormConfig: FormConfig<UserRegistrationData> = {
         { value: 'in', label: 'India' },
         { value: 'br', label: 'Brazil' }
       ],
-      validators: buildValidatorsForField(
-        { name: 'country', label: 'Country', type: 'select', required: true }
-      ).validators
+      validators: {
+        onChange: ({ value }) => {
+          if (!value) return 'Please select your country'
+          return undefined
+        }
+      }
     },
     {
       name: 'bio',
@@ -158,10 +160,14 @@ export const userRegistrationFormConfig: FormConfig<UserRegistrationData> = {
       type: 'textarea',
       placeholder: 'Tell us about yourself (optional)',
       description: 'A brief description about yourself',
-      validators: buildValidatorsForField(
-        { name: 'bio', label: 'Biography', type: 'textarea', required: false },
-        { string: { maxLength: { value: 500, message: 'Biography must be less than 500 characters' } } }
-      ).validators
+      validators: {
+        onChange: ({ value }) => {
+          if (value && value.length > 500) {
+            return 'Biography must be less than 500 characters'
+          }
+          return undefined
+        }
+      }
     },
     {
       name: 'newsletter',
@@ -179,21 +185,12 @@ export const userRegistrationFormConfig: FormConfig<UserRegistrationData> = {
         { value: 'business', label: 'Business Account' },
         { value: 'enterprise', label: 'Enterprise Account' }
       ],
-      validators: buildValidatorsForField(
-        { name: 'accountType', label: 'Account Type', type: 'radio', required: true }
-      ).validators
-    },
-    {
-      name: 'phone',
-      label: 'Phone Number',
-      type: 'text',
-      placeholder: 'US phone (e.g., 555-555-5555)',
-      required: true,
-      description: 'US-only format accepted',
-      validators: buildValidatorsForField(
-        { name: 'phone', label: 'Phone Number', type: 'text', required: true },
-        { format: 'phoneUS', messages: { invalidPhoneUS: 'US phone only (e.g., 555-555-5555)' } }
-      ).validators
+      validators: {
+        onChange: ({ value }) => {
+          if (!value) return 'Please select an account type'
+          return undefined
+        }
+      }
     }
   ],
   onSubmit: async ({ value }) => {
