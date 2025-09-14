@@ -69,6 +69,7 @@ export type StepConfig = {
   id: string
   label: string
   fields: FieldConfig[]
+  conditions?: any // JSONLogic rule for conditional step visibility - step will be hidden if condition evaluates to false
 }
 
 export type StepFormConfig = {

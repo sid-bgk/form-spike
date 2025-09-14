@@ -27,6 +27,7 @@ type ApiStepConfig = {
   id: string
   label: string
   fields: ApiField[]
+  conditions?: any // JSON Logic rule for conditional step visibility
 }
 
 type ApiStepResponse = {
@@ -233,9 +234,18 @@ export function UserRegistrationSteps() {
           description: apiResponse.form.description,
           steps: apiResponse.form.steps.map((step, stepIndex) => {
             console.log(`Processing step ${stepIndex}:`, step)
+            
+            // Normalize step conditions: backend may send an array of JSONLogic rules
+            const normalizedStepConditions = Array.isArray(step.conditions)
+              ? (step.conditions.length === 1
+                  ? step.conditions[0]
+                  : { and: step.conditions })
+              : step.conditions
+
             return {
               id: step.id,
               label: step.label,
+              conditions: normalizedStepConditions,
               fields: step.fields ? step.fields.map((field, fieldIndex) => {
                 console.log(`Processing field ${fieldIndex} in step ${stepIndex}:`, field)
                 return mapApiFieldToFieldConfig(field, patternMap)

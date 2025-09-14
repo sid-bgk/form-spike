@@ -1392,6 +1392,11 @@ module.exports = {
                         ],
                     },
                 ],
+                conditions: [
+                    {
+                        "===": [{ var: "applicationType" }, "JOINT"]
+                    }
+                ],
             },
         ]
     }
