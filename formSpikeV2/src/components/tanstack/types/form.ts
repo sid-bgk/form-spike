@@ -36,7 +36,7 @@ export type FieldConfig = {
   disabled?: boolean
   options?: Array<{ value: string | number; label: string }>
   validation?: ValidationRule
-  showWhen?: any // JSON Logic rule for conditional visibility
+  conditions?: any // JSON Logic rule for conditional visibility
   // Array-specific properties
   arrayItemFields?: ArrayItemFieldConfig[]
   minItems?: number

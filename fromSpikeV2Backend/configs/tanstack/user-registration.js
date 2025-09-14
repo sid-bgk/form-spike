@@ -43,7 +43,7 @@ module.exports = {
           { value: "yes", label: "Yes" },
           { value: "no", label: "No" }
         ],
-        showWhen: {
+        conditions: {
           ">": [{ "var": "age" }, 17]
         }
       },
@@ -81,7 +81,7 @@ module.exports = {
             placeholder: "3"
           }
         ],
-        showWhen: {
+        conditions: {
           "==": [{ "var": "areYouWorking" }, "yes"]
         }
       },

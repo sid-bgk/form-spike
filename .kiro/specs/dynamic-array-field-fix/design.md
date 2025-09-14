@@ -10,7 +10,7 @@ The fix involves three main components:
 
 1. **Backend Configuration Processing** - Ensure array field configurations are properly mapped from API response
 2. **Array Field Initialization** - Properly initialize array fields with default values based on minItems
-3. **Conditional Visibility Integration** - Ensure array fields work correctly with showWhen conditions
+3. **Conditional Visibility Integration** - Ensure array fields work correctly with conditions conditions
 
 ## Components and Interfaces
 
@@ -54,7 +54,7 @@ type ArrayFieldConfig = {
   maxItems?: number
   addButtonText?: string
   removeButtonText?: string
-  showWhen?: any // JSON Logic condition
+  conditions?: any // JSON Logic condition
 }
 ```
 

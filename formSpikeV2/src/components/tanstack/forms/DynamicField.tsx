@@ -28,10 +28,10 @@ export function DynamicField({ field, form }: DynamicFieldProps) {
     return {
       onChange: ({ value }: any) => {
         // For conditional fields, check if they should be validated
-        if (field.showWhen) {
+        if (field.conditions) {
           // Get current form values to check visibility
           const currentFormValues = form.state.values
-          const isCurrentlyVisible = jsonLogic.apply(field.showWhen, currentFormValues)
+          const isCurrentlyVisible = jsonLogic.apply(field.conditions, currentFormValues)
 
           // If field is not currently visible, don't validate
           if (!isCurrentlyVisible) {
@@ -74,7 +74,7 @@ export function DynamicField({ field, form }: DynamicFieldProps) {
 
   // Handle field visibility changes
   useEffect(() => {
-    if (field.showWhen) {
+    if (field.conditions) {
       if (!isVisible) {
         // Clear the field value when it becomes hidden
         form.setFieldValue(name, field.type === 'checkbox' ? false : field.type === 'number' ? '' : field.type === 'array' ? [] : '')
@@ -82,15 +82,12 @@ export function DynamicField({ field, form }: DynamicFieldProps) {
         // Clear validation errors for hidden fields
         form.validateField(name, 'change')
       } else {
-        // Field just became visible - let ArrayField handle its own initialization
-        
-        // Trigger validation to show required errors if empty
         setTimeout(() => {
           form.validateField(name, 'change')
         }, 0)
       }
     }
-  }, [isVisible, form, name, field.showWhen, field.type, field.minItems, field.arrayItemFields])
+  }, [isVisible, form, name, field.conditions, field.type, field.minItems, field.arrayItemFields])
 
   // Don't render if not visible
   if (!isVisible) {

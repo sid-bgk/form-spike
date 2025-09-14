@@ -30,7 +30,7 @@ type ApiField = {
   maxItems?: number
   addButtonText?: string
   removeButtonText?: string
-  showWhen?: any
+  conditions?: any
 }
 
 type ApiResponse = {
@@ -92,7 +92,7 @@ export function RemoteForm() {
       description: f.description,
       disabled: f.disabled,
       options: f.options,
-      showWhen: f.showWhen,
+      conditions: f.conditions,
       // Array-specific properties
       arrayItemFields: f.arrayItemFields?.map((itemField): ArrayItemFieldConfig => ({
         name: itemField.name,
@@ -119,8 +119,8 @@ export function RemoteForm() {
           acc[field.name] = '' // Let number fields be empty string initially
           break
         case 'array':
-          // Only initialize array fields that are always visible (no showWhen condition)
-          if (!field.showWhen) {
+          // Only initialize array fields that are always visible (no conditions condition)
+          if (!field.conditions) {
             // Initialize array fields with minItems number of empty items
             const minItems = field.minItems || 0
             const emptyItems = []

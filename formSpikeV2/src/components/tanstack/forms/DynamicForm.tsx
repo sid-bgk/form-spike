@@ -20,8 +20,8 @@ export function DynamicForm({ config }: DynamicFormProps) {
 
       config.fields.forEach(field => {
         // Check if field is currently visible
-        const isVisible = field.showWhen
-          ? jsonLogic.apply(field.showWhen, currentFormValues)
+        const isVisible = field.conditions
+          ? jsonLogic.apply(field.conditions, currentFormValues)
           : true
 
         if (isVisible && value[field.name] !== undefined) {
