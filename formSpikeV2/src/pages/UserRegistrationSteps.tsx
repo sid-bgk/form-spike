@@ -50,7 +50,7 @@ const mapToFieldType = (t: string): FieldType => {
   }
   const normalized = (t || '').toLowerCase()
   if (aliasMap[normalized]) return aliasMap[normalized]
-  const allowed: FieldType[] = ['text', 'email', 'password', 'number', 'textarea', 'select', 'checkbox', 'radio', 'array', 'date']
+  const allowed: FieldType[] = ['text', 'email', 'password', 'number', 'textarea', 'select', 'checkbox', 'radio', 'array', 'date', 'multi']
   return allowed.includes(normalized as FieldType) ? (normalized as FieldType) : 'text'
 }
 

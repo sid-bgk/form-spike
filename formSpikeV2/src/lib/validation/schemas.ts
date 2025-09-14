@@ -92,6 +92,12 @@ export function createFieldSchema(field: FieldConfig): z.ZodSchema {
         schema = schema.min(1, `${field.label} is required`)
       }
       break
+    case 'multi':
+      schema = z.array(z.union([z.string(), z.number()]))
+      if (isRequired) {
+        schema = schema.min(1, `${field.label} is required`)
+      }
+      break
     default:
       schema = z.string()
       if (isRequired) {
@@ -138,6 +144,21 @@ export function createFieldSchema(field: FieldConfig): z.ZodSchema {
         }, {
           message: `${field.label} must be no more than ${validation.max}`
         })
+      }
+    }
+
+    // Array-specific validations (for multi-select fields)
+    if (type === 'multi' && validation) {
+      if (validation.minItems) {
+        const minValue = typeof validation.minItems === 'object' ? validation.minItems.value : validation.minItems
+        const minMessage = typeof validation.minItems === 'object' ? validation.minItems.message : `${field.label} must have at least ${minValue} selections`
+        schema = (schema as z.ZodArray<any>).min(minValue, minMessage)
+      }
+
+      if (validation.maxItems) {
+        const maxValue = typeof validation.maxItems === 'object' ? validation.maxItems.value : validation.maxItems
+        const maxMessage = typeof validation.maxItems === 'object' ? validation.maxItems.message : `${field.label} must have no more than ${maxValue} selections`
+        schema = (schema as z.ZodArray<any>).max(maxValue, maxMessage)
       }
     }
 

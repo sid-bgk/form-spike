@@ -52,7 +52,7 @@ type ApiResponse = {
 }
 
 const mapToFieldType = (t: string): FieldType => {
-  const allowed: FieldType[] = ['text', 'email', 'password', 'number', 'textarea', 'select', 'checkbox', 'radio', 'array']
+  const allowed: FieldType[] = ['text', 'email', 'password', 'number', 'textarea', 'select', 'checkbox', 'radio', 'array', 'multi']
   return (allowed.find((v) => v === t) ?? 'text') as FieldType
 }
 
@@ -185,6 +185,9 @@ export function RemoteForm() {
           break
         case 'number':
           acc[field.name] = '' // Let number fields be empty string initially
+          break
+        case 'multi':
+          acc[field.name] = [] // Initialize multi-select fields with empty array
           break
         case 'array':
           // Only initialize array fields that are always visible (no conditions condition)

@@ -1,4 +1,4 @@
-export type FieldType = 'text' | 'email' | 'password' | 'number' | 'textarea' | 'select' | 'checkbox' | 'radio' | 'array' | 'date'
+export type FieldType = 'text' | 'email' | 'password' | 'number' | 'textarea' | 'select' | 'checkbox' | 'radio' | 'array' | 'date' | 'multi'
 
 export type ValidationRule = {
   required?: string | boolean  // Custom message or boolean for backward compatibility

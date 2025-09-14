@@ -64,7 +64,7 @@ export function createFieldValidator(config: ValidationConfig): FieldValidator {
   }
 
   // Add array validators
-  if (config.fieldType === 'array' && (config.rules.minItems || config.rules.maxItems)) {
+  if ((config.fieldType === 'array' || config.fieldType === 'multi') && (config.rules.minItems || config.rules.maxItems)) {
     const minItems = config.rules.minItems?.value
     const maxItems = config.rules.maxItems?.value
     const minMessage = config.rules.minItems?.message

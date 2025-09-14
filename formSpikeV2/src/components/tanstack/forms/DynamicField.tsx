@@ -8,6 +8,7 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { useFieldVisibility } from '../hooks/useFieldVisibility'
 import { ArrayField } from './ArrayField'
 import { DateField } from './DateField'
+import { MultiSelectField } from './MultiSelectField'
 import { parseValidationConfig } from '../utils/ValidationConfigParser'
 import { createFieldValidator } from '../utils/FieldValidatorFactory'
 import { formatDateForInput } from '../utils/dateUtils'
@@ -111,6 +112,8 @@ export function DynamicField({ field, form }: DynamicFieldProps) {
         return false
       case 'array':
         return []
+      case 'multi':
+        return []
       case 'number':
         return ''
       case 'date':
@@ -180,6 +183,14 @@ export function DynamicField({ field, form }: DynamicFieldProps) {
               disabled={disabled}
               minDate={field.otherProps?.minDate}
               maxDate={field.otherProps?.maxDate}
+            />
+          ) : type === 'multi' ? (
+            <MultiSelectField
+              id={name}
+              options={options || []}
+              value={fieldApi.state.value || []}
+              onChange={fieldApi.handleChange}
+              disabled={disabled}
             />
           ) : type === 'text' || type === 'email' || type === 'password' || type === 'number' ? (
             <Input
