@@ -3,7 +3,7 @@ import { useStore } from '@tanstack/react-form'
 import * as jsonLogic from 'json-logic-js'
 import { Button } from '@/components/ui/button'
 import { DynamicField } from './DynamicField'
-import { createFormSchema } from '@/lib/validation'
+// Removed createFormSchema import as validation file doesn't exist
 import type { FormConfig } from '../types/form'
 
 type DynamicFormProps = {
@@ -20,8 +20,8 @@ export function DynamicForm({ config }: DynamicFormProps) {
 
       config.fields.forEach(field => {
         // Check if field is currently visible
-        const isVisible = field.showWhen
-          ? jsonLogic.apply(field.showWhen, currentFormValues)
+        const isVisible = field.conditions
+          ? jsonLogic.apply(field.conditions, currentFormValues)
           : true
 
         if (isVisible && value[field.name] !== undefined) {
@@ -29,7 +29,16 @@ export function DynamicForm({ config }: DynamicFormProps) {
         }
       })
 
-      console.log('Submitting visible field values:', visibleFieldValues)
+      // Validate all visible fields before submission
+      const hasErrors = Object.keys(form.state.fieldMeta).some(fieldName => {
+        const fieldMeta = form.state.fieldMeta[fieldName]
+        return fieldMeta && !fieldMeta.isValid && fieldMeta.isTouched
+      })
+
+      if (hasErrors) {
+        console.log('Form has validation errors, preventing submission')
+        return
+      }
 
       if (config.onSubmit) {
         await config.onSubmit({ value: visibleFieldValues })
@@ -61,7 +70,7 @@ export function DynamicForm({ config }: DynamicFormProps) {
         ))}
 
         <div className="flex gap-4">
-          <Button type="submit" disabled={form.state.isSubmitting}>
+          <Button type="submit" disabled={form.state.isSubmitting || !form.state.canSubmit}>
             {form.state.isSubmitting ? 'Submitting...' : (config.submitButtonText || 'Submit')}
           </Button>
 
@@ -72,6 +81,18 @@ export function DynamicForm({ config }: DynamicFormProps) {
           >
             {config.resetButtonText || 'Reset'}
           </Button>
+        </div>
+
+        {/* Debug information */}
+        <div className="mt-6 p-4 bg-gray-100 rounded text-sm">
+          <h3 className="font-semibold mb-2">Debug Information:</h3>
+          <div className="space-y-1">
+            <div>Form Values: {JSON.stringify(form.state.values, null, 2)}</div>
+            <div>Form Errors: {JSON.stringify(form.state.errors, null, 2)}</div>
+            <div>Can Submit: {form.state.canSubmit ? 'Yes' : 'No'}</div>
+            <div>Is Valid: {form.state.isValid ? 'Yes' : 'No'}</div>
+            <div>Is Submitting: {form.state.isSubmitting ? 'Yes' : 'No'}</div>
+          </div>
         </div>
       </form>
     </div>

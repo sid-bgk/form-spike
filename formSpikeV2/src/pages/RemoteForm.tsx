@@ -2,7 +2,19 @@ import { useEffect, useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import axios from 'axios'
 import { DynamicForm } from '@/components/tanstack/forms'
-import type { FieldConfig, FieldType, FormConfig } from '@/components/tanstack/types/form'
+import type { FieldConfig, FieldType, FormConfig, ArrayItemFieldConfig } from '@/components/tanstack/types/form'
+
+type ApiArrayItemField = {
+  name: string
+  label: string
+  type: string
+  required?: boolean
+  placeholder?: string
+  description?: string
+  disabled?: boolean
+  options?: Array<{ value: string | number; label: string }>
+  validation?: any
+}
 
 type ApiField = {
   name: string
@@ -13,6 +25,14 @@ type ApiField = {
   description?: string
   disabled?: boolean
   options?: Array<{ value: string | number; label: string }>
+  validation?: any
+  // Array-specific properties
+  arrayItemFields?: ApiArrayItemField[]
+  minItems?: number
+  maxItems?: number
+  addButtonText?: string
+  removeButtonText?: string
+  conditions?: any
 }
 
 type ApiResponse = {
@@ -27,7 +47,7 @@ type ApiResponse = {
 }
 
 const mapToFieldType = (t: string): FieldType => {
-  const allowed: FieldType[] = ['text', 'email', 'password', 'number', 'textarea', 'select', 'checkbox', 'radio']
+  const allowed: FieldType[] = ['text', 'email', 'password', 'number', 'textarea', 'select', 'checkbox', 'radio', 'array']
   return (allowed.find((v) => v === t) ?? 'text') as FieldType
 }
 
@@ -64,6 +84,7 @@ export function RemoteForm() {
 
   const formConfig: FormConfig | null = useMemo(() => {
     if (!apiData) return null
+    
     const fields: FieldConfig[] = apiData.form.fields.map((f) => ({
       name: f.name,
       label: f.label,
@@ -73,7 +94,24 @@ export function RemoteForm() {
       description: f.description,
       disabled: f.disabled,
       options: f.options,
-      showWhen: f.showWhen,
+      validation: f.validation,
+      conditions: f.conditions,
+      // Array-specific properties
+      arrayItemFields: f.arrayItemFields?.map((itemField): ArrayItemFieldConfig => ({
+        name: itemField.name,
+        label: itemField.label,
+        type: mapToFieldType(itemField.type) as Exclude<FieldType, 'array'>,
+        required: itemField.required,
+        placeholder: itemField.placeholder,
+        description: itemField.description,
+        disabled: itemField.disabled,
+        options: itemField.options,
+        validation: itemField.validation,
+      })),
+      minItems: f.minItems,
+      maxItems: f.maxItems,
+      addButtonText: f.addButtonText,
+      removeButtonText: f.removeButtonText,
     }))
 
     const defaultValues = fields.reduce<Record<string, any>>((acc, field) => {
@@ -82,7 +120,39 @@ export function RemoteForm() {
           acc[field.name] = false
           break
         case 'number':
-          acc[field.name] = undefined // Let number fields be undefined initially
+          acc[field.name] = '' // Let number fields be empty string initially
+          break
+        case 'array':
+          // Only initialize array fields that are always visible (no conditions condition)
+          if (!field.conditions) {
+            // Initialize array fields with minItems number of empty items
+            const minItems = field.minItems || 0
+            const emptyItems = []
+            
+            for (let i = 0; i < minItems; i++) {
+              // Create default values for each array item based on arrayItemFields
+              const emptyItem = field.arrayItemFields?.reduce<Record<string, any>>((itemAcc, itemField) => {
+                switch (itemField.type) {
+                  case 'checkbox':
+                    itemAcc[itemField.name] = false
+                    break
+                  case 'number':
+                    itemAcc[itemField.name] = ''
+                    break
+                  default:
+                    itemAcc[itemField.name] = ''
+                }
+                return itemAcc
+              }, {}) || {}
+              
+              emptyItems.push(emptyItem)
+            }
+            
+            acc[field.name] = emptyItems
+          } else {
+            // For conditional array fields, start with empty array
+            acc[field.name] = []
+          }
           break
         default:
           acc[field.name] = ''

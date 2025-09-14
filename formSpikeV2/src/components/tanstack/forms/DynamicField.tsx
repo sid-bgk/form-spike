@@ -1,15 +1,16 @@
 import { useEffect, useMemo } from 'react'
-import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Textarea } from '@/components/ui/textarea'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
-import { createFieldSchema } from '@/lib/validation'
 import { useFieldVisibility } from '../hooks/useFieldVisibility'
+import { ArrayField } from './ArrayField'
+import { parseValidationConfig } from '../utils/ValidationConfigParser'
+import { createFieldValidator } from '../utils/FieldValidatorFactory'
 import * as jsonLogic from 'json-logic-js'
-import type { FieldConfig } from '../types/form'
+import type { FieldConfig, FieldType } from '../types/form'
 
 type DynamicFieldProps = {
   field: FieldConfig
@@ -17,60 +18,122 @@ type DynamicFieldProps = {
 }
 
 export function DynamicField({ field, form }: DynamicFieldProps) {
-  const { name, label, type, placeholder, description, disabled, options, required } = field
+  const { name, label, type, placeholder, description, disabled, options } = field
+
+  // Determine if field is required using new validation system or legacy required property
+  const isFieldRequired = useMemo(() => {
+    if (field.validation?.required) {
+      return true
+    }
+    return !!field.required
+  }, [field.validation, field.required])
 
   // Check if field should be visible based on dependencies
   const isVisible = useFieldVisibility(form, field)
 
-  // Create field-specific validators that dynamically enable/disable based on visibility
+  // Create field-specific validators using the new validation system
   const getFieldValidators = useMemo(() => {
-    const fieldSchema = createFieldSchema(field)
+    // Parse validation configuration from field
+    const validationConfig = parseValidationConfig(field)
+
+    // Handle backward compatibility for required: boolean
+    if (field.required && !field.validation?.required) {
+      validationConfig.rules.required = `${field.label} is required`
+      validationConfig.isRequired = true
+    }
+
+    // Create field validator using the factory
+    const fieldValidator = createFieldValidator(validationConfig)
 
     return {
       onChange: ({ value }: any) => {
         // For conditional fields, check if they should be validated
-        if (field.showWhen) {
+        if (field.conditions) {
           // Get current form values to check visibility
           const currentFormValues = form.state.values
-          const isCurrentlyVisible = jsonLogic.apply(field.showWhen, currentFormValues)
+          const isCurrentlyVisible = jsonLogic.apply(field.conditions, currentFormValues)
 
-          // If field is not currently visible, don't validate
+          // If field is not currently visible, don't validate and return no error
           if (!isCurrentlyVisible) {
             return undefined
           }
         }
 
-        // Field is visible (or always visible), so validate normally
-        try {
-          fieldSchema.parse(value)
-          return undefined
-        } catch (error: any) {
-          if (error.issues && error.issues.length > 0) {
-            return error.issues[0].message
-          }
-          return error.message || `${field.label} is invalid`
-        }
+        // Use the new validation system for visible fields
+        return fieldValidator.validate(value, form.state.values)
       }
     }
   }, [field, form])
 
-  // Handle field visibility changes
+  // Handle field visibility changes and validation state
   useEffect(() => {
-    if (field.showWhen) {
+    if (field.conditions) {
       if (!isVisible) {
         // Clear the field value when it becomes hidden
-        form.setFieldValue(name, field.type === 'checkbox' ? false : field.type === 'number' ? undefined : '')
+        const defaultValue = getDefaultValueForFieldType(field.type)
+        form.setFieldValue(name, defaultValue)
 
-        // Clear validation errors for hidden fields
-        form.validateField(name, 'change')
+        // Clear validation errors by resetting the field
+        // This is a simpler approach that works with TanStack Form
+        try {
+          form.resetFieldMeta(name)
+        } catch (error) {
+          // If resetFieldMeta doesn't exist, we'll just clear the value
+          // The validation will be handled by the conditional logic in validators
+          console.log('Field meta reset not available, relying on conditional validation')
+        }
       } else {
-        // Field just became visible - trigger validation to show required errors if empty
+        // When field becomes visible, re-validate after a short delay to ensure form state is updated
         setTimeout(() => {
-          form.validateField(name, 'change')
+          const currentValue = form.getFieldValue(name)
+          // Only validate if the field has a value or is required
+          if (currentValue !== undefined && currentValue !== '' && currentValue !== null) {
+            try {
+              form.validateField(name, 'change')
+            } catch (error) {
+              // If validateField doesn't exist, validation will happen through normal onChange
+              console.log('Manual field validation not available, relying on onChange validation')
+            }
+          }
         }, 0)
       }
     }
-  }, [isVisible, form, name, field.showWhen, field.type])
+  }, [isVisible, form, name, field.conditions, field.type])
+
+  // Helper function to get default value based on field type
+  const getDefaultValueForFieldType = (fieldType: FieldType) => {
+    switch (fieldType) {
+      case 'checkbox':
+        return false
+      case 'array':
+        return []
+      case 'number':
+        return ''
+      default:
+        return ''
+    }
+  }
+
+  // Additional effect to handle form value changes that might affect conditional field validation
+  useEffect(() => {
+    if (field.conditions && isVisible) {
+      // When form values change and this field is visible, re-validate if needed
+      const currentValue = form.getFieldValue(name)
+
+      // Only re-validate if field has a value
+      if (currentValue !== undefined && currentValue !== '' && currentValue !== null) {
+        // Small delay to ensure form state is consistent
+        setTimeout(() => {
+          try {
+            form.validateField(name, 'change')
+          } catch (error) {
+            // If validateField doesn't exist, validation will happen through normal onChange
+            console.log('Manual field validation not available, relying on onChange validation')
+          }
+        }, 0)
+      }
+    }
+  }, [form.state.values, field.conditions, isVisible, form, name])
 
   // Don't render if not visible
   if (!isVisible) {
@@ -83,10 +146,12 @@ export function DynamicField({ field, form }: DynamicFieldProps) {
         <div className="space-y-2">
           <Label htmlFor={name}>
             {label}
-            {required && <span className="text-red-500 ml-1">*</span>}
+            {isFieldRequired && <span className="text-red-500 ml-1">*</span>}
           </Label>
 
-          {type === 'text' || type === 'email' || type === 'password' || type === 'number' ? (
+          {type === 'array' ? (
+            <ArrayField field={field} form={form} fieldApi={fieldApi} />
+          ) : type === 'text' || type === 'email' || type === 'password' || type === 'number' ? (
             <Input
               id={name}
               type={type}
