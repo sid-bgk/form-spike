@@ -25,13 +25,57 @@ export function createFieldSchema(field: FieldConfig): z.ZodSchema {
       schema = schema.email('Please enter a valid email address')
       break
     case 'number':
-      schema = z.string()
       if (isRequired) {
-        schema = schema.min(1, `${field.label} is required`)
+        schema = z.any().superRefine((val, ctx) => {
+          // Check if empty/null/undefined
+          if (val === '' || val === undefined || val === null) {
+            ctx.addIssue({
+              code: z.ZodIssueCode.custom,
+              message: `${field.label} is required`
+            })
+            return
+          }
+
+          // Convert to number and check if valid
+          const num = Number(val)
+          if (isNaN(num)) {
+            ctx.addIssue({
+              code: z.ZodIssueCode.custom,
+              message: `${field.label} must be a valid number`
+            })
+            return
+          }
+
+          // Value is valid, no issues to add
+        }).transform((val) => {
+          if (val === '' || val === undefined || val === null) {
+            return undefined
+          }
+          return Number(val)
+        })
+      } else {
+        schema = z.any().superRefine((val, ctx) => {
+          // For optional fields, empty is OK
+          if (val === '' || val === undefined || val === null) {
+            return // No error, this is fine for optional fields
+          }
+
+          // But if there's a value, it must be a valid number
+          const num = Number(val)
+          if (isNaN(num)) {
+            ctx.addIssue({
+              code: z.ZodIssueCode.custom,
+              message: `${field.label} must be a valid number`
+            })
+            return
+          }
+        }).transform((val) => {
+          if (val === '' || val === undefined || val === null) {
+            return undefined
+          }
+          return Number(val)
+        }).optional()
       }
-      schema = schema.refine(val => val === '' || !isNaN(Number(val)), {
-        message: `${field.label} must be a valid number`
-      })
       break
     case 'checkbox':
       schema = z.boolean()
@@ -74,16 +118,24 @@ export function createFieldSchema(field: FieldConfig): z.ZodSchema {
       }
     }
 
-    // Number-specific validations (already converted to string schema above)
-    if (type === 'number') {
+    // Number-specific validations - add after the base schema is created
+    if (type === 'number' && validation) {
       if (validation.min !== undefined) {
-        schema = schema.refine(val => val === '' || Number(val) >= validation.min!, {
+        schema = schema.refine((val: any) => {
+          // Skip validation if undefined (for optional fields)
+          if (val === undefined) return true
+          return val >= validation.min!
+        }, {
           message: `${field.label} must be at least ${validation.min}`
         })
       }
 
       if (validation.max !== undefined) {
-        schema = schema.refine(val => val === '' || Number(val) <= validation.max!, {
+        schema = schema.refine((val: any) => {
+          // Skip validation if undefined (for optional fields)
+          if (val === undefined) return true
+          return val <= validation.max!
+        }, {
           message: `${field.label} must be no more than ${validation.max}`
         })
       }
@@ -97,8 +149,8 @@ export function createFieldSchema(field: FieldConfig): z.ZodSchema {
     }
   }
 
-  // Make optional if not required
-  if (!isRequired) {
+  // Make optional if not required (except for number and checkbox which handle this above)
+  if (!isRequired && type !== 'number' && type !== 'checkbox') {
     schema = schema.optional().or(z.literal(''))
   }
 

@@ -73,12 +73,16 @@ export function RemoteForm() {
       description: f.description,
       disabled: f.disabled,
       options: f.options,
+      showWhen: f.showWhen,
     }))
 
     const defaultValues = fields.reduce<Record<string, any>>((acc, field) => {
       switch (field.type) {
         case 'checkbox':
           acc[field.name] = false
+          break
+        case 'number':
+          acc[field.name] = undefined // Let number fields be undefined initially
           break
         default:
           acc[field.name] = ''

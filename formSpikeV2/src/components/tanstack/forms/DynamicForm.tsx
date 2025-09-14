@@ -1,4 +1,6 @@
 import { useForm } from '@tanstack/react-form'
+import { useStore } from '@tanstack/react-form'
+import * as jsonLogic from 'json-logic-js'
 import { Button } from '@/components/ui/button'
 import { DynamicField } from './DynamicField'
 import { createFormSchema } from '@/lib/validation'
@@ -9,20 +11,28 @@ type DynamicFormProps = {
 }
 
 export function DynamicForm({ config }: DynamicFormProps) {
-  const formSchema = createFormSchema(config.fields)
-
   const form = useForm({
     defaultValues: config.defaultValues,
     onSubmit: async ({ value }) => {
-      // Validate with Zod before submitting
-      try {
-        const validatedValue = formSchema.parse(value)
-        if (config.onSubmit) {
-          await config.onSubmit({ value: validatedValue })
+      // Filter out hidden fields before validation and submission
+      const currentFormValues = form.state.values
+      const visibleFieldValues: Record<string, any> = {}
+
+      config.fields.forEach(field => {
+        // Check if field is currently visible
+        const isVisible = field.showWhen
+          ? jsonLogic.apply(field.showWhen, currentFormValues)
+          : true
+
+        if (isVisible && value[field.name] !== undefined) {
+          visibleFieldValues[field.name] = value[field.name]
         }
-      } catch (error) {
-        console.error('Form validation failed:', error)
-        // Individual field errors will be handled by field-level validators
+      })
+
+      console.log('Submitting visible field values:', visibleFieldValues)
+
+      if (config.onSubmit) {
+        await config.onSubmit({ value: visibleFieldValues })
       }
     }
   })

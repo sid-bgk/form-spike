@@ -24,6 +24,7 @@ export type FieldConfig = {
   disabled?: boolean
   options?: Array<{ value: string | number; label: string }>
   validation?: ValidationRule
+  showWhen?: any // JSON Logic rule for conditional visibility
 }
 
 export type FormConfig = {
