@@ -8,6 +8,7 @@ export function Navigation() {
     { path: '/', label: 'Home', icon: '🏠' },
     { path: '/user-registration-steps', label: 'User Registration (TanStack)', icon: '📝' },
     { path: '/user-registration-steps-rhf', label: 'User Registration (RHF)', icon: '🎯' },
+    { path: '/user-registration-steps-formik', label: 'User Registration (Formik)', icon: '📋' },
   ]
 
   return (
