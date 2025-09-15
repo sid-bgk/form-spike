@@ -6,9 +6,9 @@ export function Navigation() {
 
   const navItems = [
     { path: '/', label: 'Home', icon: '🏠' },
-    { path: '/user-registration-steps', label: 'User Registration (Steps)', icon: '📝' },
-    { path: '/remote-form', label: 'Remote Form', icon: '🌐' },
-    { path: '/calendar-test', label: 'Calendar Test', icon: '📅' },
+    { path: '/user-registration-steps', label: 'User Registration (TanStack)', icon: '📝' },
+    { path: '/user-registration-steps-rhf', label: 'User Registration (RHF)', icon: '🎯' },
+    { path: '/user-registration-steps-formik', label: 'User Registration (Formik)', icon: '📋' },
   ]
 
   return (
@@ -17,7 +17,7 @@ export function Navigation() {
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center space-x-8">
             <Link to="/" className="flex items-center space-x-2">
-              <span className="text-2xl font-bold text-gray-900">FormSpike v2</span>
+              <span className="text-2xl font-bold text-gray-900">formSpikeV2</span>
             </Link>
 
             <div className="hidden md:flex items-center space-x-4">
